@@ -53,7 +53,7 @@ export default function Contact() {
               </div>
               <div>
                 <h4 className="font-semibold text-white">Email</h4>
-                <p className="text-gray-400">samer@caterpillar-consulting.ai</p>
+                <a href="mailto:samer@caterpillar-consulting.ai" className="text-gray-400 hover:text-purple-400 transition">samer@caterpillar-consulting.ai</a>
               </div>
             </motion.div>
 
@@ -75,7 +75,7 @@ export default function Contact() {
               </div>
               <div>
                 <h4 className="font-semibold text-white">Phone</h4>
-                <p className="text-gray-400">(404) 939-0628</p>
+                <a href="tel:+14049390628" className="text-gray-400 hover:text-purple-400 transition">(404) 939-0628</a>
               </div>
             </motion.div>
 
