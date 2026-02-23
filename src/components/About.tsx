@@ -39,7 +39,7 @@ export default function About() {
           </motion.p>
 
           <motion.p variants={staggerItem} className="text-lg text-gray-300 mb-8 leading-relaxed">
-            At Caterpillar AI, our background is in enterprise technology consulting — including work with agencies like NASA, the Department of Defense, the Department of Homeland Security, and the Department of Labor through firms like KPMG and Accenture. That experience gave us a deep understanding of how complex organizations operate: their processes, their compliance requirements, and the very real friction that comes with introducing new technology at scale.
+            At Caterpillar AI, our background is in enterprise technology consulting — including work with agencies like NASA, the Department of Defense, the Department of Homeland Security, and the Department of Labor through firms like KPMG and Accenture. That experience gave us a deep understanding of how complex organizations operate — their processes, their compliance requirements, and the very real friction that comes with introducing new technology at scale.
           </motion.p>
 
           <motion.p variants={staggerItem} className="text-lg text-gray-300 mb-8 leading-relaxed">

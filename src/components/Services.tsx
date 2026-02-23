@@ -95,7 +95,7 @@ export default function Services() {
     {
       id: 'service-custom-solutions',
       icon: BuildIcon,
-      title: 'Custom Built Solutions',
+      title: 'Custom-Built Solutions',
       description:
         "Sometimes off-the-shelf tools don't cut it. We design and build custom AI-powered solutions for specific business needs — from document processing and data pipelines to RAG tools and automated reporting workflows.",
     },
