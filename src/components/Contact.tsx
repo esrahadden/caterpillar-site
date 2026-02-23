@@ -79,27 +79,6 @@ export default function Contact() {
               </div>
             </motion.div>
 
-            <motion.div variants={staggerItem} className="flex items-start">
-              <div className="w-12 h-12 bg-blue-500/10 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
-                <svg
-                  className="w-6 h-6 text-blue-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-              </div>
-              <div>
-                <h4 className="font-semibold text-white">Business Hours</h4>
-                <p className="text-gray-400">Mon-Fri, 9am-6pm EST</p>
-              </div>
-            </motion.div>
           </div>
         </motion.div>
       </div>
