@@ -72,36 +72,42 @@ function SupportIcon({ className }: { className?: string }) {
 export default function Services() {
   const services = [
     {
+      id: 'service-ai-strategy',
       icon: CompassIcon,
       title: 'AI Strategy Consulting',
       description:
         "Most businesses don't have an AI problem — they have a clarity problem. We work with you to cut through the noise and build a strategy that actually fits your organization: which tools are worth your time, which ones aren't, where AI will genuinely move the needle, and where it won't. The result is a clear roadmap you can act on — not a report that collects dust.",
     },
     {
+      id: 'service-workflow-automation',
       icon: AutomationIcon,
       title: 'Workflow Automation',
       description:
         "Repetitive tasks are the low-hanging fruit of AI adoption. We identify the manual processes eating up your team's time and build automations that handle them — freeing your people up for work that actually requires a human.",
     },
     {
+      id: 'service-training',
       icon: WorkshopIcon,
       title: 'AI Training & Workshops',
       description:
         "The best AI tools in the world don't help if your team doesn't use them. We run hands-on training sessions designed for real people, not tech experts — practical, approachable, and tailored to how your team actually works.",
     },
     {
+      id: 'service-custom-solutions',
       icon: BuildIcon,
       title: 'Custom Built Solutions',
       description:
         "Sometimes off-the-shelf tools don't cut it. We design and build custom AI-powered solutions for specific business needs — from document processing and data pipelines to RAG tools and automated reporting workflows.",
     },
     {
+      id: 'service-tool-selection',
       icon: SearchIcon,
       title: 'AI Tool Selection',
       description:
         "The AI landscape is overwhelming and moves fast. We help you evaluate what's out there, avoid expensive mistakes, and choose tools that fit your budget, your workflow, and your team's actual capabilities.",
     },
     {
+      id: 'service-ongoing-support',
       icon: SupportIcon,
       title: 'Ongoing AI Support',
       description:
@@ -146,6 +152,7 @@ export default function Services() {
           {services.map((service, index) => (
             <motion.div
               key={index}
+              id={service.id}
               variants={staggerItem}
               whileHover={{ y: -8 }}
               transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}

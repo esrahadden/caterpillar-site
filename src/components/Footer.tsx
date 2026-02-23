@@ -84,27 +84,27 @@ export default function Footer() {
             <h4 className="font-heading font-bold mb-4 tracking-tight">Services</h4>
             <ul className="space-y-2 text-gray-400 text-sm">
               <li>
-                <a href="#services" className="hover:text-purple-400 transition">
+                <a href="#service-ai-strategy" className="hover:text-purple-400 transition">
                   AI Strategy Consulting
                 </a>
               </li>
               <li>
-                <a href="#services" className="hover:text-purple-400 transition">
+                <a href="#service-training" className="hover:text-purple-400 transition">
                   AI Training & Workshops
                 </a>
               </li>
               <li>
-                <a href="#services" className="hover:text-purple-400 transition">
+                <a href="#service-workflow-automation" className="hover:text-purple-400 transition">
                   Workflow Automation
                 </a>
               </li>
               <li>
-                <a href="#services" className="hover:text-purple-400 transition">
+                <a href="#service-tool-selection" className="hover:text-purple-400 transition">
                   AI Tool Selection
                 </a>
               </li>
               <li>
-                <a href="#services" className="hover:text-purple-400 transition">
+                <a href="#service-ongoing-support" className="hover:text-purple-400 transition">
                   Ongoing Support
                 </a>
               </li>

@@ -121,7 +121,12 @@ export default function Navigation() {
                     variants={staggerItem}
                     href={link.href}
                     className="block px-4 py-3 text-gray-300 hover:bg-surface-elevated hover:text-cyan-400 transition-colors"
-                    onClick={() => setIsMobileMenuOpen(false)}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setIsMobileMenuOpen(false);
+                      const target = document.querySelector(link.href);
+                      target?.scrollIntoView({ behavior: 'smooth' });
+                    }}
                   >
                     {link.label}
                   </motion.a>
@@ -130,7 +135,12 @@ export default function Navigation() {
                   variants={staggerItem}
                   href="#contact"
                   className="block mx-4 mt-2 bg-gradient-to-r from-purple-600 to-cyan-500 text-white px-6 py-3 rounded-full text-center font-medium"
-                  onClick={() => setIsMobileMenuOpen(false)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setIsMobileMenuOpen(false);
+                    const target = document.querySelector('#contact');
+                    target?.scrollIntoView({ behavior: 'smooth' });
+                  }}
                 >
                   Get Started
                 </motion.a>
