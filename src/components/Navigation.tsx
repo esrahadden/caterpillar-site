@@ -3,8 +3,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { motion, AnimatePresence } from 'motion/react';
-import { staggerContainer, staggerItem } from '@/lib/animations';
+import { motion } from 'motion/react';
 
 export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -99,45 +98,29 @@ export default function Navigation() {
         </div>
 
         {/* Mobile Menu */}
-        <AnimatePresence>
-          {isMobileMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="md:hidden overflow-hidden"
-            >
-              <motion.div
-                variants={staggerContainer}
-                initial="hidden"
-                animate="visible"
-                className="py-4 glass rounded-2xl shadow-xl mt-2 border border-surface-border"
+        {isMobileMenuOpen && (
+          <div className="md:hidden animate-fade-in">
+            <div className="py-4 glass rounded-2xl shadow-xl mt-2 border border-surface-border touch-manipulation">
+              {navLinks.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className="block px-4 py-3 text-gray-300 hover:bg-surface-elevated hover:text-cyan-400 transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {link.label}
+                </a>
+              ))}
+              <a
+                href="#contact"
+                className="block mx-4 mt-2 bg-gradient-to-r from-purple-600 to-cyan-500 text-white px-6 py-3 rounded-full text-center font-medium"
+                onClick={() => setIsMobileMenuOpen(false)}
               >
-                {navLinks.map((link) => (
-                  <motion.div key={link.href} variants={staggerItem}>
-                    <a
-                      href={link.href}
-                      className="block px-4 py-3 text-gray-300 hover:bg-surface-elevated hover:text-cyan-400 transition-colors"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      {link.label}
-                    </a>
-                  </motion.div>
-                ))}
-                <motion.div variants={staggerItem}>
-                  <a
-                    href="#contact"
-                    className="block mx-4 mt-2 bg-gradient-to-r from-purple-600 to-cyan-500 text-white px-6 py-3 rounded-full text-center font-medium"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    Contact
-                  </a>
-                </motion.div>
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+                Contact
+              </a>
+            </div>
+          </div>
+        )}
       </div>
     </nav>
   );
