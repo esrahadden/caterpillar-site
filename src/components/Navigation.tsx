@@ -21,7 +21,6 @@ export default function Navigation() {
   const navLinks = [
     { href: '#services', label: 'Services' },
     { href: '#about', label: 'About' },
-    { href: '#contact', label: 'Contact' },
   ];
 
   return (
@@ -65,7 +64,7 @@ export default function Navigation() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.97 }}
             >
-              Get Started
+              Contact
             </motion.a>
           </div>
 
@@ -116,34 +115,25 @@ export default function Navigation() {
                 className="py-4 glass rounded-2xl shadow-xl mt-2 border border-surface-border"
               >
                 {navLinks.map((link) => (
-                  <motion.a
-                    key={link.href}
-                    variants={staggerItem}
-                    href={link.href}
-                    className="block px-4 py-3 text-gray-300 hover:bg-surface-elevated hover:text-cyan-400 transition-colors"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setIsMobileMenuOpen(false);
-                      const target = document.querySelector(link.href);
-                      target?.scrollIntoView({ behavior: 'smooth' });
-                    }}
-                  >
-                    {link.label}
-                  </motion.a>
+                  <motion.div key={link.href} variants={staggerItem}>
+                    <a
+                      href={link.href}
+                      className="block px-4 py-3 text-gray-300 hover:bg-surface-elevated hover:text-cyan-400 transition-colors"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      {link.label}
+                    </a>
+                  </motion.div>
                 ))}
-                <motion.a
-                  variants={staggerItem}
-                  href="#contact"
-                  className="block mx-4 mt-2 bg-gradient-to-r from-purple-600 to-cyan-500 text-white px-6 py-3 rounded-full text-center font-medium"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setIsMobileMenuOpen(false);
-                    const target = document.querySelector('#contact');
-                    target?.scrollIntoView({ behavior: 'smooth' });
-                  }}
-                >
-                  Get Started
-                </motion.a>
+                <motion.div variants={staggerItem}>
+                  <a
+                    href="#contact"
+                    className="block mx-4 mt-2 bg-gradient-to-r from-purple-600 to-cyan-500 text-white px-6 py-3 rounded-full text-center font-medium"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Contact
+                  </a>
+                </motion.div>
               </motion.div>
             </motion.div>
           )}
