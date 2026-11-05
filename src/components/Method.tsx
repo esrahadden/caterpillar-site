@@ -93,7 +93,7 @@ export default function Method() {
             &ldquo;It&rsquo;s not just about the app that was built. It&rsquo;s about the mindset shift and understanding how AI can help my business run. At this point, I can&rsquo;t live without it.&rdquo;
           </blockquote>
           <figcaption className="mt-6 text-gray-400">
-            Ben Morris, Rescue Restoration
+            Restoration company owner
           </figcaption>
         </motion.figure>
 
