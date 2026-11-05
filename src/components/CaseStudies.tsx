@@ -218,7 +218,9 @@ export default function CaseStudies() {
             Ready to write your own success story?
           </p>
           <motion.a
-            href="#contact"
+            href="https://cal.com/caterpillar.ai/quick-chat"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-block px-8 py-4 bg-gradient-to-r from-purple-600 to-cyan-500 text-white rounded-full font-semibold hover:shadow-xl hover:shadow-cyan-500/50 transition-shadow"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.97 }}

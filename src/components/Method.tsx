@@ -105,7 +105,9 @@ export default function Method() {
           className="text-center mt-16"
         >
           <a
-            href="#contact"
+            href="https://cal.com/caterpillar.ai/quick-chat"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-block px-8 py-4 bg-gradient-to-r from-purple-600 to-cyan-500 text-white rounded-full font-semibold text-lg hover:shadow-2xl hover:shadow-cyan-500/50 transition-shadow duration-300"
           >
             Book a Free Discovery Call
