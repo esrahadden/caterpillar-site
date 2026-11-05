@@ -1,5 +1,6 @@
 import Navigation from '@/components/Navigation';
 import Hero from '@/components/Hero';
+import Method from '@/components/Method';
 import Services from '@/components/Services';
 import About from '@/components/About';
 // import CaseStudies from '@/components/CaseStudies';
@@ -12,6 +13,7 @@ export default function Home() {
     <div className="min-h-screen bg-surface-primary">
       <Navigation />
       <Hero />
+      <Method />
       <Services />
       <About />
       {/* <CaseStudies /> */}

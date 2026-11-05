@@ -18,6 +18,7 @@ export default function Navigation() {
   }, []);
 
   const navLinks = [
+    { href: '#method', label: 'Our Method' },
     { href: '#services', label: 'Services' },
     { href: '#about', label: 'About' },
   ];
@@ -63,7 +64,7 @@ export default function Navigation() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.97 }}
             >
-              Contact
+              Book a Call
             </motion.a>
           </div>
 
@@ -116,7 +117,7 @@ export default function Navigation() {
                 className="block mx-4 mt-2 bg-gradient-to-r from-purple-600 to-cyan-500 text-white px-6 py-3 rounded-full text-center font-medium"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                Contact
+                Book a Call
               </a>
             </div>
           </div>

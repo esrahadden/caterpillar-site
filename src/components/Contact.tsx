@@ -16,13 +16,13 @@ export default function Contact() {
           className="text-center mb-20"
         >
           <h2 className="text-4xl md:text-5xl font-heading font-bold mb-6 tracking-tight text-white">
-            Let's{' '}
+            Book Your Free{' '}
             <span className="bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
-              Connect
+              Discovery Call
             </span>
           </h2>
           <p className="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
-            Ready to explore what AI can do for your business? Reach out — we'd love to hear from you.
+            Tell us what's eating your day. In one conversation we'll find where AI can give you time back, with no pressure and no jargon.
           </p>
         </motion.div>
 

@@ -25,10 +25,10 @@ export default function Hero() {
         {/* Main Heading */}
         <motion.div variants={fadeInUp} className="mb-8">
           <h1 className="text-5xl md:text-7xl font-heading font-bold mb-6 leading-tight tracking-tight text-white">
-            AI Is Changing Everything.
+            Stop Drowning in Admin.
             <br />
             <span className="bg-gradient-to-r from-purple-400 via-cyan-400 to-teal-400 bg-clip-text text-transparent animate-gradient inline-block">
-              We Help You Keep Up.
+              Get Back to Your Business.
             </span>
           </h1>
         </motion.div>
@@ -37,7 +37,7 @@ export default function Hero() {
           variants={fadeInUp}
           className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto mb-12 leading-relaxed"
         >
-          We help businesses and individuals cut through the hype, find the right tools, and actually put them to work — without the overwhelm.
+          We build AI systems for small business owners that take estimates, intake, email and reporting off your plate, and we teach you to use them so they stick.
         </motion.p>
 
         {/* CTA Buttons */}
@@ -46,21 +46,21 @@ export default function Hero() {
           className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16"
         >
           <motion.a
-            href="#services"
+            href="#contact"
             className="group relative px-8 py-4 bg-gradient-to-r from-purple-600 to-cyan-500 text-white rounded-full font-semibold text-lg hover:shadow-2xl hover:shadow-cyan-500/50 transition-shadow duration-300"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.97 }}
           >
-            <span className="relative z-10">Explore Our Services</span>
+            <span className="relative z-10">Book a Free Discovery Call</span>
             <div className="absolute inset-0 bg-gradient-to-r from-purple-700 to-cyan-600 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
           </motion.a>
           <motion.a
-            href="#contact"
+            href="#method"
             className="px-8 py-4 border-2 border-cyan-400 text-cyan-400 rounded-full font-semibold text-lg hover:bg-cyan-400/10 transition-all duration-300"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.97 }}
           >
-            Book a Free Consultation
+            See How It Works
           </motion.a>
         </motion.div>
 
