@@ -168,3 +168,16 @@ export const SWE: [string, boolean, string, string, string, string][] = [
   ['GLM-5.3 Flash', true, '2 / 5', '49', '2', '$0.35'],
   ['Qwen3.8 27B', true, '2 / 5', '61', '2', '$0.94'],
 ];
+
+// SWE-bench: issues fixed vs total cost for all 5 (for the cost vs performance dot chart)
+export const SWE_SCATTER: { n: string; frontier: boolean; fixed: number; cost: number }[] = [
+  { n: 'Opus 5.5', frontier: true, fixed: 4, cost: 0.575 },
+  { n: 'DeepSeek Flash', frontier: false, fixed: 5, cost: 0.052 },
+  { n: 'Gemini', frontier: true, fixed: 3, cost: 5.722 },
+  { n: 'Kimi', frontier: false, fixed: 4, cost: 1.99 },
+  { n: 'GPT-6 Sol', frontier: true, fixed: 3, cost: 0.57 },
+  { n: 'Qwen3.8 27B', frontier: false, fixed: 2, cost: 0.944 },
+  { n: 'Qwen3.8 Flash', frontier: false, fixed: 4, cost: 0.253 },
+  { n: 'GLM-5.3 Flash', frontier: false, fixed: 2, cost: 0.345 },
+  { n: 'GLM-5.3', frontier: false, fixed: 3, cost: 0.657 },
+];

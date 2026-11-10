@@ -14,6 +14,7 @@ import {
   PROMPT_WRITERS,
   ROUNDS,
   SWE,
+  SWE_SCATTER,
   TAKEAWAYS,
   type Call,
   type Kind,
@@ -126,6 +127,50 @@ function GapChart() {
                   <title>{`${g.round}: ${g[k][0]} ${g[k][1].toFixed(2)}`}</title>
                 </circle>
               ))}
+            </g>
+          );
+        })}
+      </svg>
+    </div>
+  );
+}
+
+function CostChart() {
+  const W = 900, L = 50, R = 110, T = 30, B = 56, H = 440;
+  const cmin = 0.03, cmax = 10, lx = Math.log10;
+  const x = (c: number) => L + ((lx(c) - lx(cmin)) / (lx(cmax) - lx(cmin))) * (W - L - R);
+  const y = (f: number) => T + ((5 - f) / 5) * (H - T - B);
+  const seen: Record<number, number> = {};
+  const pts = [...SWE_SCATTER].sort((a, b) => a.cost - b.cost);
+  return (
+    <div className="glass rounded-2xl p-5 overflow-x-auto">
+      <div className="flex flex-wrap gap-5 mb-3 font-mono text-xs text-gray-300">
+        <span><span className="inline-block w-2.5 h-2.5 rounded-full mr-2 align-middle bg-purple-400" />Frontier</span>
+        <span><span className="inline-block w-2.5 h-2.5 rounded-full mr-2 align-middle bg-cyan-400" />Open weights</span>
+        <span className="text-gray-500">Top left = more fixed for less money</span>
+      </div>
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full min-w-[560px] h-auto" role="img" aria-label="SWE-bench issues fixed versus cost">
+        {[0, 1, 2, 3, 4, 5].map((f) => (
+          <g key={f}>
+            <line x1={L} x2={W - R} y1={y(f)} y2={y(f)} stroke="rgba(255,255,255,0.08)" />
+            <text x={L - 12} y={y(f) + 4} fontSize="13" textAnchor="end" fill="#9ca3af" fontFamily="monospace">{f}</text>
+          </g>
+        ))}
+        {[0.05, 0.1, 0.5, 1, 5].map((c) => (
+          <text key={c} x={x(c)} y={H - B + 22} fontSize="13" textAnchor="middle" fill="#9ca3af" fontFamily="monospace">${c}</text>
+        ))}
+        <text x={(L + W - R) / 2} y={H - 8} fontSize="13" textAnchor="middle" fill="#9ca3af">Cost to attempt all 5 issues (log scale)</text>
+        <text x={14} y={(T + H - B) / 2} fontSize="13" textAnchor="middle" fill="#9ca3af" transform={`rotate(-90 14 ${(T + H - B) / 2})`}>Issues fixed</text>
+        {pts.map((d) => {
+          const n = (seen[d.fixed] = (seen[d.fixed] || 0) + 1);
+          const cx = x(Math.max(d.cost, cmin)), cy = y(d.fixed);
+          const color = d.frontier ? '#a78bfa' : '#22d3ee';
+          return (
+            <g key={d.n}>
+              <circle cx={cx} cy={cy} r="9" fill={color} stroke="#0a0a0a" strokeWidth="2">
+                <title>{`${d.n}: ${d.fixed}/5 for $${d.cost.toFixed(2)}`}</title>
+              </circle>
+              <text x={cx + 12} y={cy + (n % 2 ? -10 : 20)} fontSize="13" fill="#e5e7eb">{`${d.n} · $${d.cost.toFixed(2)}`}</text>
             </g>
           );
         })}
@@ -406,6 +451,7 @@ export default function Scores() {
               </tr>
             ))}
           </Table>
+          <CostChart />
           <p className="text-gray-400 max-w-3xl leading-relaxed">
             One run per model on 5 issues, so treat a one-issue difference as noise. DeepSeek V4.1 Flash fixed all five for 5
             cents. Opus 5.5 needed the fewest steps. These issues are public, and models may have seen the fixes during training.
