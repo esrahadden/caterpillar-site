@@ -137,7 +137,7 @@ function GapChart() {
 export default function Scores() {
   return (
     <main className="relative min-h-screen bg-surface-primary noise-texture text-gray-200">
-      <div className="absolute inset-x-0 top-0 h-[600px] bg-gradient-to-br from-purple-900/40 via-blue-900/20 to-cyan-900/30 pointer-events-none" />
+      <div className="absolute inset-x-0 top-0 h-[900px] bg-gradient-to-br from-purple-900/40 via-blue-900/20 to-cyan-900/30 pointer-events-none" style={{ maskImage: 'linear-gradient(to bottom, black 40%, transparent)', WebkitMaskImage: 'linear-gradient(to bottom, black 40%, transparent)' }} />
       <div className="absolute -top-24 left-0 w-96 h-96 bg-purple-600 rounded-full blur-3xl opacity-20 pointer-events-none" />
       <div className="absolute top-40 right-0 w-96 h-96 bg-cyan-500 rounded-full blur-3xl opacity-10 pointer-events-none" />
 
@@ -150,9 +150,9 @@ export default function Scores() {
           </Link>
           <Link
             href="/"
-            className="px-4 py-2 bg-gradient-to-r from-purple-600 to-cyan-500 text-white rounded-full text-sm font-semibold hover:shadow-lg hover:shadow-cyan-500/40 transition-shadow"
+            className="px-4 py-2 bg-gradient-to-r from-purple-600 to-cyan-500 text-white rounded-full text-sm font-semibold whitespace-nowrap hover:shadow-lg hover:shadow-cyan-500/40 transition-shadow"
           >
-            Learn more about Caterpillar
+            Learn more<span className="hidden sm:inline"> about Caterpillar</span>
           </Link>
         </div>
       </div>
