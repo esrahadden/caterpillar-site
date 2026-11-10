@@ -2,10 +2,16 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Fragment, type ReactNode } from 'react';
+import ViewSwitch from './ViewSwitch';
+import JobPicker from './JobPicker';
+import { CodingSpider, CodingValue, HeatmapLines, HeatmapSpider, ImageValue, SweValue, WriterValue } from './views2';
+import {
+  CodingBars, CodingDots, GapBars, GapDots, GapTable, HeatmapBars, HeatmapDots, ImageBars, ImageDots,
+  SweBars, SweDots, WriterBars, WriterDots,
+} from './views';
 import {
   CALL_LABEL,
   CODING,
-  GAP,
   HEATMAP,
   IMAGE_GEN,
   JOBS,
@@ -14,7 +20,6 @@ import {
   PROMPT_WRITERS,
   ROUNDS,
   SWE,
-  SWE_SCATTER,
   TAKEAWAYS,
   type Call,
   type Kind,
@@ -96,85 +101,132 @@ function Table({ head, children, alignRightFrom = 1 }: { head: string[]; childre
   );
 }
 
-function GapChart() {
-  const W = 900, L = 170, R = 40, T = 20, rowH = 56, H = T + GAP.length * rowH + 30, lo = 4.3, hi = 5.0;
-  const x = (v: number) => L + ((v - lo) / (hi - lo)) * (W - L - R);
-  const ticks = [4.3, 4.4, 4.5, 4.6, 4.7, 4.8, 4.9, 5.0];
-  const C = { frontier: '#a78bfa', open: '#22d3ee', local: '#34d399' } as const;
+function HeatmapTable() {
   return (
-    <div className="glass rounded-2xl p-5 overflow-x-auto">
-      <div className="flex flex-wrap gap-5 mb-3 font-mono text-xs text-gray-300">
-        <span><span className="inline-block w-2.5 h-2.5 rounded-full mr-2 align-middle" style={{ background: C.frontier }} />Best frontier</span>
-        <span><span className="inline-block w-2.5 h-2.5 rounded-full mr-2 align-middle" style={{ background: C.open }} />Best open weights</span>
-        <span><span className="inline-block w-2.5 h-2.5 rounded-full mr-2 align-middle" style={{ background: C.local }} />Qwen3.8 27B (runs on a Mac)</span>
-      </div>
-      <svg viewBox={`0 0 ${W} ${H}`} className="w-full min-w-[600px] h-auto" role="img" aria-label="Best frontier, best open and local scores per round">
-        {ticks.map((t) => (
-          <g key={t}>
-            <line x1={x(t)} x2={x(t)} y1={T - 6} y2={H - 26} stroke="rgba(255,255,255,0.08)" />
-            <text x={x(t)} y={H - 8} fontSize="12" fill="#9ca3af" textAnchor="middle" fontFamily="monospace">{t.toFixed(1)}</text>
-          </g>
-        ))}
-        {GAP.map((g, i) => {
-          const y = T + i * rowH + rowH / 2;
-          const vals = [g.frontier[1], g.open[1], g.local[1]];
-          return (
-            <g key={g.round}>
-              <text x="0" y={y + 4} fontSize="14" fill="#e5e7eb">{g.round}</text>
-              <line x1={x(Math.min(...vals))} x2={x(Math.max(...vals))} y1={y} y2={y} stroke="#6b7280" strokeWidth="2" />
-              {(['local', 'open', 'frontier'] as const).map((k) => (
-                <circle key={k} cx={x(g[k][1])} cy={y} r="8" fill={C[k]} stroke="#0a0a0a" strokeWidth="2">
-                  <title>{`${g.round}: ${g[k][0]} ${g[k][1].toFixed(2)}`}</title>
-                </circle>
+    <div className="space-y-4">
+      <div className="flex flex-wrap items-center gap-x-6 gap-y-2 font-mono text-xs text-gray-400">
+            {(['frontier', 'open', 'local'] as Kind[]).map((k) => (
+              <span key={k} className={KIND_COLOR[k]}>● {KIND_LABEL[k]}</span>
+            ))}
+            <span className="flex items-center gap-1">
+              Score
+              {ALPHA.map((a) => (
+                <i key={a} className="inline-block w-5 h-3 rounded-sm" style={{ background: `rgba(6,182,212,${a})` }} />
               ))}
-            </g>
-          );
-        })}
-      </svg>
+              under 4.0 → 4.8+
+            </span>
+          </div>
+          <div className="overflow-x-auto glass rounded-2xl p-4">
+            <table className="w-full tabular-nums">
+              <thead>
+                <tr>
+                  <th className="text-left font-mono text-xs uppercase tracking-wider text-gray-400 font-normal pb-3 pr-4">Model</th>
+                  {ROUNDS.map((r) => (
+                    <th key={r.id} className="font-mono text-xs uppercase tracking-wider text-gray-400 font-normal pb-3 px-1 text-center whitespace-nowrap">
+                      {r.id}
+                      <span className="block normal-case tracking-normal text-gray-500">{r.name}</span>
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {HEATMAP.map(([name, kind, scores]) => (
+                  <tr key={name}>
+                    <th className="text-left font-medium text-white pr-4 py-0.5 whitespace-nowrap">
+                      {name}
+                      <span className={`block font-mono text-[10px] uppercase tracking-wider font-normal ${KIND_COLOR[kind]}`}>{KIND_LABEL[kind]}</span>
+                    </th>
+                    {scores.map((v, j) => (
+                      <td key={j} className="p-0.5">
+                        {v == null ? (
+                          <div className="h-10 min-w-[84px] rounded flex items-center justify-center font-mono text-xs text-gray-600 border border-dashed border-white/10">not run</div>
+                        ) : (
+                          <div className="h-10 min-w-[84px] rounded flex items-center justify-center font-mono text-sm" style={shade(v)} title={`${name}, ${ROUNDS[j].name}: ${v.toFixed(2)}`}>
+                            {v.toFixed(2)}
+                          </div>
+                        )}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
     </div>
   );
 }
 
-function CostChart() {
-  const W = 900, L = 50, R = 110, T = 30, B = 56, H = 440;
-  const cmin = 0.03, cmax = 10, lx = Math.log10;
-  const x = (c: number) => L + ((lx(c) - lx(cmin)) / (lx(cmax) - lx(cmin))) * (W - L - R);
-  const y = (f: number) => T + ((5 - f) / 5) * (H - T - B);
-  const seen: Record<number, number> = {};
-  const pts = [...SWE_SCATTER].sort((a, b) => a.cost - b.cost);
+function ImageTable() {
   return (
-    <div className="glass rounded-2xl p-5 overflow-x-auto">
-      <div className="flex flex-wrap gap-5 mb-3 font-mono text-xs text-gray-300">
-        <span><span className="inline-block w-2.5 h-2.5 rounded-full mr-2 align-middle bg-purple-400" />Frontier</span>
-        <span><span className="inline-block w-2.5 h-2.5 rounded-full mr-2 align-middle bg-cyan-400" />Open weights</span>
-        <span className="text-gray-500">Top left = more fixed for less money</span>
-      </div>
-      <svg viewBox={`0 0 ${W} ${H}`} className="w-full min-w-[560px] h-auto" role="img" aria-label="SWE-bench issues fixed versus cost">
-        {[0, 1, 2, 3, 4, 5].map((f) => (
-          <g key={f}>
-            <line x1={L} x2={W - R} y1={y(f)} y2={y(f)} stroke="rgba(255,255,255,0.08)" />
-            <text x={L - 12} y={y(f) + 4} fontSize="13" textAnchor="end" fill="#9ca3af" fontFamily="monospace">{f}</text>
-          </g>
-        ))}
-        {[0.05, 0.1, 0.5, 1, 5].map((c) => (
-          <text key={c} x={x(c)} y={H - B + 22} fontSize="13" textAnchor="middle" fill="#9ca3af" fontFamily="monospace">${c}</text>
-        ))}
-        <text x={(L + W - R) / 2} y={H - 8} fontSize="13" textAnchor="middle" fill="#9ca3af">Cost to attempt all 5 issues (log scale)</text>
-        <text x={14} y={(T + H - B) / 2} fontSize="13" textAnchor="middle" fill="#9ca3af" transform={`rotate(-90 14 ${(T + H - B) / 2})`}>Issues fixed</text>
-        {pts.map((d) => {
-          const n = (seen[d.fixed] = (seen[d.fixed] || 0) + 1);
-          const cx = x(Math.max(d.cost, cmin)), cy = y(d.fixed);
-          const color = d.frontier ? '#a78bfa' : '#22d3ee';
-          return (
-            <g key={d.n}>
-              <circle cx={cx} cy={cy} r="9" fill={color} stroke="#0a0a0a" strokeWidth="2">
-                <title>{`${d.n}: ${d.fixed}/5 for $${d.cost.toFixed(2)}`}</title>
-              </circle>
-              <text x={cx + 12} y={cy + (n % 2 ? -10 : 20)} fontSize="13" fill="#e5e7eb">{`${d.n} · $${d.cost.toFixed(2)}`}</text>
-            </g>
-          );
-        })}
-      </svg>
+    <div className="space-y-4">
+      <Table head={['Generator', 'Score (3 common)', 'YouTube thumbnail', 'LinkedIn quote card', 'Law-firm logo', 'Infographic', 'Photo header', 'Post as-is', '$ / image']}>
+            {IMAGE_GEN.map(([n, score, ...rest]) => (
+              <tr key={n} className="border-t border-white/5">
+                <td className="px-4 py-3 font-semibold text-white whitespace-nowrap">{n}</td>
+                <td className="px-4 py-3 text-right font-mono text-cyan-300 font-semibold">{score.toFixed(2)}</td>
+                {rest.map((c, i) => (
+                  <td key={i} className="px-4 py-3 text-right font-mono text-gray-300">{c}</td>
+                ))}
+              </tr>
+            ))}
+          </Table>
+    </div>
+  );
+}
+
+function WriterTable() {
+  return (
+    <div className="space-y-4">
+      <Table head={['Prompt writer', 'Overall', 'Images (6)', 'Post as-is', 'Video (2)', 'Post as-is', '$ / prompt']}>
+            {PROMPT_WRITERS.map(([n, score, ...rest]) => (
+              <tr key={n} className={`border-t border-white/5 ${n.startsWith('No writer') ? 'opacity-60' : ''}`}>
+                <td className="px-4 py-3 font-semibold text-white whitespace-nowrap">{n}</td>
+                <td className="px-4 py-3 text-right font-mono text-cyan-300 font-semibold">{score.toFixed(2)}</td>
+                {rest.map((c, i) => (
+                  <td key={i} className="px-4 py-3 text-right font-mono text-gray-300">{c}</td>
+                ))}
+              </tr>
+            ))}
+          </Table>
+    </div>
+  );
+}
+
+function CodingTable() {
+  return (
+    <div className="space-y-4">
+      <Table head={['Model', 'Overall', 'Hard agentic (5)', 'Agentic coding (6)', 'One-shot (12)', 'Polyglot orig / reworded', '$ for the round']}>
+            {CODING.map(([n, open, score, ...rest]) => (
+              <tr key={n} className="border-t border-white/5">
+                <td className="px-4 py-3 font-semibold text-white whitespace-nowrap">
+                  {n} {open && <span className="font-mono text-[10px] uppercase text-cyan-300 ml-1">open</span>}
+                </td>
+                <td className="px-4 py-3 text-right font-mono text-cyan-300 font-semibold">{score.toFixed(2)}</td>
+                {rest.map((c, i) => (
+                  <td key={i} className="px-4 py-3 text-right font-mono text-gray-300">{c}</td>
+                ))}
+              </tr>
+            ))}
+          </Table>
+    </div>
+  );
+}
+
+function SweTable() {
+  return (
+    <div className="space-y-4">
+      <Table head={['Model', 'Issues fixed', 'Avg steps', 'Hit step limit', 'Cost (5 issues)']}>
+            {SWE.map(([n, open, ...rest]) => (
+              <tr key={n} className="border-t border-white/5">
+                <td className="px-4 py-3 font-semibold text-white whitespace-nowrap">
+                  {n} {open && <span className="font-mono text-[10px] uppercase text-cyan-300 ml-1">open</span>}
+                </td>
+                {rest.map((c, i) => (
+                  <td key={i} className={`px-4 py-3 text-right font-mono ${i === 0 ? 'text-cyan-300 font-semibold' : 'text-gray-300'}`}>{c}</td>
+                ))}
+              </tr>
+            ))}
+          </Table>
     </div>
   );
 }
@@ -250,64 +302,24 @@ export default function Scores() {
         </Section>
 
         <Section
+          title="Pick your job"
+          sub="Tap the kind of work you want AI to do and see which model we would use: best quality, best value, and what runs on your own computer."
+        >
+          <JobPicker />
+        </Section>
+
+        <Section
           title="Every model, every round"
           sub="Overall score per round. Each round used different tests and judges, so compare across a row with care. Round 1 is everyday work, round 2 the same jobs made harder, round 3 legal work, round 4 office files and admin with tools."
         >
-          <div className="flex flex-wrap items-center gap-x-6 gap-y-2 font-mono text-xs text-gray-400">
-            {(['frontier', 'open', 'local'] as Kind[]).map((k) => (
-              <span key={k} className={KIND_COLOR[k]}>● {KIND_LABEL[k]}</span>
-            ))}
-            <span className="flex items-center gap-1">
-              Score
-              {ALPHA.map((a) => (
-                <i key={a} className="inline-block w-5 h-3 rounded-sm" style={{ background: `rgba(6,182,212,${a})` }} />
-              ))}
-              under 4.0 → 4.8+
-            </span>
-          </div>
-          <div className="overflow-x-auto glass rounded-2xl p-4">
-            <table className="w-full tabular-nums">
-              <thead>
-                <tr>
-                  <th className="text-left font-mono text-xs uppercase tracking-wider text-gray-400 font-normal pb-3 pr-4">Model</th>
-                  {ROUNDS.map((r) => (
-                    <th key={r.id} className="font-mono text-xs uppercase tracking-wider text-gray-400 font-normal pb-3 px-1 text-center whitespace-nowrap">
-                      {r.id}
-                      <span className="block normal-case tracking-normal text-gray-500">{r.name}</span>
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {HEATMAP.map(([name, kind, scores]) => (
-                  <tr key={name}>
-                    <th className="text-left font-medium text-white pr-4 py-0.5 whitespace-nowrap">
-                      {name}
-                      <span className={`block font-mono text-[10px] uppercase tracking-wider font-normal ${KIND_COLOR[kind]}`}>{KIND_LABEL[kind]}</span>
-                    </th>
-                    {scores.map((v, j) => (
-                      <td key={j} className="p-0.5">
-                        {v == null ? (
-                          <div className="h-10 min-w-[84px] rounded flex items-center justify-center font-mono text-xs text-gray-600 border border-dashed border-white/10">not run</div>
-                        ) : (
-                          <div className="h-10 min-w-[84px] rounded flex items-center justify-center font-mono text-sm" style={shade(v)} title={`${name}, ${ROUNDS[j].name}: ${v.toFixed(2)}`}>
-                            {v.toFixed(2)}
-                          </div>
-                        )}
-                      </td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <ViewSwitch label="Every model, every round" views={{ Table: <HeatmapTable />, Bars: <HeatmapBars />, Dots: <HeatmapDots />, Lines: <HeatmapLines />, Spider: <HeatmapSpider /> }} />
         </Section>
 
         <Section
           title="How close is open to frontier?"
           sub="Best frontier score, best open-weight score and the best Mac-friendly model in each round. On text work the gap closed by the legal round. Office files and agents opened it again."
         >
-          <GapChart />
+          <ViewSwitch label="Open vs frontier" views={{ Table: <GapTable />, Bars: <GapBars />, Dots: <GapDots /> }} />
         </Section>
 
         {/* Mid-page CTA */}
@@ -365,17 +377,7 @@ export default function Scores() {
           title="Image generators"
           sub="Eight generators drew the same five briefs. The test stopped early at 35 of 48 images, so the ranking uses the three briefs every generator finished. Score = average of text accuracy, following the brief and visual quality, from two judges per image (never one from the generator’s own company)."
         >
-          <Table head={['Generator', 'Score (3 common)', 'YouTube thumbnail', 'LinkedIn quote card', 'Law-firm logo', 'Infographic', 'Photo header', 'Post as-is', '$ / image']}>
-            {IMAGE_GEN.map(([n, score, ...rest]) => (
-              <tr key={n} className="border-t border-white/5">
-                <td className="px-4 py-3 font-semibold text-white whitespace-nowrap">{n}</td>
-                <td className="px-4 py-3 text-right font-mono text-cyan-300 font-semibold">{score.toFixed(2)}</td>
-                {rest.map((c, i) => (
-                  <td key={i} className="px-4 py-3 text-right font-mono text-gray-300">{c}</td>
-                ))}
-              </tr>
-            ))}
-          </Table>
+          <ViewSwitch label="Image generators" views={{ Table: <ImageTable />, Bars: <ImageBars />, Dots: <ImageDots />, Value: <ImageValue /> }} />
           <p className="text-gray-400 max-w-3xl leading-relaxed">
             Every generator spelled the short headline correctly. FLUX 3 was the most consistent. The open-weight FLUX 3 Klein
             scored 4.37 at about a cent an image. Nano Banana made the best infographic but put people in the “no people” photo.
@@ -387,17 +389,7 @@ export default function Scores() {
           title="AI models as prompt writers"
           sub="Each language model got the same casual, one-line brief and wrote the prompt. Every prompt went to the same generator: FLUX 3 for 6 images, Kling v3.0 for two 5-second clips. The control sends the brief unchanged. Judges saw only the brief and the result, never the prompt or who wrote it."
         >
-          <Table head={['Prompt writer', 'Overall', 'Images (6)', 'Post as-is', 'Video (2)', 'Post as-is', '$ / prompt']}>
-            {PROMPT_WRITERS.map(([n, score, ...rest]) => (
-              <tr key={n} className={`border-t border-white/5 ${n.startsWith('No writer') ? 'opacity-60' : ''}`}>
-                <td className="px-4 py-3 font-semibold text-white whitespace-nowrap">{n}</td>
-                <td className="px-4 py-3 text-right font-mono text-cyan-300 font-semibold">{score.toFixed(2)}</td>
-                {rest.map((c, i) => (
-                  <td key={i} className="px-4 py-3 text-right font-mono text-gray-300">{c}</td>
-                ))}
-              </tr>
-            ))}
-          </Table>
+          <ViewSwitch label="Prompt writers" views={{ Table: <WriterTable />, Bars: <WriterBars />, Dots: <WriterDots />, Value: <WriterValue /> }} />
           <div className="grid md:grid-cols-2 gap-4">
             {[
               ['Does a writer help?', 'Yes, mostly on the re-roll rate. The best writers beat the raw brief by 0.3–0.4 points, and raised the share of postable results from 67% of images and 50% of clips to 75–100%.'],
@@ -415,19 +407,7 @@ export default function Scores() {
           title="Coding"
           sub="Hard agentic: 5 multi-file jobs done with tools in a sandboxed repo. Agentic coding: the 6 hardest coding tasks, with tools. One-shot: 12 tasks answered in one reply. Polyglot: 8 exercises from the Aider Polyglot benchmark, original and reworded so a memorized answer would fail. Every result is scored by hidden tests."
         >
-          <Table head={['Model', 'Overall', 'Hard agentic (5)', 'Agentic coding (6)', 'One-shot (12)', 'Polyglot orig / reworded', '$ for the round']}>
-            {CODING.map(([n, open, score, ...rest]) => (
-              <tr key={n} className="border-t border-white/5">
-                <td className="px-4 py-3 font-semibold text-white whitespace-nowrap">
-                  {n} {open && <span className="font-mono text-[10px] uppercase text-cyan-300 ml-1">open</span>}
-                </td>
-                <td className="px-4 py-3 text-right font-mono text-cyan-300 font-semibold">{score.toFixed(2)}</td>
-                {rest.map((c, i) => (
-                  <td key={i} className="px-4 py-3 text-right font-mono text-gray-300">{c}</td>
-                ))}
-              </tr>
-            ))}
-          </Table>
+          <ViewSwitch label="Coding" views={{ Table: <CodingTable />, Bars: <CodingBars />, Dots: <CodingDots />, Value: <CodingValue />, Spider: <CodingSpider /> }} />
           <p className="text-gray-400 max-w-3xl leading-relaxed">
             Letting a model run the tests matters more than the model. In one reply Qwen3.8 27B scored 4.55; with tools on the
             same tasks it reached 4.95, because it ran the tests and fixed its own mistakes. On the reworded Polyglot exercises
@@ -439,19 +419,7 @@ export default function Scores() {
             Five real issues from sphinx, sympy, pytest, django and scikit-learn, worked in each project’s own environment with a
             bash-only agent capped at 75 steps, and graded by the official SWE-bench tests.
           </p>
-          <Table head={['Model', 'Issues fixed', 'Avg steps', 'Hit step limit', 'Cost (5 issues)']}>
-            {SWE.map(([n, open, ...rest]) => (
-              <tr key={n} className="border-t border-white/5">
-                <td className="px-4 py-3 font-semibold text-white whitespace-nowrap">
-                  {n} {open && <span className="font-mono text-[10px] uppercase text-cyan-300 ml-1">open</span>}
-                </td>
-                {rest.map((c, i) => (
-                  <td key={i} className={`px-4 py-3 text-right font-mono ${i === 0 ? 'text-cyan-300 font-semibold' : 'text-gray-300'}`}>{c}</td>
-                ))}
-              </tr>
-            ))}
-          </Table>
-          <CostChart />
+          <ViewSwitch label="SWE-bench" views={{ Table: <SweTable />, Bars: <SweBars />, Dots: <SweDots />, Value: <SweValue /> }} />
           <p className="text-gray-400 max-w-3xl leading-relaxed">
             One run per model on 5 issues, so treat a one-issue difference as noise. DeepSeek V4.1 Flash fixed all five for 5
             cents. Opus 5.5 needed the fewest steps. These issues are public, and models may have seen the fixes during training.
