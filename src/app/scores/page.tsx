@@ -21,7 +21,9 @@ import {
   ROUNDS,
   SWE,
   TAKEAWAYS,
+  sel,
   type Call,
+  type Filter,
   type Kind,
 } from './data';
 
@@ -30,6 +32,9 @@ export const metadata: Metadata = {
   description:
     'We tested 23 AI models on made-up versions of real small-business work: client emails, call summaries, legal reading, office admin, images, video and code. Here is how every one scored.',
 };
+
+type Viewable = (p: { f?: Filter }) => ReactNode;
+const tri = (C: Viewable) => ({ all: <C f="all" />, frontier: <C f="frontier" />, open: <C f="open" /> });
 
 const CAL_LINK = 'https://cal.com/caterpillar.ai/quick-chat';
 
@@ -101,7 +106,7 @@ function Table({ head, children, alignRightFrom = 1 }: { head: string[]; childre
   );
 }
 
-function HeatmapTable() {
+function HeatmapTable({ f = 'all' }: { f?: Filter }) {
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap items-center gap-x-6 gap-y-2 font-mono text-xs text-gray-400">
@@ -130,7 +135,7 @@ function HeatmapTable() {
                 </tr>
               </thead>
               <tbody>
-                {HEATMAP.map(([name, kind, scores]) => (
+                {sel(HEATMAP, f).map(([name, kind, scores]) => (
                   <tr key={name}>
                     <th className="text-left font-medium text-white pr-4 py-0.5 whitespace-nowrap">
                       {name}
@@ -156,11 +161,11 @@ function HeatmapTable() {
   );
 }
 
-function ImageTable() {
+function ImageTable({ f = 'all' }: { f?: Filter }) {
   return (
     <div className="space-y-4">
       <Table head={['Generator', 'Score (3 common)', 'YouTube thumbnail', 'LinkedIn quote card', 'Law-firm logo', 'Infographic', 'Photo header', 'Post as-is', '$ / image']}>
-            {IMAGE_GEN.map(([n, score, ...rest]) => (
+            {sel(IMAGE_GEN, f).map(([n, score, ...rest]) => (
               <tr key={n} className="border-t border-white/5">
                 <td className="px-4 py-3 font-semibold text-white whitespace-nowrap">{n}</td>
                 <td className="px-4 py-3 text-right font-mono text-cyan-300 font-semibold">{score.toFixed(2)}</td>
@@ -174,11 +179,11 @@ function ImageTable() {
   );
 }
 
-function WriterTable() {
+function WriterTable({ f = 'all' }: { f?: Filter }) {
   return (
     <div className="space-y-4">
       <Table head={['Prompt writer', 'Overall', 'Images (6)', 'Post as-is', 'Video (2)', 'Post as-is', '$ / prompt']}>
-            {PROMPT_WRITERS.map(([n, score, ...rest]) => (
+            {sel(PROMPT_WRITERS, f).map(([n, score, ...rest]) => (
               <tr key={n} className={`border-t border-white/5 ${n.startsWith('No writer') ? 'opacity-60' : ''}`}>
                 <td className="px-4 py-3 font-semibold text-white whitespace-nowrap">{n}</td>
                 <td className="px-4 py-3 text-right font-mono text-cyan-300 font-semibold">{score.toFixed(2)}</td>
@@ -192,11 +197,11 @@ function WriterTable() {
   );
 }
 
-function CodingTable() {
+function CodingTable({ f = 'all' }: { f?: Filter }) {
   return (
     <div className="space-y-4">
       <Table head={['Model', 'Overall', 'Hard agentic (5)', 'Agentic coding (6)', 'One-shot (12)', 'Polyglot orig / reworded', '$ for the round']}>
-            {CODING.map(([n, open, score, ...rest]) => (
+            {sel(CODING, f).map(([n, open, score, ...rest]) => (
               <tr key={n} className="border-t border-white/5">
                 <td className="px-4 py-3 font-semibold text-white whitespace-nowrap">
                   {n} {open && <span className="font-mono text-[10px] uppercase text-cyan-300 ml-1">open</span>}
@@ -212,11 +217,11 @@ function CodingTable() {
   );
 }
 
-function SweTable() {
+function SweTable({ f = 'all' }: { f?: Filter }) {
   return (
     <div className="space-y-4">
       <Table head={['Model', 'Issues fixed', 'Avg steps', 'Hit step limit', 'Cost (5 issues)']}>
-            {SWE.map(([n, open, ...rest]) => (
+            {sel(SWE, f).map(([n, open, ...rest]) => (
               <tr key={n} className="border-t border-white/5">
                 <td className="px-4 py-3 font-semibold text-white whitespace-nowrap">
                   {n} {open && <span className="font-mono text-[10px] uppercase text-cyan-300 ml-1">open</span>}
@@ -312,7 +317,7 @@ export default function Scores() {
           title="Every model, every round"
           sub="Overall score per round. Each round used different tests and judges, so compare across a row with care. Round 1 is everyday work, round 2 the same jobs made harder, round 3 legal work, round 4 office files and admin with tools."
         >
-          <ViewSwitch label="Every model, every round" views={{ Table: <HeatmapTable />, Bars: <HeatmapBars />, Dots: <HeatmapDots />, Lines: <HeatmapLines />, Spider: <HeatmapSpider /> }} />
+          <ViewSwitch label="Every model, every round" views={{ Table: tri(HeatmapTable), Bars: tri(HeatmapBars), Dots: tri(HeatmapDots), Lines: tri(HeatmapLines), Spider: tri(HeatmapSpider) }} />
         </Section>
 
         <Section
@@ -377,7 +382,7 @@ export default function Scores() {
           title="Image generators"
           sub="Eight generators drew the same five briefs. The test stopped early at 35 of 48 images, so the ranking uses the three briefs every generator finished. Score = average of text accuracy, following the brief and visual quality, from two judges per image (never one from the generator’s own company)."
         >
-          <ViewSwitch label="Image generators" views={{ Table: <ImageTable />, Bars: <ImageBars />, Dots: <ImageDots />, Value: <ImageValue /> }} />
+          <ViewSwitch label="Image generators" views={{ Table: tri(ImageTable), Bars: tri(ImageBars), Dots: tri(ImageDots), Value: tri(ImageValue) }} />
           <p className="text-gray-400 max-w-3xl leading-relaxed">
             Every generator spelled the short headline correctly. FLUX 3 was the most consistent. The open-weight FLUX 3 Klein
             scored 4.37 at about a cent an image. Nano Banana made the best infographic but put people in the “no people” photo.
@@ -389,7 +394,7 @@ export default function Scores() {
           title="AI models as prompt writers"
           sub="Each language model got the same casual, one-line brief and wrote the prompt. Every prompt went to the same generator: FLUX 3 for 6 images, Kling v3.0 for two 5-second clips. The control sends the brief unchanged. Judges saw only the brief and the result, never the prompt or who wrote it."
         >
-          <ViewSwitch label="Prompt writers" views={{ Table: <WriterTable />, Bars: <WriterBars />, Dots: <WriterDots />, Value: <WriterValue /> }} />
+          <ViewSwitch label="Prompt writers" views={{ Table: tri(WriterTable), Bars: tri(WriterBars), Dots: tri(WriterDots), Value: tri(WriterValue) }} />
           <div className="grid md:grid-cols-2 gap-4">
             {[
               ['Does a writer help?', 'Yes, mostly on the re-roll rate. The best writers beat the raw brief by 0.3–0.4 points, and raised the share of postable results from 67% of images and 50% of clips to 75–100%.'],
@@ -407,7 +412,7 @@ export default function Scores() {
           title="Coding"
           sub="Hard agentic: 5 multi-file jobs done with tools in a sandboxed repo. Agentic coding: the 6 hardest coding tasks, with tools. One-shot: 12 tasks answered in one reply. Polyglot: 8 exercises from the Aider Polyglot benchmark, original and reworded so a memorized answer would fail. Every result is scored by hidden tests."
         >
-          <ViewSwitch label="Coding" views={{ Table: <CodingTable />, Bars: <CodingBars />, Dots: <CodingDots />, Value: <CodingValue />, Spider: <CodingSpider /> }} />
+          <ViewSwitch label="Coding" views={{ Table: tri(CodingTable), Bars: tri(CodingBars), Dots: tri(CodingDots), Value: tri(CodingValue), Spider: tri(CodingSpider) }} />
           <p className="text-gray-400 max-w-3xl leading-relaxed">
             Letting a model run the tests matters more than the model. In one reply Qwen3.8 27B scored 4.55; with tools on the
             same tasks it reached 4.95, because it ran the tests and fixed its own mistakes. On the reworded Polyglot exercises
@@ -419,7 +424,7 @@ export default function Scores() {
             Five real issues from sphinx, sympy, pytest, django and scikit-learn, worked in each project’s own environment with a
             bash-only agent capped at 75 steps, and graded by the official SWE-bench tests.
           </p>
-          <ViewSwitch label="SWE-bench" views={{ Table: <SweTable />, Bars: <SweBars />, Dots: <SweDots />, Value: <SweValue /> }} />
+          <ViewSwitch label="SWE-bench" views={{ Table: tri(SweTable), Bars: tri(SweBars), Dots: tri(SweDots), Value: tri(SweValue) }} />
           <p className="text-gray-400 max-w-3xl leading-relaxed">
             One run per model on 5 issues, so treat a one-issue difference as noise. DeepSeek V4.1 Flash fixed all five for 5
             cents. Opus 5.5 needed the fewest steps. These issues are public, and models may have seen the fixes during training.

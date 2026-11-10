@@ -181,3 +181,25 @@ export const SWE_SCATTER: { n: string; frontier: boolean; fixed: number; cost: n
   { n: 'GLM-5.3 Flash', frontier: false, fixed: 2, cost: 0.345 },
   { n: 'GLM-5.3', frontier: false, fixed: 3, cost: 0.657 },
 ];
+
+// ---- Frontier / open-weights filter ----
+export type Filter = 'all' | 'frontier' | 'open';
+const OPEN_NAMES = new Set(['FLUX 3 Klein (open)', 'Qwen Image 3 Pro', 'Kimi K3.1 Pro', 'GLM-5.3', 'DeepSeek V4.1 Flash', 'Qwen3.8 Flash', 'Qwen3.8 27B']);
+// true = open, false = frontier/closed, null = always shown (control row), undefined = only in "All"
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function openness(row: any): boolean | null | undefined {
+  if (!Array.isArray(row)) return !row.frontier;
+  if (typeof row[0] === 'string' && row[0].startsWith('No writer')) return null;
+  if (typeof row[1] === 'boolean') return row[1];
+  if (row[1] === 'open' || row[1] === 'local') return true;
+  if (row[1] === 'frontier') return false;
+  if (row[1] === 'api') return undefined;
+  return OPEN_NAMES.has(row[0]);
+}
+export function sel<T>(arr: T[], f: Filter): T[] {
+  if (f === 'all') return arr;
+  return arr.filter((r) => {
+    const o = openness(r);
+    return o === null || (o !== undefined && o === (f === 'open'));
+  });
+}
