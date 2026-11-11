@@ -244,7 +244,7 @@ export default function Creature() {
       renderer.setSize(r.width, r.height, false);
       camera.aspect = r.width / r.height;
       camera.updateProjectionMatrix();
-      const s = window.innerWidth > 1100 ? 0.5 : 0.4;
+      const s = window.innerWidth > 1100 ? 0.5 : 1.3;
       root.scale.set(s, s, s);
     }
     window.addEventListener('resize', resize);
