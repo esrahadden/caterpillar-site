@@ -37,7 +37,7 @@ export default function Hero() {
           variants={fadeInUp}
           className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto mb-12 leading-relaxed"
         >
-          We build AI systems for small business owners that take estimates, intake, email and reporting off your plate, and we teach you to use them so they stick.
+          Based in Atlanta, we build AI systems for small business owners that take estimates, intake, email and reporting off your plate, and we teach you to use them so they stick.
         </motion.p>
 
         {/* CTA Buttons */}

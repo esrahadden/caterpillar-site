@@ -90,7 +90,7 @@ export default function Services() {
       icon: WorkshopIcon,
       title: 'AI Training & Workshops',
       description:
-        "The best AI tools in the world don't help if your team doesn't use them. We run hands-on training sessions designed for real people, not tech experts — practical, approachable, and tailored to how your team actually works.",
+        "The best AI tools in the world don't help if your team doesn't use them. We run hands-on training sessions designed for real people, not tech experts — practical, approachable, and tailored to how your team actually works. We also give seminars and talks for larger groups, associations and events.",
     },
     {
       id: 'service-custom-solutions',

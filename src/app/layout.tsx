@@ -13,9 +13,19 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "Caterpillar AI Consulting | Transform Your Business with AI",
-  description: "Expert AI consulting that empowers businesses and individuals to seamlessly integrate artificial intelligence into their workflows. Training, strategy, and implementation.",
+  title: "AI Consultant for Small Businesses in Atlanta | Caterpillar AI Consulting",
+  description: "Caterpillar AI Consulting builds and installs AI tools for Atlanta small businesses: automations, custom AI assistants, team training and seminars.",
   keywords: "AI consulting, AI training, artificial intelligence, workflow automation, AI strategy, AI tools, business transformation",
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  name: "Caterpillar AI Consulting",
+  url: "https://www.caterpillar-consulting.ai",
+  areaServed: "Atlanta, GA",
+  email: "samer@caterpillar-consulting.ai",
+  telephone: "+1-404-939-0628",
 };
 
 export default function RootLayout({
@@ -26,6 +36,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${outfit.variable}`}>
       <body className="antialiased">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         {children}
       </body>
     </html>

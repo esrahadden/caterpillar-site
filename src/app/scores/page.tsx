@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Fragment, type ReactNode } from 'react';
 import ViewSwitch from './ViewSwitch';
 import JobPicker from './JobPicker';
+import LeadForm from '@/components/LeadForm';
 import { CodingSpider, CodingValue, HeatmapLines, HeatmapSpider, ImageValue, SweValue, WriterValue } from './views2';
 import {
   CodingBars, CodingDots, GapBars, GapDots, GapTable, HeatmapBars, HeatmapDots, ImageBars, ImageDots,
@@ -28,9 +29,9 @@ import {
 } from './data';
 
 export const metadata: Metadata = {
-  title: 'AI Model Scores: 23 Models Tested on Real Business Work | Caterpillar AI',
+  title: 'AI Model Comparison: 23 Models Tested | Caterpillar',
   description:
-    'We tested 23 AI models on made-up versions of real small-business work: client emails, call summaries, legal reading, office admin, images, video and code. Here is how every one scored.',
+    'We tested 23 AI models on small-business work: client emails, call summaries, legal reading, admin, images, video and code. See how each one scored.',
 };
 
 type Viewable = (p: { f?: Filter }) => ReactNode;
@@ -446,6 +447,15 @@ export default function Scores() {
             ))}
           </div>
         </Section>
+
+        {/* Lead form */}
+        <section id="contact" className="max-w-3xl mx-auto w-full space-y-6">
+          <div className="text-center space-y-3">
+            <h2 className="text-3xl md:text-4xl font-heading font-bold text-white tracking-tight">Questions about these results?</h2>
+            <p className="text-gray-400">Send a note and we&apos;ll help you pick the right model for your work.</p>
+          </div>
+          <LeadForm compact idPrefix="scores" />
+        </section>
 
         {/* Final CTA */}
         <section className="relative overflow-hidden rounded-3xl p-10 md:p-16 text-center bg-gradient-to-br from-purple-900/60 via-blue-900/40 to-cyan-900/50 border border-white/10">

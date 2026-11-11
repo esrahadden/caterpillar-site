@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { motion } from 'motion/react';
 import { staggerContainer, staggerItem } from '@/lib/animations';
 
@@ -131,9 +132,9 @@ export default function Footer() {
             &copy; {currentYear} Caterpillar AI Consulting. All rights reserved.
           </p>
           <div className="flex space-x-6 text-sm text-gray-400">
-            <a href="#" className="hover:text-purple-400 transition">
+            <Link href="/privacy" className="hover:text-purple-400 transition">
               Privacy Policy
-            </a>
+            </Link>
             <a href="#" className="hover:text-purple-400 transition">
               Terms of Service
             </a>

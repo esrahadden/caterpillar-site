@@ -2,6 +2,7 @@
 
 import { motion } from 'motion/react';
 import { fadeInUp, staggerContainer, staggerItem } from '@/lib/animations';
+import LeadForm from './LeadForm';
 
 export default function Contact() {
   return (
@@ -26,13 +27,25 @@ export default function Contact() {
           </p>
         </motion.div>
 
+        <div className="grid lg:grid-cols-5 gap-8 max-w-6xl mx-auto items-start">
+        {/* Lead Form */}
+        <motion.div
+          variants={fadeInUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="lg:col-span-3"
+        >
+          <LeadForm idPrefix="contact" />
+        </motion.div>
+
         {/* Contact Details */}
         <motion.div
           variants={staggerContainer}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="max-w-xl mx-auto glass rounded-3xl p-8 border border-surface-border"
+          className="lg:col-span-2 glass rounded-3xl p-8 border border-surface-border"
         >
           <div className="space-y-6">
             <motion.div variants={staggerItem} className="flex items-start">
@@ -81,6 +94,7 @@ export default function Contact() {
 
           </div>
         </motion.div>
+        </div>
       </div>
     </section>
   );

@@ -20,7 +20,9 @@ export default function Navigation() {
   const navLinks = [
     { href: '#method', label: 'Our Method' },
     { href: '#services', label: 'Services' },
+    { href: '/#trainings', label: 'Trainings' },
     { href: '#about', label: 'About' },
+    { href: '/scores', label: 'Model Scores' },
   ];
 
   return (
