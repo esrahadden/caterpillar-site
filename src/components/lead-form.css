@@ -1,0 +1,29 @@
+/* Lead form, glass look. Self-contained (not under .gl) because /scores also renders it. */
+.lead-form, .lead-form-done {
+  --lf-text: #f3f1fb;
+  --lf-line: rgba(255, 255, 255, 0.12);
+  --lf-mint: #00e5b5;
+  font-family: var(--font-text), "Red Hat Text", ui-sans-serif, system-ui, sans-serif;
+  color: var(--lf-text);
+}
+.lead-form .lf-submit { display: inline-flex; align-items: center; background: #fff; color: #120d2c; font: 600 0.95rem var(--font-text), "Red Hat Text", system-ui, sans-serif; padding: 12px 22px; border-radius: 999px; border: 0; cursor: pointer; transition: background 0.2s ease; }
+.lead-form .lf-submit:hover { background: #ece8fb; }
+.lead-form .lf-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+.lead-form .lf-submit:focus-visible, .lead-form a:focus-visible { outline: 2px solid var(--lf-mint); outline-offset: 3px; }
+.lead-form { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.lead-form .full { grid-column: 1 / -1; }
+@media (max-width: 520px) { .lead-form { grid-template-columns: 1fr; } }
+.lead-form label { display: flex; flex-direction: column; gap: 6px; font-size: 0.88rem; color: #e4e0f2; }
+.lead-form label em { font-style: normal; color: #c2bdd6; }
+.lead-form input, .lead-form select, .lead-form textarea { font: inherit; font-size: 0.95rem; color: var(--lf-text); background: rgba(8, 6, 24, 0.45); border: 1px solid var(--lf-line); border-radius: 12px; padding: 12px 14px; width: 100%; }
+.lead-form input::placeholder, .lead-form textarea::placeholder { color: #a9a4bf; }
+.lead-form select option { background: #120d2c; color: var(--lf-text); }
+.lead-form textarea { min-height: 110px; resize: vertical; }
+.lead-form input:focus-visible, .lead-form select:focus-visible, .lead-form textarea:focus-visible { outline: 2px solid var(--lf-mint); outline-offset: 1px; }
+.lead-form .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.lead-form .form-error { color: #ffb4c0; font-size: 0.9rem; margin: 0; }
+.lead-form-done { border: 1px solid var(--lf-line); border-radius: 16px; padding: 24px; background: rgba(255, 255, 255, 0.05); }
+.lead-form-done strong { display: block; font: 700 1.2rem var(--font-display), "Red Hat Display", system-ui, sans-serif; margin-bottom: 6px; }
+.lead-form .fine { font-size: 0.82rem; color: #c2bdd6; margin: 0; }
+.lead-form .fine a { color: inherit; text-decoration: underline; }
+.lead-form .fine a:hover { color: var(--lf-text); }

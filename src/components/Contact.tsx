@@ -1,99 +1,34 @@
-'use client';
-
-import { motion } from 'motion/react';
-import { fadeInUp, staggerContainer, staggerItem } from '@/lib/animations';
 import LeadForm from './LeadForm';
 
 export default function Contact() {
   return (
-    <section id="contact" className="section-premium bg-gradient-to-b from-surface-elevated to-surface-primary">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <motion.div
-          variants={fadeInUp}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="text-center mb-20"
-        >
-          <h2 className="text-4xl md:text-5xl font-heading font-bold mb-6 tracking-tight text-white">
-            Book Your Free{' '}
-            <span className="bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
-              Discovery Call
-            </span>
-          </h2>
-          <p className="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
-            Tell us what's eating your day. In one conversation we'll find where AI can give you time back, with no pressure and no jargon.
+    <section className="col" id="contact">
+      <div className="content">
+        <div className="panel">
+          <div className="kick">Free discovery call</div>
+          <h2>Book your free discovery call</h2>
+          <p>
+            Tell us what&apos;s eating your day. In one conversation we&apos;ll find where AI can give you time back, with no pressure and no jargon.
           </p>
-        </motion.div>
-
-        <div className="grid lg:grid-cols-5 gap-8 max-w-6xl mx-auto items-start">
-        {/* Lead Form */}
-        <motion.div
-          variants={fadeInUp}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="lg:col-span-3"
-        >
-          <LeadForm idPrefix="contact" />
-        </motion.div>
-
-        {/* Contact Details */}
-        <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="lg:col-span-2 glass rounded-3xl p-8 border border-surface-border"
-        >
-          <div className="space-y-6">
-            <motion.div variants={staggerItem} className="flex items-start">
-              <div className="w-12 h-12 bg-purple-500/10 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
-                <svg
-                  className="w-6 h-6 text-purple-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                  />
-                </svg>
+          <div className="contact-grid">
+            <LeadForm idPrefix="contact" />
+            <div className="reach">
+              <div>
+                <small>Email</small>
+                <a href="mailto:samer@caterpillar-consulting.ai">samer@caterpillar-consulting.ai</a>
               </div>
               <div>
-                <h4 className="font-semibold text-white">Email</h4>
-                <a href="mailto:samer@caterpillar-consulting.ai" className="text-gray-400 hover:text-purple-400 transition">samer@caterpillar-consulting.ai</a>
-              </div>
-            </motion.div>
-
-            <motion.div variants={staggerItem} className="flex items-start">
-              <div className="w-12 h-12 bg-cyan-500/10 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
-                <svg
-                  className="w-6 h-6 text-cyan-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-                  />
-                </svg>
+                <small>Phone</small>
+                <a href="tel:+14049390628">(404) 939-0628</a>
               </div>
               <div>
-                <h4 className="font-semibold text-white">Phone</h4>
-                <a href="tel:+14049390628" className="text-gray-400 hover:text-purple-400 transition">(404) 939-0628</a>
+                <small>Or grab a time</small>
+                <a className="mint" href="https://cal.com/caterpillar.ai/quick-chat" target="_blank" rel="noopener noreferrer">
+                  Book a quick call
+                </a>
               </div>
-            </motion.div>
-
+            </div>
           </div>
-        </motion.div>
         </div>
       </div>
     </section>

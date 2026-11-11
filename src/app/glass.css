@@ -1,0 +1,216 @@
+/* Glass redesign: dusk-to-dawn haze, frosted glass panels, 3D creature lane.
+   Every rule is scoped under .gl so /scores and /privacy keep their own look. */
+.gl {
+  color-scheme: dark;
+  --night: #07061a;
+  --violet: #7f2bff;
+  --blue: #3f8fdb;
+  --mint: #00e5b5;
+  --text: #f3f1fb;
+  --dim: #b3aecb;
+  --line: rgba(255, 255, 255, 0.12);
+  --glass: rgba(255, 255, 255, 0.06);
+  --display: var(--font-display), "Red Hat Display", ui-sans-serif, system-ui, sans-serif;
+  --body: var(--font-text), "Red Hat Text", ui-sans-serif, system-ui, sans-serif;
+  position: relative;
+  min-height: 100vh;
+  background: var(--night);
+  color: var(--text);
+  font-family: var(--body);
+  font-size: 17px;
+  line-height: 1.6;
+  overflow-x: clip;
+}
+.gl *, .gl *::before, .gl *::after { box-sizing: border-box; }
+
+.gl .haze { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+.gl .haze.dusk {
+  background:
+    radial-gradient(60% 50% at 15% 10%, rgba(127, 43, 255, 0.55), transparent 70%),
+    radial-gradient(50% 45% at 85% 40%, rgba(63, 143, 219, 0.28), transparent 70%),
+    linear-gradient(180deg, #0d0a2a, #07061a 70%);
+}
+.gl .haze.dawn {
+  opacity: 0;
+  background:
+    radial-gradient(55% 45% at 80% 85%, rgba(0, 229, 181, 0.38), transparent 70%),
+    radial-gradient(60% 50% at 20% 60%, rgba(127, 43, 255, 0.35), transparent 70%),
+    linear-gradient(180deg, #0b0b26, #0a1a2a);
+}
+
+.gl .stage3d { position: fixed; top: 0; right: 0; width: 30vw; height: 100vh; height: 100dvh; z-index: 1; pointer-events: none; display: block; }
+@media (max-width: 1100px) { .gl .stage3d { width: 100vw; opacity: 0.5; z-index: 0; } }
+.gl .fallback { position: fixed; right: 8vw; top: 30vh; width: 160px; height: auto; z-index: 1; opacity: 0.9; pointer-events: none; }
+@media (max-width: 1100px) { .gl .fallback { opacity: 0.35; z-index: 0; right: 50%; transform: translateX(50%); } }
+
+.gl .wrap {
+  position: relative;
+  z-index: 2;
+  padding-left: max(20px, env(safe-area-inset-left, 0px));
+  padding-right: max(20px, env(safe-area-inset-right, 0px));
+}
+.gl .col { max-width: 1200px; margin: 0 auto; }
+
+/* Navigation */
+.gl .nav {
+  position: sticky;
+  top: calc(12px + env(safe-area-inset-top, 0px));
+  z-index: 5;
+  margin-top: 12px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(12, 10, 32, 0.55);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+}
+.gl .nav-bar { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 12px 10px 16px; }
+.gl .brand { display: flex; align-items: center; gap: 10px; font: 700 1.08rem var(--display); letter-spacing: -0.01em; white-space: nowrap; color: var(--text); text-decoration: none; }
+.gl .brand img { width: 26px; height: 26px; }
+@media (max-width: 420px) { .gl .brand { font-size: 0.95rem; } .gl .brand img { width: 22px; height: 22px; } }
+.gl .links { display: flex; gap: 22px; align-items: center; font-size: 0.92rem; color: var(--dim); }
+.gl .links a:not(.btn) { color: inherit; text-decoration: none; }
+.gl .links a:not(.btn):hover { color: var(--text); }
+.gl .menu-btn { display: none; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 12px; border: 1px solid var(--line); background: var(--glass); color: var(--text); cursor: pointer; }
+.gl .menu-btn svg { width: 22px; height: 22px; }
+.gl .menu-btn:focus-visible { outline: 2px solid var(--mint); outline-offset: 2px; }
+.gl .mobile-menu { display: none; }
+@media (max-width: 900px) {
+  .gl .links { display: none; }
+  .gl .menu-btn { display: inline-flex; }
+  .gl .mobile-menu { display: flex; flex-direction: column; gap: 2px; padding: 6px 12px 14px; border-top: 1px solid var(--line); }
+  .gl .mobile-menu a:not(.btn) { color: var(--text); text-decoration: none; padding: 12px 4px; font-size: 1rem; }
+  .gl .mobile-menu .btn { justify-content: center; margin-top: 8px; }
+}
+
+/* Buttons */
+.gl .btn { display: inline-flex; align-items: center; gap: 8px; background: #fff; color: #120d2c; font-weight: 600; font-family: var(--body); padding: 12px 22px; border-radius: 999px; text-decoration: none; font-size: 0.95rem; border: 0; cursor: pointer; transition: transform 0.2s ease, background 0.2s ease; }
+.gl .btn:hover { background: #ece8fb; }
+.gl .btn.sm { padding: 8px 16px; font-size: 0.88rem; }
+.gl .btn.glass { background: var(--glass); color: var(--text); border: 1px solid var(--line); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+.gl .btn.glass:hover { background: rgba(255, 255, 255, 0.12); }
+.gl .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+.gl a:focus-visible, .gl button:focus-visible { outline: 2px solid var(--mint); outline-offset: 3px; }
+
+/* Sections and panels */
+.gl section { display: flex; align-items: center; padding-block: clamp(56px, 9vw, 110px); scroll-margin-top: 90px; }
+.gl section.hero { min-height: 92vh; min-height: 92dvh; }
+.gl .content { width: min(780px, 100%); }
+@media (min-width: 1101px) { .gl .content { margin-right: 30vw; width: auto; max-width: 780px; } }
+.gl .panel {
+  position: relative;
+  border-radius: 24px;
+  padding: clamp(24px, 4vw, 44px);
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.03));
+  border: 1px solid var(--line);
+  backdrop-filter: blur(26px) saturate(160%);
+  -webkit-backdrop-filter: blur(26px) saturate(160%);
+  box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+.gl .panel::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(140deg, rgba(127, 43, 255, 0.7), transparent 35%, transparent 65%, rgba(0, 229, 181, 0.6));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+.gl .hero .panel { background: none; border: 0; box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none; padding-left: 0; padding-right: 0; }
+.gl .hero .panel::before { display: none; }
+.gl .kick { font: 600 0.78rem var(--body); letter-spacing: 0.14em; text-transform: uppercase; color: var(--mint); }
+.gl h1, .gl h2, .gl h3, .gl h4 { font-family: var(--display); margin: 0; text-wrap: balance; }
+.gl h1 { font-weight: 700; font-size: clamp(2.8rem, 7vw, 5.6rem); line-height: 0.98; letter-spacing: -0.03em; margin: 18px 0 0; }
+.gl h1 span { color: #c3a6ff; }
+.gl .panel .lede { font-size: 1.2rem; color: #d9d5ea; max-width: 44ch; margin: 28px 0 32px; }
+.gl .row { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+.gl h2 { font-weight: 700; font-size: clamp(2rem, 4.4vw, 3.2rem); line-height: 1.02; letter-spacing: -0.025em; margin: 12px 0 16px; }
+.gl .panel p { margin: 0; color: #d2cde3; max-width: 56ch; }
+.gl .steps { display: grid; gap: 4px; margin-top: 24px; }
+.gl .step { display: grid; grid-template-columns: 44px 1fr; gap: 12px; align-items: baseline; padding: 12px 0; border-top: 1px solid var(--line); }
+.gl .step b { font: 700 1.6rem/1 var(--display); color: #c3a6ff; }
+.gl .step strong { display: block; font: 600 1.05rem var(--display); }
+.gl .step span { color: var(--dim); font-size: 0.95rem; }
+.gl .list { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 24px; margin-top: 22px; }
+@media (max-width: 560px) { .gl .list { grid-template-columns: 1fr; } }
+.gl .list > div { padding: 12px 0; border-top: 1px solid var(--line); scroll-margin-top: 100px; }
+.gl .list h3 { display: block; font: 600 1.02rem var(--display); }
+.gl .list span { color: var(--dim); font-size: 0.93rem; line-height: 1.55; }
+.gl blockquote { margin: 24px 0 0; font: 600 1.3rem/1.4 var(--display); }
+.gl cite { display: block; margin-top: 10px; font: 600 0.76rem var(--body); letter-spacing: 0.12em; text-transform: uppercase; color: var(--dim); font-style: normal; }
+.gl .cards3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 24px; }
+@media (max-width: 700px) { .gl .cards3 { grid-template-columns: 1fr; } }
+.gl .mini { border: 1px solid var(--line); border-radius: 16px; padding: 18px; background: rgba(255, 255, 255, 0.035); }
+.gl .mini h3 { display: block; font: 600 1.05rem var(--display); margin-bottom: 6px; }
+.gl .mini span { color: var(--dim); font-size: 0.93rem; }
+.gl .about p + p { margin-top: 16px; }
+
+/* Contact */
+.gl .contact-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 24px; margin-top: 24px; }
+@media (max-width: 700px) { .gl .contact-grid { grid-template-columns: 1fr; } }
+.gl .reach { display: flex; flex-direction: column; gap: 14px; }
+.gl .reach > div { border: 1px solid var(--line); border-radius: 16px; padding: 16px; background: rgba(255, 255, 255, 0.035); overflow-wrap: anywhere; }
+.gl .reach small { display: block; font: 600 0.72rem var(--body); letter-spacing: 0.12em; text-transform: uppercase; color: var(--dim); }
+.gl .reach a { color: var(--text); text-decoration: none; }
+.gl .reach a:hover { text-decoration: underline; }
+.gl .reach a.mint { color: var(--mint); }
+
+/* Footer */
+.gl footer { position: relative; z-index: 2; border-top: 1px solid var(--line); padding-block: 48px 28px; display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 28px; font-size: 0.92rem; color: var(--dim); }
+@media (max-width: 760px) { .gl footer { grid-template-columns: 1fr 1fr; } .gl footer > div:first-child { grid-column: 1 / -1; } }
+.gl footer h2 { font: 600 0.95rem var(--display); color: var(--text); margin: 0 0 10px; letter-spacing: 0; }
+.gl footer a { color: var(--dim); text-decoration: none; display: block; padding: 3px 0; overflow-wrap: anywhere; }
+.gl footer a:hover { color: var(--text); }
+.gl footer .brand { margin-bottom: 10px; color: var(--text); }
+.gl .legal { grid-column: 1 / -1; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; border-top: 1px solid var(--line); padding-top: 18px; padding-bottom: 72px; font-size: 0.85rem; }
+
+/* Stage meter */
+.gl .meter { position: fixed; right: max(20px, env(safe-area-inset-right, 0px)); bottom: calc(18px + env(safe-area-inset-bottom, 0px)); z-index: 6; display: flex; align-items: center; gap: 10px; font: 600 0.72rem var(--body); letter-spacing: 0.12em; text-transform: uppercase; color: var(--dim); padding: 8px 14px; border-radius: 999px; border: 1px solid var(--line); background: rgba(10, 8, 28, 0.5); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); pointer-events: none; }
+.gl .dots { display: flex; gap: 4px; }
+.gl .dots i { width: 6px; height: 6px; border-radius: 2px; background: rgba(255, 255, 255, 0.18); }
+.gl .dots i.on { background: linear-gradient(180deg, #9b6bff, #2fe3c0); }
+@media (max-width: 1100px) { .gl .meter { padding: 6px 10px; } .gl .meter .stage-name { display: none; } .gl h1 { margin-bottom: 20px; } }
+
+/* /connect card */
+.gl-connect {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  background:
+    radial-gradient(70% 45% at 20% 0%, rgba(127, 43, 255, 0.6), transparent 70%),
+    radial-gradient(60% 40% at 90% 100%, rgba(0, 229, 181, 0.35), transparent 70%),
+    linear-gradient(180deg, #0e0a2c, #07061a);
+  background-attachment: fixed;
+  font-size: 16px;
+  line-height: 1.55;
+  --dim: #b9b4cf;
+  --line: rgba(255, 255, 255, 0.13);
+}
+.gl .card { width: min(400px, 100%); margin-block: 28px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 18px; padding: 28px 22px 24px; border-radius: 28px; background: linear-gradient(160deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.03)); border: 1px solid var(--line); backdrop-filter: blur(26px) saturate(160%); -webkit-backdrop-filter: blur(26px) saturate(160%); box-shadow: 0 40px 80px -40px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.14); position: relative; }
+.gl .card::before { content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1px; background: linear-gradient(140deg, rgba(127, 43, 255, 0.8), transparent 35%, transparent 65%, rgba(0, 229, 181, 0.7)); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; }
+.gl .card .top { display: flex; align-items: center; gap: 8px; font: 700 0.92rem var(--display); color: var(--dim); text-decoration: none; }
+.gl .card .top img { width: 22px; height: 22px; }
+.gl .ring { width: 132px; height: 132px; border-radius: 50%; padding: 3px; background: linear-gradient(160deg, #7f2bff, #3f8fdb 55%, #00e5b5); margin-top: 6px; }
+.gl .ring-inner { position: relative; width: 100%; height: 100%; border-radius: 50%; overflow: hidden; background: #e9e9ee; border: 3px solid #120d2c; }
+.gl .ring-inner img { object-fit: cover; object-position: center 18%; transform: scale(1.0); }
+.gl .hi { font: 600 0.85rem var(--body); letter-spacing: 0.12em; text-transform: uppercase; color: var(--mint); }
+.gl .card h1 { font: 700 2rem/1.05 var(--display); letter-spacing: -0.02em; margin: 0; }
+.gl .role { color: var(--dim); font-size: 0.95rem; margin-top: -10px; }
+.gl .blurb { color: #ddd8ec; max-width: 32ch; margin: 0; }
+.gl .card .btn { display: flex; justify-content: center; width: 100%; min-height: 52px; font-size: 1rem; }
+.gl .tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 100%; }
+.gl .tiles a { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; min-height: 72px; border-radius: 18px; border: 1px solid var(--line); background: rgba(255, 255, 255, 0.05); color: var(--text); text-decoration: none; font-size: 0.85rem; font-weight: 500; }
+.gl .tiles a:hover { background: rgba(255, 255, 255, 0.1); }
+.gl .tiles svg { width: 20px; height: 20px; stroke: #7fe9d3; }
+.gl .card .foot { font-size: 0.78rem; color: #a9a4bf; margin: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  html:has(.gl) { scroll-behavior: auto; }
+  .gl .btn { transition: none; }
+}
