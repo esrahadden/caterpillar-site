@@ -14,7 +14,7 @@ const INTERESTS = [
 type Status = 'idle' | 'sending' | 'success' | 'error';
 
 const inputClass =
-  'w-full rounded-xl bg-black/30 border border-surface-border px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition';
+  'w-full rounded-xl bg-black/30 border border-surface-border px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition';
 const labelClass = 'block text-sm font-medium text-gray-300 mb-2';
 
 export default function LeadForm({ compact = false, idPrefix = 'lead' }: { compact?: boolean; idPrefix?: string }) {
@@ -90,7 +90,7 @@ export default function LeadForm({ compact = false, idPrefix = 'lead' }: { compa
         </div>
         <div>
           <label htmlFor={id('company')} className={labelClass}>
-            Company <span className="text-gray-500">(optional)</span>
+            Company <span className="text-gray-400">(optional)</span>
           </label>
           <input id={id('company')} name="company" type="text" maxLength={160} autoComplete="organization" className={inputClass} />
         </div>
@@ -110,7 +110,7 @@ export default function LeadForm({ compact = false, idPrefix = 'lead' }: { compa
 
       <div>
         <label htmlFor={id('message')} className={labelClass}>
-          Message <span className="text-gray-500">(optional)</span>
+          Message <span className="text-gray-400">(optional)</span>
         </label>
         <textarea
           id={id('message')}
@@ -138,11 +138,11 @@ export default function LeadForm({ compact = false, idPrefix = 'lead' }: { compa
         <button
           type="submit"
           disabled={status === 'sending'}
-          className="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-purple-600 to-cyan-500 text-white rounded-full font-semibold hover:shadow-lg hover:shadow-cyan-500/50 transition-shadow disabled:opacity-60 disabled:cursor-not-allowed"
+          className="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-purple-700 to-cyan-700 text-white rounded-full font-semibold hover:shadow-lg hover:shadow-cyan-500/50 transition-shadow disabled:opacity-60 disabled:cursor-not-allowed"
         >
           {status === 'sending' ? 'Sending…' : 'Send message'}
         </button>
-        <p className="mt-3 text-xs text-gray-500">
+        <p className="mt-3 text-xs text-gray-400">
           We&apos;ll only use this to reply to you. See our{' '}
           <Link href="/privacy" className="underline hover:text-cyan-400 transition">
             privacy policy

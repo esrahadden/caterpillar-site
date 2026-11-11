@@ -42,7 +42,7 @@ export default function Connect() {
               href={CAL_LINK}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-8 py-4 bg-gradient-to-r from-purple-600 to-cyan-500 text-white rounded-full font-semibold text-lg hover:shadow-2xl hover:shadow-cyan-500/50 transition-shadow duration-300"
+              className="px-8 py-4 bg-gradient-to-r from-purple-700 to-cyan-700 text-white rounded-full font-semibold text-lg hover:shadow-2xl hover:shadow-cyan-500/50 transition-shadow duration-300"
             >
               Book a quick call
             </a>
@@ -68,7 +68,7 @@ export default function Connect() {
           </div>
         </div>
 
-        <p className="text-center text-xs text-gray-500">© Caterpillar AI Consulting</p>
+        <p className="text-center text-xs text-gray-400">© Caterpillar AI Consulting</p>
       </div>
     </main>
   );

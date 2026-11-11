@@ -89,7 +89,7 @@ export default function Blog() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="mb-12 bg-gradient-to-br from-purple-600 to-cyan-500 rounded-3xl shadow-xl overflow-hidden"
+          className="mb-12 bg-gradient-to-br from-purple-700 to-cyan-700 rounded-3xl shadow-xl overflow-hidden"
         >
           <div className="grid md:grid-cols-2 gap-8 p-8 md:p-12">
             <div className="flex items-center justify-center text-9xl">
@@ -192,7 +192,7 @@ export default function Blog() {
             />
             <button
               type="submit"
-              className="px-6 py-3 bg-gradient-to-r from-purple-600 to-cyan-500 text-white rounded-lg font-semibold hover:shadow-lg hover:shadow-cyan-500/30 transition-shadow"
+              className="px-6 py-3 bg-gradient-to-r from-purple-700 to-cyan-700 text-white rounded-lg font-semibold hover:shadow-lg hover:shadow-cyan-500/30 transition-shadow"
             >
               Subscribe
             </button>

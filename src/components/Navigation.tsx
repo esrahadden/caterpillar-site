@@ -64,7 +64,7 @@ export default function Navigation() {
               href="https://cal.com/caterpillar.ai/quick-chat"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-gradient-to-r from-purple-600 to-cyan-500 text-white px-6 py-2 rounded-full font-medium hover:shadow-lg hover:shadow-cyan-500/50 transition-shadow"
+              className="bg-gradient-to-r from-purple-700 to-cyan-700 text-white px-6 py-2 rounded-full font-medium hover:shadow-lg hover:shadow-cyan-500/50 transition-shadow"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.97 }}
             >
@@ -75,6 +75,8 @@ export default function Navigation() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={isMobileMenuOpen}
             className="md:hidden p-2 rounded-lg hover:bg-surface-elevated text-gray-300"
           >
             <svg
@@ -120,7 +122,7 @@ export default function Navigation() {
                 href="https://cal.com/caterpillar.ai/quick-chat"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block mx-4 mt-2 bg-gradient-to-r from-purple-600 to-cyan-500 text-white px-6 py-3 rounded-full text-center font-medium"
+                className="block mx-4 mt-2 bg-gradient-to-r from-purple-700 to-cyan-700 text-white px-6 py-3 rounded-full text-center font-medium"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Book a Call

@@ -30,7 +30,7 @@ function Pills<T extends string>({ label, items, value, onChange, big }: { label
               className={`${big ? 'px-4 md:px-5 py-2.5 text-sm md:text-base' : 'px-4 py-2 text-sm'} rounded-full font-semibold transition-all duration-200 cursor-pointer ${
                 active
                   ? big
-                    ? 'bg-gradient-to-r from-purple-600 to-cyan-500 text-white shadow-md shadow-cyan-500/30'
+                    ? 'bg-gradient-to-r from-purple-700 to-cyan-700 text-white shadow-md shadow-cyan-500/30'
                     : 'bg-white text-gray-900 shadow-md'
                   : 'text-gray-300 hover:text-white hover:bg-white/10'
               }`}

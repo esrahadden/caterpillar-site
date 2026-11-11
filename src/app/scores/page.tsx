@@ -66,7 +66,7 @@ function LearnMoreButton({ className = '' }: { className?: string }) {
   return (
     <Link
       href="/"
-      className={`inline-block px-6 py-3 bg-gradient-to-r from-purple-600 to-cyan-500 text-white rounded-full font-semibold hover:shadow-2xl hover:shadow-cyan-500/50 transition-shadow duration-300 ${className}`}
+      className={`inline-block px-6 py-3 bg-gradient-to-r from-purple-700 to-cyan-700 text-white rounded-full font-semibold hover:shadow-2xl hover:shadow-cyan-500/50 transition-shadow duration-300 ${className}`}
     >
       Learn more about Caterpillar →
     </Link>
@@ -253,7 +253,7 @@ export default function Scores() {
           </Link>
           <Link
             href="/"
-            className="px-4 py-2 bg-gradient-to-r from-purple-600 to-cyan-500 text-white rounded-full text-sm font-semibold whitespace-nowrap hover:shadow-lg hover:shadow-cyan-500/40 transition-shadow"
+            className="px-4 py-2 bg-gradient-to-r from-purple-700 to-cyan-700 text-white rounded-full text-sm font-semibold whitespace-nowrap hover:shadow-lg hover:shadow-cyan-500/40 transition-shadow"
           >
             Learn more<span className="hidden sm:inline"> about Caterpillar</span>
           </Link>
