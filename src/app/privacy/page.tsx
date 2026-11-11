@@ -96,10 +96,11 @@ export default function Privacy() {
             </p>
           </Section>
 
-          <Section title="Children">
+          <Section title="Age">
             <p>
-              This site is not directed to children under 13, and we don&apos;t knowingly collect information from them. If you
-              believe a child has sent us information, email us and we will delete it.
+              This site is for business professionals and isn&apos;t intended for anyone under 18. We don&apos;t knowingly
+              collect information from anyone under 18. If we learn we have, we&apos;ll delete it. If you believe someone under 18
+              has sent us information, email us and we will delete it.
             </p>
           </Section>
 
