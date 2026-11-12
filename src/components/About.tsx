@@ -9,7 +9,7 @@ export default function About() {
             AI is changing the way businesses operate, but knowing which tools to adopt, how to integrate them responsibly, and how to get your team to actually use them is where most organizations get stuck.
           </p>
           <p>
-            Our background is in enterprise technology consulting, including work with agencies like NASA, the Department of Defense, the Department of Homeland Security, and the Department of Labor through firms like KPMG and Accenture. That gave us a deep understanding of how complex organizations operate: their processes, their compliance requirements, and the real friction of introducing new technology at scale.
+            Our background is in enterprise technology consulting, including work with agencies like NASA, the Department of Defense, the Department of Homeland Security, and the Department of Labor through firms like KPMG, Accenture, and Deloitte. That gave us a deep understanding of how complex organizations operate: their processes, their compliance requirements, and the real friction of introducing new technology at scale.
           </p>
           <p>
             When AI started to mature in 2023, we saw what it could do and what it would mean for organizations that got ahead of it early. Since then we&apos;ve built custom solutions for businesses of all sizes, advised enterprise teams on AI strategy, and helped people fundamentally change how they work.
