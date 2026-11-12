@@ -28,7 +28,7 @@ async function sendLeadAlert(lead: { name: string; email: string; company: strin
       headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({
         from: process.env.RESEND_FROM || 'Caterpillar Website <onboarding@resend.dev>',
-        to: [process.env.LEAD_ALERT_TO || 'samer@caterpillar-consulting.ai'],
+        to: [process.env.LEAD_ALERT_TO || 'sam.sabbagh3@gmail.com'],
         reply_to: lead.email,
         subject: `New website lead: ${lead.name}${lead.company ? ` (${lead.company})` : ''}`,
         text,
