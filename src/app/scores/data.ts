@@ -62,6 +62,7 @@ export const TAKEAWAYS = [
   { k: 'Thinking matters', h: 'No-think is 10× faster, 0.5–0.9 worse', p: 'Fine for pulling data out of documents. Keep thinking on for summaries, scripts, code and anything legal.' },
   { k: 'Images and video', h: 'Let a model write the prompt', p: 'Gemini and Kimi wrote the best prompts for FLUX 3 and Kling, and raised the share of results you could post as-is from about half to 75–100%. FLUX 3 was the best image generator.' },
   { k: 'Coding', h: 'Opus is perfect; cheap agents are close', p: 'Opus 5.5 scored 5.00 on every coding test. Cheap open models working as agents are close: DeepSeek V4.1 Flash fixed 5 of 5 real GitHub issues for 5 cents.' },
+  { k: 'Bank statements', h: 'Every model can do the books', p: 'On a year of statements every model scored 4.58 or better, with exact totals. DeepSeek V4.1 Flash did all 12 months for 7 cents; GPT-6 Sol was most accurate (4.93) for 43 cents.' },
 ];
 
 export type Call = 'go' | 'stay' | 'any' | 'cheap';
@@ -101,11 +102,33 @@ export const JOBS: { group: string; rows: { job: string; best: string; value: st
     ],
   },
   {
+    group: 'Bookkeeping',
+    rows: [
+      { job: 'Bank statements', best: 'GPT-6 Sol (4.93)', value: 'DeepSeek V4.1 Flash (4.87, 7¢ a year)', local: 'Qwen3.8 27B (4.91)', call: 'go', why: 'Every model scored 4.58+ with exact totals. Big purchases go to review; compute totals in code for busy accounts.' },
+    ],
+  },
+  {
     group: 'Privacy',
     rows: [
       { job: 'Masking client details', best: 'Runs locally only, by design', value: '—', local: 'Presidio + GLiNER + Qwen3 4B', call: 'go', callText: 'Local', why: '99.3% of critical details caught, about 35 s a page. Keep dates unmasked or deadline answers break.' },
     ],
   },
+];
+
+// Round 9: a made-up year of bank statements (12 months, 523 transactions). [model, open, score, categories, write-offs found / correct, gray to review, problems caught, $ for 12 months]
+export const BANK: [string, boolean, string, string, string, string, string, string][] = [
+  ['GPT-6 Sol', false, '4.93', '98%', '94% / 100%', '100%', '6/6, 0 false', '$0.43'],
+  ['Qwen3.8 27B', true, '4.91', '100%', '95% / 100%', '72%', '6/6, 1 false', '$0.23'],
+  ['DeepSeek V4.1 Flash', true, '4.87', '100%', '96% / 100%', '92%', '6/6, 2 false', '$0.07'],
+  ['Claude Opus 5.5', false, '4.81', '99%', '97% / 100%', '100%', '6/6, 3 false', '$1.40'],
+  ['Qwen3.8 Flash', true, '4.58', '98%', '91% / 99%', '78%', '5/6, 3 false', '$0.06'],
+];
+
+export const BANK_NOTES = [
+  { k: 'All strong', h: 'Every model is usable here', p: 'Scores ran from 4.58 to 4.93. Totals were exact to the cent in every month, and no model claimed a personal expense as a write-off.' },
+  { k: 'Cheap pick', h: 'DeepSeek V4.1 Flash: 4.87 for 7 cents', p: 'A full year of statements for under a dime. Qwen3.8 27B scored 4.91 for 23 cents, the best open model, but sent fewer gray items to review (72%).' },
+  { k: 'Most careful', h: 'GPT-6 Sol: no false alarms', p: 'It caught all 6 planted problems and raised nothing else. Opus 5.5 also caught all 6 but raised 3 false alarms, at three times GPT’s price.' },
+  { k: 'Answer key', h: 'Models were more cautious than the key', p: 'Every model’s deductible total came in under the key ($6.7k–8.0k vs $9.8k). Most of the gap is a $2,399 laptop that every model sent to review, since it may need a business-use share or depreciation. An accountant would likely ask too.' },
 ];
 
 export const PRIVACY_STATS = [

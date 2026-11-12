@@ -16,6 +16,8 @@ import {
   HEATMAP,
   IMAGE_GEN,
   JOBS,
+  BANK,
+  BANK_NOTES,
   KIND_LABEL,
   PRIVACY_STATS,
   PROMPT_WRITERS,
@@ -429,6 +431,39 @@ export default function Scores() {
           <p className="text-gray-400 max-w-3xl leading-relaxed">
             One run per model on 5 issues, so treat a one-issue difference as noise. DeepSeek V4.1 Flash fixed all five for 5
             cents. Opus 5.5 needed the fewest steps. These issues are public, and models may have seen the fixes during training.
+          </p>
+        </Section>
+
+        <Section
+          title="Bookkeeping: bank statements"
+          sub="A made-up year for a solo marketing consultant filing a US Schedule C: 12 monthly statements for a checking account and a credit card, 523 transactions in all. Each model read one month at a time, with the previous month for comparison, and had to categorize every line, pick out the business write-offs, send unclear items to review, flag anything odd and total the month. The traps: card payments and savings transfers, Venmo to a friend, refunds, duplicate charges, a $1 test charge followed by $489 of fraud, subscription price rises, business and family trips, half-deductible meals and phone, and gray items like home internet, health premiums and Amazon orders. Scored automatically against a planted answer key."
+        >
+          <Table head={['Model', 'Score', 'Categories right', 'Write-offs found / correct', 'Gray items to review', 'Problems caught', '$ for 12 months']}>
+            {BANK.map(([m, open, ...c]) => (
+              <tr key={m} className="border-t border-white/5">
+                <td className="px-4 py-3 font-semibold text-white whitespace-nowrap">
+                  {m}
+                  {open && <span className="ml-2 font-mono text-xs text-cyan-300">open</span>}
+                </td>
+                {c.map((v, i) => (
+                  <td key={i} className={`px-4 py-3 text-right whitespace-nowrap ${i === 0 ? 'font-semibold text-white' : 'text-gray-300'}`}>{v}</td>
+                ))}
+              </tr>
+            ))}
+          </Table>
+          <div className="grid sm:grid-cols-2 gap-4">
+            {BANK_NOTES.map((t) => (
+              <div key={t.h} className="glass rounded-2xl p-5 space-y-2">
+                <p className="font-mono text-xs uppercase tracking-wider text-cyan-400">{t.k}</p>
+                <h3 className="text-lg font-heading font-bold text-white">{t.h}</h3>
+                <p className="text-sm text-gray-400 leading-relaxed">{t.p}</p>
+              </div>
+            ))}
+          </div>
+          <p className="text-gray-400 max-w-3xl leading-relaxed">
+            One run per model. Statements were clean text tables, not PDFs; a real setup needs a PDF-to-text step first. Busier
+            accounts should still have totals computed by code. A pilot run of Qwen3.8 27B scored 4.06 before two prompt fixes:
+            price-rise flags apply only to fixed subscriptions, and a short note says which trips were business.
           </p>
         </Section>
 
