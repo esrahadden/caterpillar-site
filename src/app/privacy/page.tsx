@@ -30,7 +30,7 @@ export default function Privacy() {
         <div className="max-w-3xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-4">
           <Link href="/" className="flex items-center space-x-2 shrink-0">
             <Image src="/logos/caterpillar-logo.png" alt="Caterpillar AI Consulting" width={32} height={32} className="rounded-lg" />
-            <span className="text-lg font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">caterpillar</span>
+            <span className="text-sm sm:text-lg font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">Caterpillar AI Consulting</span>
           </Link>
           <Link href="/" className="text-sm text-gray-300 hover:text-cyan-400 transition">
             Back to home
