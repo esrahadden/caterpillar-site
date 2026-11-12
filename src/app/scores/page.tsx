@@ -31,7 +31,7 @@ import {
 } from './data';
 
 export const metadata: Metadata = {
-  title: 'AI Model Comparison: 23 Models Tested | Caterpillar',
+  title: 'AI Model Comparison: 23 Models Tested | Caterpillar AI Consulting',
   description:
     'We tested 23 AI models on small-business work: client emails, call summaries, legal reading, admin, images, video and code. See how each one scored.',
 };
