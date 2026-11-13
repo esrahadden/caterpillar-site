@@ -1,6 +1,7 @@
 // Bars and Dots views for each data section of the scores page.
 import { BarChart, DotRows, ScatterChart, CYAN, GREEN, PURPLE, GRAY } from './charts';
-import { CODING, GAP, HEATMAP, IMAGE_GEN, KIND_LABEL, PROMPT_WRITERS, ROUNDS, SWE, SWE_SCATTER, type Kind, sel, type Filter } from './data';
+import { CODING, GAP, HEATMAP, IMAGE_GEN, KIND_LABEL, PROMPT_WRITERS, ROUNDS, SWE, SWE_SCATTER, type Kind, type Filter } from './data';
+import { useSel } from './picks';
 
 const KIND_HEX: Record<Kind, string> = { frontier: PURPLE, open: CYAN, local: GREEN, api: GRAY };
 const KIND_LEGEND = (['frontier', 'open', 'local'] as Kind[]).map((k) => ({ color: KIND_HEX[k], label: KIND_LABEL[k] }));
@@ -18,7 +19,7 @@ function avg(s: (number | null)[]) {
   return v.reduce((a, b) => a + b, 0) / v.length;
 }
 export function HeatmapBars({ f = 'all' }: { f?: Filter }) {
-  const rows = [...HEATMAP]
+  const rows = useSel(HEATMAP, f)
     .map(([n, k, s]) => ({ n, k, a: avg(s), runs: s.filter((x) => x != null).length }))
     .sort((a, b) => b.a - a.a)
     .map((r) => ({ label: r.n, value: r.a, color: KIND_HEX[r.k], text: `${r.a.toFixed(2)} (${r.runs} round${r.runs > 1 ? 's' : ''})` }));
@@ -31,7 +32,7 @@ export function HeatmapBars({ f = 'all' }: { f?: Filter }) {
 }
 const ROUND_COLORS = ['#f472b6', '#facc15', PURPLE, CYAN];
 export function HeatmapDots({ f = 'all' }: { f?: Filter }) {
-  const rows = sel(HEATMAP, f).map(([n, k, s]) => ({
+  const rows = useSel(HEATMAP, f).map(([n, k, s]) => ({
     label: n,
     sub: KIND_LABEL[k],
     subColor: KIND_HEX[k],
@@ -91,21 +92,21 @@ export function GapDots() {
 
 // ---- Image generators ----
 export function ImageBars({ f = 'all' }: { f?: Filter }) {
-  const rows = sel(IMAGE_GEN, f).map(([n, s]) => ({ label: n, value: s, color: OPEN_IMAGE.has(n) ? CYAN : PURPLE }));
+  const rows = useSel(IMAGE_GEN, f).map(([n, s]) => ({ label: n, value: s, color: OPEN_IMAGE.has(n) ? CYAN : PURPLE }));
   return <BarChart rows={rows} min={3.5} max={5} legend={[{ color: PURPLE, label: 'Closed' }, { color: CYAN, label: 'Open weights' }]} />;
 }
 export function ImageDots({ f = 'all' }: { f?: Filter }) {
-  const pts = sel(IMAGE_GEN, f).map((r) => ({ label: `${r[0]} · ${r[8]}`, x: money(r[8] as string), y: r[1], color: OPEN_IMAGE.has(r[0]) ? CYAN : PURPLE }));
+  const pts = useSel(IMAGE_GEN, f).map((r) => ({ label: `${r[0]} · ${r[8]}`, x: money(r[8] as string), y: r[1], color: OPEN_IMAGE.has(r[0]) ? CYAN : PURPLE }));
   return <ScatterChart points={pts} xLabel="Cost per image (log scale)" yLabel="Score" yMin={3.9} yMax={4.7} xTicks={[0.01, 0.03, 0.1, 0.2]} legend={[{ color: PURPLE, label: 'Closed' }, { color: CYAN, label: 'Open weights' }]} yFormat={(v) => v.toFixed(2)} />;
 }
 
 // ---- Prompt writers ----
 export function WriterBars({ f = 'all' }: { f?: Filter }) {
-  const rows = sel(PROMPT_WRITERS, f).map(([n, s]) => ({ label: n, value: s, color: n.startsWith('No writer') ? GRAY : OPEN_WRITERS.has(n) ? CYAN : PURPLE }));
+  const rows = useSel(PROMPT_WRITERS, f).map(([n, s]) => ({ label: n, value: s, color: n.startsWith('No writer') ? GRAY : OPEN_WRITERS.has(n) ? CYAN : PURPLE }));
   return <BarChart rows={rows} min={3.5} max={4.5} legend={[...FO_LEGEND, { color: GRAY, label: 'No writer (raw brief)' }]} />;
 }
 export function WriterDots({ f = 'all' }: { f?: Filter }) {
-  const pts = sel(PROMPT_WRITERS, f).filter((r) => r[6].startsWith('$')).map((r) => ({
+  const pts = useSel(PROMPT_WRITERS, f).filter((r) => r[6].startsWith('$')).map((r) => ({
     label: `${r[0]} · ${r[6]}`, x: money(r[6]), y: r[1], color: OPEN_WRITERS.has(r[0]) ? CYAN : PURPLE,
   }));
   return <ScatterChart points={pts} xLabel="Cost per prompt (log scale)" yLabel="Score" yMin={3.6} yMax={4.5} xTicks={[0.0002, 0.001, 0.005, 0.02]} legend={FO_LEGEND} note="Top left = better for less money. The raw brief (no writer) scored 3.99." yFormat={(v) => v.toFixed(2)} />;
@@ -113,20 +114,20 @@ export function WriterDots({ f = 'all' }: { f?: Filter }) {
 
 // ---- Coding ----
 export function CodingBars({ f = 'all' }: { f?: Filter }) {
-  const rows = sel(CODING, f).map(([n, open, s]) => ({ label: n, value: s, color: open ? CYAN : PURPLE }));
+  const rows = useSel(CODING, f).map(([n, open, s]) => ({ label: n, value: s, color: open ? CYAN : PURPLE }));
   return <BarChart rows={rows} min={4} max={5} legend={FO_LEGEND} />;
 }
 export function CodingDots({ f = 'all' }: { f?: Filter }) {
-  const pts = sel(CODING, f).filter((r) => r[7].startsWith('$')).map(([n, open, s, , , , , cost]) => ({ label: `${n} · ${cost}`, x: money(cost), y: s, color: open ? CYAN : PURPLE }));
+  const pts = useSel(CODING, f).filter((r) => r[7].startsWith('$')).map(([n, open, s, , , , , cost]) => ({ label: `${n} · ${cost}`, x: money(cost), y: s, color: open ? CYAN : PURPLE }));
   return <ScatterChart points={pts} xLabel="Cost for the whole coding round (log scale)" yLabel="Overall score" yMin={4.4} yMax={5.05} xTicks={[0.2, 0.5, 1, 2, 5, 10]} legend={FO_LEGEND} yFormat={(v) => v.toFixed(2)} />;
 }
 
 // ---- SWE-bench ----
 export function SweBars({ f = 'all' }: { f?: Filter }) {
-  const rows = sel(SWE, f).map(([n, open, fixed, , , cost]) => ({ label: n, value: Number(fixed[0]), color: open ? CYAN : PURPLE, text: `${fixed} · ${cost}` }));
+  const rows = useSel(SWE, f).map(([n, open, fixed, , , cost]) => ({ label: n, value: Number(fixed[0]), color: open ? CYAN : PURPLE, text: `${fixed} · ${cost}` }));
   return <BarChart rows={rows} min={0} max={5} legend={FO_LEGEND} />;
 }
 export function SweDots({ f = 'all' }: { f?: Filter }) {
-  const pts = sel(SWE_SCATTER, f).map((d) => ({ label: `${d.n} · $${d.cost.toFixed(2)}`, x: d.cost, y: d.fixed, color: d.frontier ? PURPLE : CYAN }));
+  const pts = useSel(SWE_SCATTER, f).map((d) => ({ label: `${d.n} · $${d.cost.toFixed(2)}`, x: d.cost, y: d.fixed, color: d.frontier ? PURPLE : CYAN }));
   return <ScatterChart points={pts} xLabel="Cost to attempt all 5 issues (log scale)" yLabel="Issues fixed" yMin={0} yMax={5} xTicks={[0.05, 0.1, 0.5, 1, 5]} legend={FO_LEGEND} note="Top left = more fixed for less money" yFormat={(v) => v.toFixed(0)} />;
 }

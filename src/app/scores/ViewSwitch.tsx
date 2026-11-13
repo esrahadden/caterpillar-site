@@ -1,6 +1,7 @@
 'use client';
 
 import { isValidElement, useState, type ReactNode } from 'react';
+import { PickNote } from './picks';
 
 const ICONS: Record<string, string> = { Table: '▦', Bars: '▤', Dots: '⁘', Lines: '⟋', Value: '$', Spider: '✳' };
 const FILTERS = [
@@ -57,6 +58,7 @@ export default function ViewSwitch({ label, views }: { label: string; views: Rec
       <div className="space-y-3">
         <Pills label="View as" big items={names.map((n) => ({ id: n, label: n, icon: ICONS[n] ?? '•' }))} value={view} onChange={setView} />
         {hasFilter && <Pills label="Show" items={FILTERS} value={filter} onChange={setFilter} />}
+        <PickNote />
       </div>
       <div role="tabpanel">{isTri(current) ? current[filter] : current}</div>
     </div>

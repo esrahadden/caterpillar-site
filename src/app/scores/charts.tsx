@@ -35,6 +35,7 @@ export type Bar ={ label: string; value: number; color: string; text?: string; g
 
 // Horizontal bars. Rows with a new `group` get a small header above them.
 export function BarChart({ rows, min, max, legend, unit = '' }: { rows: Bar[]; min: number; max: number; legend?: { color: string; label: string }[]; unit?: string }) {
+  if (rows.length === 0) return <p className="glass rounded-2xl p-6 text-sm text-gray-400">None of your picked models ran this test.</p>;
   const W = 900, L = 200, R = 150, rowH = 30, groupH = 26;
   let yCursor = 10;
   const laid = rows.map((r, i) => {
@@ -87,6 +88,7 @@ export function ScatterChart({
   points: Point[]; xLabel: string; yLabel: string; yMin: number; yMax: number; xTicks: number[];
   legend?: { color: string; label: string }[]; note?: string; yFormat?: (v: number) => string;
 }) {
+  if (points.length === 0) return <p className="glass rounded-2xl p-6 text-sm text-gray-400">None of your picked models ran this test.</p>;
   const W = 900, L = 60, R = 140, T = 30, B = 56, H = 460;
   const lx = Math.log10;
   const xs = points.map((p) => p.x);
@@ -143,6 +145,7 @@ export type DotRow = { label: string; sub?: string; subColor?: string; points: {
 
 // One row per item, a dot per series on a shared axis, joined by a line.
 export function DotRows({ rows, min, max, legend, labelW = 200 }: { rows: DotRow[]; min: number; max: number; legend?: { color: string; label: string }[]; labelW?: number }) {
+  if (rows.length === 0) return <p className="glass rounded-2xl p-6 text-sm text-gray-400">None of your picked models ran this test.</p>;
   const W = 900, L = labelW, R = 40, T = 16, rowH = 40;
   const H = T + rows.length * rowH + 30;
   const x = (v: number) => L + ((Math.max(v, min) - min) / (max - min)) * (W - L - R);
@@ -181,6 +184,7 @@ export type Line = { label: string; color: string; values: (number | null)[] };
 
 // Score across categories (x), one line per item, labels at the right end.
 export function LineChart({ lines, xLabels, min, max, legend }: { lines: Line[]; xLabels: string[]; min: number; max: number; legend?: { color: string; label: string }[] }) {
+  if (lines.length === 0) return <p className="glass rounded-2xl p-6 text-sm text-gray-400">None of your picked models ran this test.</p>;
   const W = 900, L = 90, R = 200, T = 20, B = 50, H = 520;
   const x = (i: number) => L + (i / (xLabels.length - 1)) * (W - L - R);
   const y = (v: number) => T + ((max - Math.max(v, min)) / (max - min)) * (H - T - B);
@@ -237,6 +241,7 @@ export type Spider = { label: string; sub?: string; color: string; values: numbe
 
 // Small multiples: one radar per item so shapes stay readable.
 export function SpiderGrid({ items, axes, min, max, legend }: { items: Spider[]; axes: string[]; min: number; max: number; legend?: { color: string; label: string }[] }) {
+  if (items.length === 0) return <p className="glass rounded-2xl p-6 text-sm text-gray-400">None of your picked models ran this test.</p>;
   const S = 270, c = S / 2, r = 72;
   const pt = (i: number, v: number) => {
     const a = -Math.PI / 2 + (i / axes.length) * 2 * Math.PI;

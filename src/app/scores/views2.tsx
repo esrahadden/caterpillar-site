@@ -1,6 +1,7 @@
 // Lines, Spider and Value (bang for buck) views for the scores page.
 import { BarChart, LineChart, SpiderGrid, CYAN, GREEN, PURPLE, GRAY } from './charts';
-import { CODING, HEATMAP, IMAGE_GEN, KIND_LABEL, PROMPT_WRITERS, ROUNDS, SWE_SCATTER, type Kind, sel, type Filter } from './data';
+import { CODING, HEATMAP, IMAGE_GEN, KIND_LABEL, PROMPT_WRITERS, ROUNDS, SWE_SCATTER, type Kind, type Filter } from './data';
+import { useSel } from './picks';
 
 const KIND_HEX: Record<Kind, string> = { frontier: PURPLE, open: CYAN, local: GREEN, api: GRAY };
 const KIND_LEGEND = (['frontier', 'open', 'local'] as Kind[]).map((k) => ({ color: KIND_HEX[k], label: KIND_LABEL[k] }));
@@ -13,7 +14,7 @@ const OPEN_IMAGE = new Set(['FLUX 3 Klein (open)', 'Qwen Image 3 Pro']);
 const OPEN_WRITERS = new Set(['Kimi K3.1 Pro', 'GLM-5.3', 'DeepSeek V4.1 Flash', 'Qwen3.8 Flash', 'Qwen3.8 27B']);
 
 export function HeatmapLines({ f = 'all' }: { f?: Filter }) {
-  const lines = sel(HEATMAP, f).filter(([, , s]) => s.filter((v) => v != null).length >= 2).map(([n, k, s]) => ({ label: n, color: KIND_HEX[k], values: s }));
+  const lines = useSel(HEATMAP, f).filter(([, , s]) => s.filter((v) => v != null).length >= 2).map(([n, k, s]) => ({ label: n, color: KIND_HEX[k], values: s }));
   return (
     <div className="space-y-2">
       <p className="text-sm text-gray-500">Models that ran at least two rounds. Does a model hold up as the work gets harder, more legal, more hands-on?</p>
@@ -23,7 +24,7 @@ export function HeatmapLines({ f = 'all' }: { f?: Filter }) {
 }
 
 export function HeatmapSpider({ f = 'all' }: { f?: Filter }) {
-  const items = sel(HEATMAP, f).filter(([, , s]) => s.every((v) => v != null)).map(([n, k, s]) => ({ label: n, sub: KIND_LABEL[k], color: KIND_HEX[k], values: s as number[] }));
+  const items = useSel(HEATMAP, f).filter(([, , s]) => s.every((v) => v != null)).map(([n, k, s]) => ({ label: n, sub: KIND_LABEL[k], color: KIND_HEX[k], values: s as number[] }));
   return (
     <div className="space-y-2">
       <p className="text-sm text-gray-500">Only the models that ran all four rounds.</p>
@@ -33,7 +34,7 @@ export function HeatmapSpider({ f = 'all' }: { f?: Filter }) {
 }
 
 export function CodingSpider({ f = 'all' }: { f?: Filter }) {
-  const items = sel(CODING, f).map(([n, open, , hard, ag, one, poly]) => ({
+  const items = useSel(CODING, f).map(([n, open, , hard, ag, one, poly]) => ({
     label: n,
     sub: open ? 'Open weights' : 'Frontier',
     color: open ? CYAN : PURPLE,
@@ -66,21 +67,21 @@ function ValueChart({ items, legend }: { items: V[]; legend: { color: string; la
 }
 
 export function ImageValue({ f = 'all' }: { f?: Filter }) {
-  const items = sel(IMAGE_GEN, f).map((r) => ({ label: r[0], score: r[1], cost: money(r[8] as string), color: OPEN_IMAGE.has(r[0]) ? CYAN : PURPLE, scoreText: r[1].toFixed(2), costText: `${r[8]}/image` }));
+  const items = useSel(IMAGE_GEN, f).map((r) => ({ label: r[0], score: r[1], cost: money(r[8] as string), color: OPEN_IMAGE.has(r[0]) ? CYAN : PURPLE, scoreText: r[1].toFixed(2), costText: `${r[8]}/image` }));
   return <ValueChart items={items} legend={[{ color: PURPLE, label: 'Closed' }, { color: CYAN, label: 'Open weights' }]} />;
 }
 
 export function WriterValue({ f = 'all' }: { f?: Filter }) {
-  const items = sel(PROMPT_WRITERS, f).filter((r) => r[6].startsWith('$')).map((r) => ({ label: r[0], score: r[1], cost: money(r[6]), color: OPEN_WRITERS.has(r[0]) ? CYAN : PURPLE, scoreText: r[1].toFixed(2), costText: `${r[6]}/prompt` }));
+  const items = useSel(PROMPT_WRITERS, f).filter((r) => r[6].startsWith('$')).map((r) => ({ label: r[0], score: r[1], cost: money(r[6]), color: OPEN_WRITERS.has(r[0]) ? CYAN : PURPLE, scoreText: r[1].toFixed(2), costText: `${r[6]}/prompt` }));
   return <ValueChart items={items} legend={FO_LEGEND} />;
 }
 
 export function CodingValue({ f = 'all' }: { f?: Filter }) {
-  const items = sel(CODING, f).filter((r) => r[7].startsWith('$')).map(([n, open, s, , , , , cost]) => ({ label: n, score: s, cost: money(cost), color: open ? CYAN : PURPLE, scoreText: s.toFixed(2), costText: cost }));
+  const items = useSel(CODING, f).filter((r) => r[7].startsWith('$')).map(([n, open, s, , , , , cost]) => ({ label: n, score: s, cost: money(cost), color: open ? CYAN : PURPLE, scoreText: s.toFixed(2), costText: cost }));
   return <ValueChart items={items} legend={FO_LEGEND} />;
 }
 
 export function SweValue({ f = 'all' }: { f?: Filter }) {
-  const items = sel(SWE_SCATTER, f).map((d) => ({ label: d.n, score: d.fixed, cost: d.cost, color: d.frontier ? PURPLE : CYAN, scoreText: `${d.fixed}/5 fixed`, costText: `$${d.cost.toFixed(2)}` }));
+  const items = useSel(SWE_SCATTER, f).map((d) => ({ label: d.n, score: d.fixed, cost: d.cost, color: d.frontier ? PURPLE : CYAN, scoreText: `${d.fixed}/5 fixed`, costText: `$${d.cost.toFixed(2)}` }));
   return <ValueChart items={items} legend={FO_LEGEND} />;
 }
