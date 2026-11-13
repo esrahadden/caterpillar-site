@@ -441,7 +441,7 @@ export default function Scores() {
           </p>
           <p className="text-gray-400 max-w-3xl leading-relaxed">
             Added Nov 13: Qwen 4 Max Preview ran these issues through Qwen Code (75 steps, internet blocked), not the bash-only
-            agent the others used, so compare it with care. Step counts were not recorded for that run. On 5 newer issues it
+            agent the others used, so compare it with care. Average steps cover 4 of the 5 runs. On 5 newer issues it
             fixed 3.
           </p>
         </Section>

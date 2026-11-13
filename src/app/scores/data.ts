@@ -191,7 +191,7 @@ export const SWE: [string, boolean, string, string, string, string][] = [
   ['Qwen3.8 Flash', true, '4 / 5', '56', '1', '$0.25'],
   ['Claude Opus 5.5', false, '4 / 5', '8', '0', '$0.57'],
   ['Kimi K3.1 Pro', true, '4 / 5', '20', '0', '$1.99'],
-  ['Qwen 4 Max Preview (via Qwen Code)', false, '4 / 5', '—', '—', 'Plan'],
+  ['Qwen 4 Max Preview (via Qwen Code)', false, '4 / 5', '70', '2', 'Plan'],
   ['GPT-6 Sol', false, '3 / 5', '15', '0', '$0.57'],
   ['GLM-5.3', true, '3 / 5', '41', '1', '$0.66'],
   ['Gemini 4 Argon', false, '3 / 5', '54', '2', '$5.72'],
