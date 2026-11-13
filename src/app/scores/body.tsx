@@ -6,7 +6,7 @@ import { Fragment, type ReactNode } from 'react';
 import ViewSwitch from './ViewSwitch';
 import JobPicker from './JobPicker';
 import LeadForm from '@/components/LeadForm';
-import { EmptyPicks, ModelPicker, PickNote, SortButton, useSel, useSortedRows } from './picks';
+import { EmptyPicks, ModelPicker, PickNote, SortButton, useColumns, useSel, useSortedRows } from './picks';
 import { CodingSpider, CodingValue, HeatmapLines, HeatmapSpider, ImageValue, SweValue, WriterValue } from './views2';
 import {
   CodingBars, CodingDots, GapBars, GapDots, GapTable, HeatmapBars, HeatmapDots, ImageBars, ImageDots,
@@ -85,28 +85,33 @@ function Section({ title, sub, children }: { title: string; sub?: ReactNode; chi
 
 function Table({ head, children, alignRightFrom = 1, sortable = true }: { head: string[]; children: ReactNode; alignRightFrom?: number; sortable?: boolean }) {
   const { rows, header } = useSortedRows(children);
+  const cols = useColumns(head);
   if (rows.length === 0) return <EmptyPicks />;
   return (
-    <div className="overflow-x-auto glass rounded-2xl">
-      <table className="w-full text-sm tabular-nums">
-        <thead>
-          <tr className="border-b border-white/10">
-            {head.map((h, i) => {
-              const hp = header(i);
-              return (
-                <th
-                  key={i}
-                  aria-sort={sortable ? hp.ariaSort : undefined}
-                  className={`px-4 py-3 font-mono text-xs uppercase tracking-wider text-gray-400 font-normal whitespace-nowrap ${i >= alignRightFrom ? 'text-right' : 'text-left'}`}
-                >
-                  {sortable ? <SortButton label={h} h={hp} right={i >= alignRightFrom} /> : h}
-                </th>
-              );
-            })}
-          </tr>
-        </thead>
-        <tbody>{sortable ? rows : children}</tbody>
-      </table>
+    <div className="space-y-3">
+      {sortable && cols.bar}
+      <div className="overflow-x-auto glass rounded-2xl">
+        <table className="w-full text-sm tabular-nums">
+          <thead>
+            <tr className="border-b border-white/10">
+              {head.map((h, i) => {
+                if (!cols.show(i)) return null;
+                const hp = header(i);
+                return (
+                  <th
+                    key={i}
+                    aria-sort={sortable ? hp.ariaSort : undefined}
+                    className={`px-4 py-3 font-mono text-xs uppercase tracking-wider text-gray-400 font-normal whitespace-nowrap ${i >= alignRightFrom ? 'text-right' : 'text-left'}`}
+                  >
+                    {sortable ? <SortButton label={h} h={hp} right={i >= alignRightFrom} /> : h}
+                  </th>
+                );
+              })}
+            </tr>
+          </thead>
+          <tbody>{sortable ? rows.map(cols.filterRow) : children}</tbody>
+        </table>
+      </div>
     </div>
   );
 }
@@ -133,9 +138,11 @@ function HeatmapTable({ f = 'all' }: { f?: Filter }) {
                   </tr>
                 ))
   );
+  const cols = useColumns(['Model', ...ROUNDS.map((r) => `${r.id} ${r.name}`)]);
   if (rows.length === 0) return <EmptyPicks />;
   return (
     <div className="space-y-4">
+      {cols.bar}
       <div className="flex flex-wrap items-center gap-x-6 gap-y-2 font-mono text-xs text-gray-400">
             {(['frontier', 'open', 'local'] as Kind[]).map((k) => (
               <span key={k} className={KIND_COLOR[k]}>● {KIND_LABEL[k]}</span>
@@ -153,7 +160,7 @@ function HeatmapTable({ f = 'all' }: { f?: Filter }) {
               <thead>
                 <tr>
                   <th aria-sort={header(0).ariaSort} className="text-left font-mono text-xs uppercase tracking-wider text-gray-400 font-normal pb-3 pr-4"><SortButton label="Model" h={header(0)} /></th>
-                  {ROUNDS.map((r, j) => (
+                  {ROUNDS.map((r, j) => cols.show(j + 1) && (
                     <th key={r.id} aria-sort={header(j + 1).ariaSort} className="font-mono text-xs uppercase tracking-wider text-gray-400 font-normal pb-3 px-1 text-center whitespace-nowrap">
                       <SortButton label={<>{r.id}<span className="block normal-case tracking-normal text-gray-500">{r.name}</span></>} h={header(j + 1)} />
                     </th>
@@ -161,7 +168,7 @@ function HeatmapTable({ f = 'all' }: { f?: Filter }) {
                 </tr>
               </thead>
               <tbody>
-                {rows}
+                {rows.map(cols.filterRow)}
               </tbody>
             </table>
           </div>

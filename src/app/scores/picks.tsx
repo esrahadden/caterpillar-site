@@ -1,7 +1,7 @@
 'use client';
 
 // Page-wide model picker (toggle / solo) and column sorting for the scores page.
-import { Children, createContext, isValidElement, useContext, useState, type ReactElement, type ReactNode } from 'react';
+import { Children, cloneElement, createContext, isValidElement, useContext, useState, type ReactElement, type ReactNode } from 'react';
 import { BANK, CODING, HEATMAP, IMAGE_GEN, PROMPT_WRITERS, SWE, sel, type Filter } from './data';
 
 const ALIAS: Record<string, string> = {
@@ -51,24 +51,43 @@ export function useSel<T>(arr: T[], f: Filter): T[] {
   return rows.filter((r) => nameOf(r).startsWith('No writer') || picked.has(modelKey(nameOf(r))));
 }
 
+export function Switch({ on, onChange, label, children }: { on: boolean; onChange: () => void; label: string; children?: ReactNode }) {
+  return (
+    <button
+      type="button"
+      role="switch"
+      aria-checked={on}
+      aria-label={children ? undefined : label}
+      onClick={onChange}
+      className={`inline-flex items-center gap-2 min-h-[32px] pl-1.5 pr-3 rounded-full text-sm cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400 ${on ? 'text-white' : 'text-gray-400'}`}
+    >
+      <span aria-hidden className={`relative inline-block w-8 h-[18px] rounded-full transition-colors ${on ? 'bg-cyan-500' : 'bg-white/15'}`}>
+        <span className={`absolute top-[2px] w-[14px] h-[14px] rounded-full bg-white transition-all ${on ? 'left-[16px]' : 'left-[2px]'}`} />
+      </span>
+      {children ?? label}
+    </button>
+  );
+}
+
+export function AllOnOff({ onAll, offAll }: { onAll: () => void; offAll: () => void }) {
+  const cls = 'px-3 py-1.5 min-h-[32px] rounded-full border border-white/15 text-sm text-gray-200 cursor-pointer hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400';
+  return (
+    <span className="inline-flex gap-2">
+      <button type="button" onClick={onAll} className={cls}>All on</button>
+      <button type="button" onClick={offAll} className={cls}>All off</button>
+    </span>
+  );
+}
+
 function Chip({ k, label, on, toggle, solo }: { k: string; label: string; on: boolean; toggle: (k: string) => void; solo: (k: string) => void }) {
   return (
-    <span className={`inline-flex items-stretch rounded-full border text-sm ${on ? 'border-cyan-400/60 bg-cyan-400/10 text-white' : 'border-white/15 text-gray-400'}`}>
-      <button
-        type="button"
-        aria-pressed={on}
-        onClick={() => toggle(k)}
-        onDoubleClick={() => solo(k)}
-        className="pl-3.5 pr-2 py-2 rounded-l-full cursor-pointer hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400"
-      >
-        <span aria-hidden className={`inline-block w-2 h-2 rounded-full mr-2 ${on ? 'bg-cyan-400' : 'bg-white/20'}`} />
-        {label}
-      </button>
+    <span onDoubleClick={() => solo(k)} className={`inline-flex items-center rounded-full border ${on ? 'border-cyan-400/50 bg-cyan-400/10' : 'border-white/15'}`}>
+      <Switch on={on} onChange={() => toggle(k)} label={label} />
       <button
         type="button"
         onClick={() => solo(k)}
         aria-label={`Show only ${label}`}
-        className="px-2.5 py-2 rounded-r-full border-l border-white/10 font-mono text-[10px] uppercase tracking-wider text-gray-400 cursor-pointer hover:text-cyan-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400"
+        className="self-stretch px-2.5 rounded-r-full border-l border-white/10 font-mono text-[10px] uppercase tracking-wider text-gray-400 cursor-pointer hover:text-cyan-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400"
       >
         only
       </button>
@@ -123,12 +142,9 @@ export function ModelPicker() {
       {open && (
         <div id="model-picker" className="space-y-4">
           <p className="text-sm text-gray-400">
-            Tap a model to hide or show it. Double-tap it, or tap <span className="font-mono text-xs uppercase">only</span>, to see just that one. Your picks apply to the whole page.
+            Switch a model on or off. Tap <span className="font-mono text-xs uppercase">only</span>, or double-tap it, to see just that one. Your picks apply to the whole page. Each table also has its own metric switches.
           </p>
-          <div className="flex flex-wrap gap-3">
-            <button type="button" onClick={() => set(null)} className="px-3 py-1.5 rounded-full border border-white/15 text-sm text-gray-200 cursor-pointer hover:bg-white/10">Select all</button>
-            <button type="button" onClick={() => set(new Set())} className="px-3 py-1.5 rounded-full border border-white/15 text-sm text-gray-200 cursor-pointer hover:bg-white/10">Clear all</button>
-          </div>
+          <AllOnOff onAll={() => set(null)} offAll={() => set(new Set())} />
           {group('Text and code models', TEXT)}
           {group('Image generators', IMAGES)}
         </div>
@@ -153,7 +169,7 @@ export function EmptyPicks() {
   const { picked, set } = usePicks();
   return (
     <p className="glass rounded-2xl p-6 text-sm text-gray-400">
-      {picked && picked.size === 0 ? 'No models picked.' : 'None of your picked models ran this test.'}{' '}
+      {picked && picked.size === 0 ? 'All models are switched off.' : 'None of your picked models ran this test.'}{' '}
       <button type="button" onClick={() => set(null)} className="text-cyan-300 underline underline-offset-4 cursor-pointer">Show all models</button>
     </p>
   );
@@ -212,4 +228,32 @@ export function SortButton({ label, h, right }: { label: ReactNode; h: ReturnTyp
       <span aria-hidden className="text-[10px]">{h.dir === 1 ? '▲' : h.dir === -1 ? '▼' : '↕'}</span>
     </button>
   );
+}
+
+// ---- Metric (column) switches, per table. Column 0 (the model) always shows. ----
+export function useColumns(head: ReactNode[]) {
+  const [off, setOff] = useState<Set<number>>(new Set());
+  const show = (i: number) => i === 0 || !off.has(i);
+  const toggle = (i: number) =>
+    setOff((prev) => {
+      const n = new Set(prev);
+      if (n.has(i)) n.delete(i);
+      else n.add(i);
+      return n;
+    });
+  const filterRow = (r: ReactElement<{ children?: ReactNode }>) => {
+    if (off.size === 0) return r;
+    const cells = Children.toArray(r.props.children).filter((_, i) => show(i));
+    return cloneElement(r, undefined, ...cells);
+  };
+  const bar = head.length > 2 && (
+    <div className="flex flex-wrap items-center gap-x-1 gap-y-1">
+      <span className="font-mono text-xs uppercase tracking-widest text-cyan-400 mr-2">Metrics</span>
+      {head.slice(1).map((h, j) => (
+        <Switch key={j} on={show(j + 1)} onChange={() => toggle(j + 1)} label={textOf(h)} />
+      ))}
+      <AllOnOff onAll={() => setOff(new Set())} offAll={() => setOff(new Set(head.map((_, i) => i).slice(1)))} />
+    </div>
+  );
+  return { show, filterRow, bar };
 }
