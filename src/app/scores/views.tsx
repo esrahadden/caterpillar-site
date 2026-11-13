@@ -44,7 +44,7 @@ export function HeatmapDots({ f = 'all' }: { f?: Filter }) {
 // ---- Open vs frontier ----
 export function GapTable() {
   return (
-    <div className="overflow-x-auto glass rounded-2xl">
+    <div className="overflow-x-auto glass rounded-2xl" tabIndex={0} role="region" aria-label="Open vs frontier table">
       <table className="w-full text-sm tabular-nums">
         <thead>
           <tr className="border-b border-white/10 font-mono text-xs uppercase tracking-wider text-gray-400">

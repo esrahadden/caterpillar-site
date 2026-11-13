@@ -10,7 +10,7 @@ const GRID = 'rgba(255,255,255,0.08)';
 
 function Shell({ legend, children }: { legend?: { color: string; label: string }[]; children: React.ReactNode }) {
   return (
-    <div className="glass rounded-2xl p-5 overflow-x-auto">
+    <div className="glass rounded-2xl p-5 overflow-x-auto" tabIndex={0} role="region" aria-label="Chart">
       {legend && (
         <div className="flex flex-wrap gap-5 mb-3 font-mono text-xs text-gray-300">
           {legend.map((l) => (

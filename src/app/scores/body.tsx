@@ -92,7 +92,7 @@ function Table({ head, children, alignRightFrom = 1, sortable = true }: { head: 
   return (
     <div className="space-y-3">
       {sortable && cols.bar}
-      <div className="overflow-x-auto glass rounded-2xl">
+      <div className="overflow-x-auto glass rounded-2xl" tabIndex={0} role="region" aria-label="Score table">
         <table className="w-full text-sm tabular-nums">
           <thead>
             <tr className="border-b border-white/10">
@@ -158,7 +158,7 @@ function HeatmapTable({ f = 'all' }: { f?: Filter }) {
               under 4.0 → 4.8+
             </span>
           </div>
-          <div className="overflow-x-auto glass rounded-2xl p-4">
+          <div className="overflow-x-auto glass rounded-2xl p-4" tabIndex={0} role="region" aria-label="Heatmap table">
             <table className="w-full tabular-nums">
               <thead>
                 <tr>
