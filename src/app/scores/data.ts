@@ -187,7 +187,7 @@ export const CODING: [string, boolean, number, string, string, string, string, s
 export const SWE: [string, boolean, string, string, string, string][] = [
   ['Claude Opus 5.5', false, '4 / 5', '8', '0', '$0.59'],
   ['GPT-6 Sol', false, '4 / 5', '14', '0', '$1.19'],
-  ['Qwen 4 Max Preview (via Qwen Code)', false, '4 / 5', '70', '2', 'Plan'],
+  ['Qwen 4 Max Preview', false, '4 / 5', '48', '1', 'Plan'],
   ['DeepSeek V4.1 Flash', true, '3 / 5', '38', '0', '$0.10'],
   ['GLM-5.3', true, '3 / 5', '63', '2', '$1.65'],
   ['Kimi K3.1 Pro', true, '3 / 5', '18', '0', '$1.87'],

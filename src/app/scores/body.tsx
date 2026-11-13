@@ -465,9 +465,9 @@ export default function ScoresBody() {
             fell from 5 to 3 and Qwen Flash from 4 to 2. These are the internet-blocked results. Opus 5.5 needed the fewest steps. These issues are public, and models may have seen the fixes during training.
           </p>
           <p className="text-gray-400 max-w-3xl leading-relaxed">
-            Added Nov 13: Qwen 4 Max Preview ran these issues through Qwen Code (75 steps, internet blocked), not the bash-only
-            agent the others used, so compare it with care. Average steps cover 4 of the 5 runs. On 5 newer issues it
-            fixed 3.
+            Added Nov 13. Qwen 4 Max Preview ran with the same bash-only agent as the other models, run on a Qwen Cloud plan
+            with no per-run cost. On 5 newer issues it fixed 3, tying Opus 5.5 and GPT-6 Sol. An earlier run through Qwen
+            Code gave the same scores.
           </p>
         </Section>
 
