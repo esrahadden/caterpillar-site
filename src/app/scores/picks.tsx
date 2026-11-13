@@ -246,13 +246,15 @@ export function useColumns(head: ReactNode[]) {
     const cells = Children.toArray(r.props.children).filter((_, i) => show(i));
     return cloneElement(r, undefined, ...cells);
   };
+  const allOff = off.size >= head.length - 1;
   const bar = head.length > 2 && (
-    <div className="flex flex-wrap items-center gap-x-1 gap-y-1">
+    <div role="group" aria-label={`Metric columns for the ${textOf(head[0]).toLowerCase()} table`} className="flex flex-wrap items-center gap-x-1 gap-y-1">
       <span className="font-mono text-xs uppercase tracking-widest text-cyan-400 mr-2">Metrics</span>
       {head.slice(1).map((h, j) => (
         <Switch key={j} on={show(j + 1)} onChange={() => toggle(j + 1)} label={textOf(h)} />
       ))}
       <AllOnOff onAll={() => setOff(new Set())} offAll={() => setOff(new Set(head.map((_, i) => i).slice(1)))} />
+      {allOff && <span className="text-sm text-gray-400 ml-2">All metrics are off. Switch one on to see scores.</span>}
     </div>
   );
   return { show, filterRow, bar };
