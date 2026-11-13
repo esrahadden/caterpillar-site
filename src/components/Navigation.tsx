@@ -7,11 +7,12 @@ import Link from 'next/link';
 const CAL_LINK = 'https://cal.com/caterpillar.ai/quick-chat';
 
 const navLinks = [
-  { href: '#method', label: 'Method' },
-  { href: '#services', label: 'Services' },
+  { href: '/#method', label: 'Method' },
+  { href: '/#services', label: 'Services' },
   { href: '/#trainings', label: 'Trainings' },
-  { href: '#about', label: 'About' },
+  { href: '/#about', label: 'About' },
   { href: '/scores', label: 'Model Scores' },
+  { href: '/prompts', label: 'Prompts' },
 ];
 
 export default function Navigation() {
