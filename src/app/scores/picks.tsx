@@ -150,7 +150,13 @@ export function PickNote() {
 }
 
 export function EmptyPicks() {
-  return <p className="glass rounded-2xl p-6 text-sm text-gray-400">None of your picked models ran this test.</p>;
+  const { picked, set } = usePicks();
+  return (
+    <p className="glass rounded-2xl p-6 text-sm text-gray-400">
+      {picked && picked.size === 0 ? 'No models picked.' : 'None of your picked models ran this test.'}{' '}
+      <button type="button" onClick={() => set(null)} className="text-cyan-300 underline underline-offset-4 cursor-pointer">Show all models</button>
+    </p>
+  );
 }
 
 // ---- Column sorting ----
@@ -189,7 +195,7 @@ export function useSortedRows(children: ReactNode) {
       active,
       dir: active ? sort!.dir : 0,
       onClick: () => setSort(active ? { col: i, dir: sort!.dir === -1 ? 1 : -1 } : { col: i, dir: i === 0 ? 1 : -1 }),
-      ariaSort: (active ? (sort!.dir === 1 ? 'ascending' : 'descending') : 'none') as 'ascending' | 'descending' | 'none',
+      ariaSort: (active ? (sort!.dir === 1 ? 'ascending' : 'descending') : undefined) as 'ascending' | 'descending' | undefined,
     };
   };
   return { rows: out, header };
@@ -200,7 +206,7 @@ export function SortButton({ label, h, right }: { label: ReactNode; h: ReturnTyp
     <button
       type="button"
       onClick={h.onClick}
-      className={`inline-flex items-center gap-1 uppercase tracking-wider cursor-pointer hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400 rounded ${right ? 'flex-row-reverse text-right' : 'text-left'} ${h.active ? 'text-cyan-300' : ''}`}
+      className={`inline-flex items-center gap-1 min-h-[24px] py-1 uppercase tracking-wider cursor-pointer hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400 rounded ${right ? 'flex-row-reverse text-right' : 'text-left'} ${h.active ? 'text-cyan-300' : ''}`}
     >
       <span>{label}</span>
       <span aria-hidden className="text-[10px]">{h.dir === 1 ? '▲' : h.dir === -1 ? '▼' : '↕'}</span>
