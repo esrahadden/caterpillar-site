@@ -24,7 +24,7 @@ export const HEATMAP: [string, Kind, (number | null)[]][] = [
   ['GPT-6 Sol', 'frontier', [4.73, 4.87, 4.86, 4.58]],
   ['Claude Sonnet 5.5', 'frontier', [4.53, 4.82, null, null]],
   ['Gemini 4 Argon', 'frontier', [4.35, 4.65, 4.47, 4.76]],
-  ['Qwen 4 Max Preview', 'frontier', [4.24, 4.9, 4.71, 4.54]],
+  ['Qwen 4 Max Preview', 'api', [4.24, 4.9, 4.71, 4.54]],
   ['Kimi K3.1 Pro', 'open', [null, null, 4.87, 4.58]],
   ['GLM-5.3 FlashX Legal', 'api', [null, null, 4.85, null]],
   ['GLM-5.3', 'open', [null, null, 4.78, 4.25]],
