@@ -24,6 +24,7 @@ export const HEATMAP: [string, Kind, (number | null)[]][] = [
   ['GPT-6 Sol', 'frontier', [4.73, 4.87, 4.86, 4.58]],
   ['Claude Sonnet 5.5', 'frontier', [4.53, 4.82, null, null]],
   ['Gemini 4 Argon', 'frontier', [4.35, 4.65, 4.47, 4.76]],
+  ['Qwen 4 Max Preview', 'frontier', [4.24, 4.9, 4.71, 4.54]],
   ['Kimi K3.1 Pro', 'open', [null, null, 4.87, 4.58]],
   ['GLM-5.3 FlashX Legal', 'api', [null, null, 4.85, null]],
   ['GLM-5.3', 'open', [null, null, 4.78, 4.25]],
@@ -154,6 +155,7 @@ export const IMAGE_GEN: [string, number, ...(string)[]][] = [
 // writer, overall, images, post as-is, video, post as-is, $/prompt
 export const PROMPT_WRITERS: [string, number, ...string[]][] = [
   ['Gemini 4 Argon', 4.39, '4.36', '75%', '4.42', '75%', '$0.0022'],
+  ['Qwen 4 Max Preview', 4.35, '4.31', '—', '4.39', '100%', 'Plan'],
   ['Kimi K3.1 Pro', 4.28, '4.28', '78%', '4.28', '100%', '$0.0113'],
   ['Opus 5.5', 4.24, '4.31', '83%', '4.17', '100%', '$0.0123'],
   ['Fable 5.2', 4.24, '4.22', '83%', '4.25', '100%', '$0.0409'],
@@ -170,6 +172,7 @@ export const CODING: [string, boolean, number, string, string, string, string, s
   ['Claude Opus 5.5', false, 5.0, '5.00', '5.00', '5.00', '100% / 100%', '$4.65'],
   ['Gemini 4 Argon', false, 4.99, '4.93', '5.00', '5.00', '100% / 100%', '$2.40'],
   ['GPT-6 Sol', false, 4.98, '4.93', '5.00', '4.97', '88% / 100%', '$1.75'],
+  ['Qwen 4 Max Preview', false, 4.95, '4.80', '5.00', '4.97', '100% / 100%', 'Plan'],
   ['Kimi K3.1 Pro', true, 4.91, '4.90', '4.81', '4.90', '88% / 88%', '$2.00'],
   ['Qwen3.8 Flash', true, 4.89, '4.93', '5.00', '4.53', '75% / 88%', '$0.31'],
   ['DeepSeek V4.1 Flash', true, 4.87, '4.87', '4.94', '4.58', '75% / 88%', '$0.46'],
@@ -178,12 +181,6 @@ export const CODING: [string, boolean, number, string, string, string, string, s
   ['GLM-5.3 Flash', true, 4.7, '4.43', '4.86', '4.98', '50% / 50%', '$0.16'],
   ['GLM-5.3', true, 4.69, '5.00', '4.71', '3.81', '62% / 75%', '$0.56'],
   ['Claude Opus 4.6', false, 4.52, '3.68', '4.95', '4.58', '85% / 85%', '$10.24'],
-];
-
-// Round 6 add-on (Nov 13, 2026): partial run, overall = average of hard agentic + agentic coding only.
-// Shown in the table and bars, left out of cost and spider charts (no per-run cost, two tests not run).
-export const CODING_PARTIAL: [string, boolean, number, string, string, string, string, string][] = [
-  ['Qwen 4 Max Preview', false, 4.9, '4.80', '5.00', 'not run', 'not run', 'Plan'],
 ];
 
 // model, open?, fixed, avg steps, hit limit, cost

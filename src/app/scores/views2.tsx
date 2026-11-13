@@ -71,12 +71,12 @@ export function ImageValue({ f = 'all' }: { f?: Filter }) {
 }
 
 export function WriterValue({ f = 'all' }: { f?: Filter }) {
-  const items = sel(PROMPT_WRITERS, f).filter((r) => !r[0].startsWith('No writer')).map((r) => ({ label: r[0], score: r[1], cost: money(r[6]), color: OPEN_WRITERS.has(r[0]) ? CYAN : PURPLE, scoreText: r[1].toFixed(2), costText: `${r[6]}/prompt` }));
+  const items = sel(PROMPT_WRITERS, f).filter((r) => r[6].startsWith('$')).map((r) => ({ label: r[0], score: r[1], cost: money(r[6]), color: OPEN_WRITERS.has(r[0]) ? CYAN : PURPLE, scoreText: r[1].toFixed(2), costText: `${r[6]}/prompt` }));
   return <ValueChart items={items} legend={FO_LEGEND} />;
 }
 
 export function CodingValue({ f = 'all' }: { f?: Filter }) {
-  const items = sel(CODING, f).map(([n, open, s, , , , , cost]) => ({ label: n, score: s, cost: money(cost), color: open ? CYAN : PURPLE, scoreText: s.toFixed(2), costText: cost }));
+  const items = sel(CODING, f).filter((r) => r[7].startsWith('$')).map(([n, open, s, , , , , cost]) => ({ label: n, score: s, cost: money(cost), color: open ? CYAN : PURPLE, scoreText: s.toFixed(2), costText: cost }));
   return <ValueChart items={items} legend={FO_LEGEND} />;
 }
 

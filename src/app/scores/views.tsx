@@ -1,6 +1,6 @@
 // Bars and Dots views for each data section of the scores page.
 import { BarChart, DotRows, ScatterChart, CYAN, GREEN, PURPLE, GRAY } from './charts';
-import { CODING, CODING_PARTIAL, GAP, HEATMAP, IMAGE_GEN, KIND_LABEL, PROMPT_WRITERS, ROUNDS, SWE, SWE_SCATTER, type Kind, sel, type Filter } from './data';
+import { CODING, GAP, HEATMAP, IMAGE_GEN, KIND_LABEL, PROMPT_WRITERS, ROUNDS, SWE, SWE_SCATTER, type Kind, sel, type Filter } from './data';
 
 const KIND_HEX: Record<Kind, string> = { frontier: PURPLE, open: CYAN, local: GREEN, api: GRAY };
 const KIND_LEGEND = (['frontier', 'open', 'local'] as Kind[]).map((k) => ({ color: KIND_HEX[k], label: KIND_LABEL[k] }));
@@ -105,7 +105,7 @@ export function WriterBars({ f = 'all' }: { f?: Filter }) {
   return <BarChart rows={rows} min={3.5} max={4.5} legend={[...FO_LEGEND, { color: GRAY, label: 'No writer (raw brief)' }]} />;
 }
 export function WriterDots({ f = 'all' }: { f?: Filter }) {
-  const pts = sel(PROMPT_WRITERS, f).filter((r) => !r[0].startsWith('No writer')).map((r) => ({
+  const pts = sel(PROMPT_WRITERS, f).filter((r) => r[6].startsWith('$')).map((r) => ({
     label: `${r[0]} · ${r[6]}`, x: money(r[6]), y: r[1], color: OPEN_WRITERS.has(r[0]) ? CYAN : PURPLE,
   }));
   return <ScatterChart points={pts} xLabel="Cost per prompt (log scale)" yLabel="Score" yMin={3.6} yMax={4.5} xTicks={[0.0002, 0.001, 0.005, 0.02]} legend={FO_LEGEND} note="Top left = better for less money. The raw brief (no writer) scored 3.99." yFormat={(v) => v.toFixed(2)} />;
@@ -113,11 +113,11 @@ export function WriterDots({ f = 'all' }: { f?: Filter }) {
 
 // ---- Coding ----
 export function CodingBars({ f = 'all' }: { f?: Filter }) {
-  const rows = [...sel(CODING, f), ...sel(CODING_PARTIAL, f).map((r) => [`${r[0]} (partial)`, ...r.slice(1)] as typeof r)].map(([n, open, s]) => ({ label: n, value: s, color: open ? CYAN : PURPLE }));
+  const rows = sel(CODING, f).map(([n, open, s]) => ({ label: n, value: s, color: open ? CYAN : PURPLE }));
   return <BarChart rows={rows} min={4} max={5} legend={FO_LEGEND} />;
 }
 export function CodingDots({ f = 'all' }: { f?: Filter }) {
-  const pts = sel(CODING, f).map(([n, open, s, , , , , cost]) => ({ label: `${n} · ${cost}`, x: money(cost), y: s, color: open ? CYAN : PURPLE }));
+  const pts = sel(CODING, f).filter((r) => r[7].startsWith('$')).map(([n, open, s, , , , , cost]) => ({ label: `${n} · ${cost}`, x: money(cost), y: s, color: open ? CYAN : PURPLE }));
   return <ScatterChart points={pts} xLabel="Cost for the whole coding round (log scale)" yLabel="Overall score" yMin={4.4} yMax={5.05} xTicks={[0.2, 0.5, 1, 2, 5, 10]} legend={FO_LEGEND} yFormat={(v) => v.toFixed(2)} />;
 }
 

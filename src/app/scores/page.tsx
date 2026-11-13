@@ -13,7 +13,6 @@ import {
 import {
   CALL_LABEL,
   CODING,
-  CODING_PARTIAL,
   HEATMAP,
   IMAGE_GEN,
   JOBS,
@@ -205,11 +204,10 @@ function CodingTable({ f = 'all' }: { f?: Filter }) {
   return (
     <div className="space-y-4">
       <Table head={['Model', 'Overall', 'Hard agentic (5)', 'Agentic coding (6)', 'One-shot (12)', 'Polyglot orig / reworded', '$ for the round']}>
-            {[...sel(CODING, f), ...sel(CODING_PARTIAL, f)].map(([n, open, score, ...rest]) => (
+            {sel(CODING, f).map(([n, open, score, ...rest]) => (
               <tr key={n} className="border-t border-white/5">
                 <td className="px-4 py-3 font-semibold text-white whitespace-nowrap">
                   {n} {open && <span className="font-mono text-[10px] uppercase text-cyan-300 ml-1">open</span>}
-                  {CODING_PARTIAL.some((r) => r[0] === n) && <span className="font-mono text-[10px] uppercase text-amber-300 ml-1">partial</span>}
                 </td>
                 <td className="px-4 py-3 text-right font-mono text-cyan-300 font-semibold">{score.toFixed(2)}</td>
                 {rest.map((c, i) => (
@@ -323,6 +321,11 @@ export default function Scores() {
           sub="Overall score per round. Each round used different tests and judges, so compare across a row with care. Round 1 is everyday work, round 2 the same jobs made harder, round 3 legal work, round 4 office files and admin with tools."
         >
           <ViewSwitch label="Every model, every round" views={{ Table: tri(HeatmapTable), Bars: tri(HeatmapBars), Dots: tri(HeatmapDots), Lines: tri(HeatmapLines), Spider: tri(HeatmapSpider) }} />
+          <p className="text-gray-400 max-w-3xl leading-relaxed">
+            Added Nov 13: Qwen 4 Max Preview, still a preview model, run on a Qwen Cloud plan. It came within 0.01 of the top
+            score on the harder round, but lost points on round 1 client emails for adding details that weren't in the notes.
+            In round 4, 3 of its 6 slide-deck scripts crashed on small bugs.
+          </p>
         </Section>
 
         <Section
@@ -400,6 +403,10 @@ export default function Scores() {
           sub="Each language model got the same casual, one-line brief and wrote the prompt. Every prompt went to the same generator: FLUX 3 for 6 images, Kling v3.0 for two 5-second clips. The control sends the brief unchanged. Judges saw only the brief and the result, never the prompt or who wrote it."
         >
           <ViewSwitch label="Prompt writers" views={{ Table: tri(WriterTable), Bars: tri(WriterBars), Dots: tri(WriterDots), Value: tri(WriterValue) }} />
+          <p className="text-gray-400 max-w-3xl leading-relaxed">
+            Added Nov 13: Qwen 4 Max Preview came 2nd, and both of its video clips were rated ready to post. It runs on a Qwen
+            Cloud plan with no per-prompt cost, so it is left out of the cost charts.
+          </p>
           <div className="grid md:grid-cols-2 gap-4">
             {[
               ['Does a writer help?', 'Yes, mostly on the re-roll rate. The best writers beat the raw brief by 0.3–0.4 points, and raised the share of postable results from 67% of images and 50% of clips to 75–100%.'],
@@ -424,9 +431,9 @@ export default function Scores() {
             every model scored the same or better, so there was no sign of memorized answers.
           </p>
           <p className="text-gray-400 max-w-3xl leading-relaxed">
-            Added Nov 13: Qwen 4 Max Preview ran only the hard agentic and agentic coding tests, so its 4.90 overall is the
-            average of those two. One-shot and Polyglot were not run. It runs on a Qwen Cloud plan with no per-run cost, so it
-            is left out of the cost and spider charts.
+            Added Nov 13: Qwen 4 Max Preview, still a preview model, took every coding test. It runs on a Qwen Cloud plan with no
+            per-run cost, so it is left out of the cost charts. On a larger 20-exercise Polyglot set it passed 90% original and
+            95% reworded.
           </p>
 
           <h3 className="text-2xl font-heading font-bold text-white pt-4">SWE-bench Verified: real GitHub issues</h3>
