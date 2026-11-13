@@ -155,7 +155,7 @@ export const IMAGE_GEN: [string, number, ...(string)[]][] = [
 // writer, overall, images, post as-is, video, post as-is, $/prompt
 export const PROMPT_WRITERS: [string, number, ...string[]][] = [
   ['Gemini 4 Argon', 4.39, '4.36', '75%', '4.42', '75%', '$0.0022'],
-  ['Qwen 4 Max Preview', 4.35, '4.31', '—', '4.39', '100%', 'Plan'],
+  ['Qwen 4 Max Preview', 4.35, '4.31', '78%', '4.39', '100%', 'Plan'],
   ['Kimi K3.1 Pro', 4.28, '4.28', '78%', '4.28', '100%', '$0.0113'],
   ['Opus 5.5', 4.24, '4.31', '83%', '4.17', '100%', '$0.0123'],
   ['Fable 5.2', 4.24, '4.22', '83%', '4.25', '100%', '$0.0409'],
