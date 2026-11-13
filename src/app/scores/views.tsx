@@ -1,6 +1,6 @@
 // Bars and Dots views for each data section of the scores page.
 import { BarChart, DotRows, ScatterChart, CYAN, GREEN, PURPLE, GRAY } from './charts';
-import { CODING, GAP, HEATMAP, IMAGE_GEN, KIND_LABEL, PROMPT_WRITERS, ROUNDS, SWE, SWE_SCATTER, type Kind, sel, type Filter } from './data';
+import { CODING, CODING_PARTIAL, GAP, HEATMAP, IMAGE_GEN, KIND_LABEL, PROMPT_WRITERS, ROUNDS, SWE, SWE_SCATTER, type Kind, sel, type Filter } from './data';
 
 const KIND_HEX: Record<Kind, string> = { frontier: PURPLE, open: CYAN, local: GREEN, api: GRAY };
 const KIND_LEGEND = (['frontier', 'open', 'local'] as Kind[]).map((k) => ({ color: KIND_HEX[k], label: KIND_LABEL[k] }));
@@ -113,7 +113,7 @@ export function WriterDots({ f = 'all' }: { f?: Filter }) {
 
 // ---- Coding ----
 export function CodingBars({ f = 'all' }: { f?: Filter }) {
-  const rows = sel(CODING, f).map(([n, open, s]) => ({ label: n, value: s, color: open ? CYAN : PURPLE }));
+  const rows = [...sel(CODING, f), ...sel(CODING_PARTIAL, f).map((r) => [`${r[0]} (partial)`, ...r.slice(1)] as typeof r)].map(([n, open, s]) => ({ label: n, value: s, color: open ? CYAN : PURPLE }));
   return <BarChart rows={rows} min={4} max={5} legend={FO_LEGEND} />;
 }
 export function CodingDots({ f = 'all' }: { f?: Filter }) {

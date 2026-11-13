@@ -179,12 +179,19 @@ export const CODING: [string, boolean, number, string, string, string, string, s
   ['Claude Opus 4.6', false, 4.52, '3.68', '4.95', '4.58', '85% / 85%', '$10.24'],
 ];
 
+// Round 6 add-on (Nov 13, 2026): partial run, overall = average of hard agentic + agentic coding only.
+// Shown in the table and bars, left out of cost and spider charts (no per-run cost, two tests not run).
+export const CODING_PARTIAL: [string, boolean, number, string, string, string, string, string][] = [
+  ['Qwen 4 Max Preview', false, 4.9, '4.80', '5.00', 'not run', 'not run', 'Plan'],
+];
+
 // model, open?, fixed, avg steps, hit limit, cost
 export const SWE: [string, boolean, string, string, string, string][] = [
   ['DeepSeek V4.1 Flash', true, '5 / 5', '20', '0', '$0.05'],
   ['Qwen3.8 Flash', true, '4 / 5', '56', '1', '$0.25'],
   ['Claude Opus 5.5', false, '4 / 5', '8', '0', '$0.57'],
   ['Kimi K3.1 Pro', true, '4 / 5', '20', '0', '$1.99'],
+  ['Qwen 4 Max Preview (via Qwen Code)', false, '4 / 5', '—', '—', 'Plan'],
   ['GPT-6 Sol', false, '3 / 5', '15', '0', '$0.57'],
   ['GLM-5.3', true, '3 / 5', '41', '1', '$0.66'],
   ['Gemini 4 Argon', false, '3 / 5', '54', '2', '$5.72'],

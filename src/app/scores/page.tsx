@@ -13,6 +13,7 @@ import {
 import {
   CALL_LABEL,
   CODING,
+  CODING_PARTIAL,
   HEATMAP,
   IMAGE_GEN,
   JOBS,
@@ -204,10 +205,11 @@ function CodingTable({ f = 'all' }: { f?: Filter }) {
   return (
     <div className="space-y-4">
       <Table head={['Model', 'Overall', 'Hard agentic (5)', 'Agentic coding (6)', 'One-shot (12)', 'Polyglot orig / reworded', '$ for the round']}>
-            {sel(CODING, f).map(([n, open, score, ...rest]) => (
+            {[...sel(CODING, f), ...sel(CODING_PARTIAL, f)].map(([n, open, score, ...rest]) => (
               <tr key={n} className="border-t border-white/5">
                 <td className="px-4 py-3 font-semibold text-white whitespace-nowrap">
                   {n} {open && <span className="font-mono text-[10px] uppercase text-cyan-300 ml-1">open</span>}
+                  {CODING_PARTIAL.some((r) => r[0] === n) && <span className="font-mono text-[10px] uppercase text-amber-300 ml-1">partial</span>}
                 </td>
                 <td className="px-4 py-3 text-right font-mono text-cyan-300 font-semibold">{score.toFixed(2)}</td>
                 {rest.map((c, i) => (
@@ -421,6 +423,11 @@ export default function Scores() {
             same tasks it reached 4.95, because it ran the tests and fixed its own mistakes. On the reworded Polyglot exercises
             every model scored the same or better, so there was no sign of memorized answers.
           </p>
+          <p className="text-gray-400 max-w-3xl leading-relaxed">
+            Added Nov 13: Qwen 4 Max Preview ran only the hard agentic and agentic coding tests, so its 4.90 overall is the
+            average of those two. One-shot and Polyglot were not run. It runs on a Qwen Cloud plan with no per-run cost, so it
+            is left out of the cost and spider charts.
+          </p>
 
           <h3 className="text-2xl font-heading font-bold text-white pt-4">SWE-bench Verified: real GitHub issues</h3>
           <p className="text-gray-400 max-w-3xl leading-relaxed">
@@ -431,6 +438,11 @@ export default function Scores() {
           <p className="text-gray-400 max-w-3xl leading-relaxed">
             One run per model on 5 issues, so treat a one-issue difference as noise. DeepSeek V4.1 Flash fixed all five for 5
             cents. Opus 5.5 needed the fewest steps. These issues are public, and models may have seen the fixes during training.
+          </p>
+          <p className="text-gray-400 max-w-3xl leading-relaxed">
+            Added Nov 13: Qwen 4 Max Preview ran these issues through Qwen Code (75 steps, internet blocked), not the bash-only
+            agent the others used, so compare it with care. Step counts were not recorded for that run. On 5 newer issues it
+            fixed 3.
           </p>
         </Section>
 
