@@ -68,7 +68,10 @@ export function useRowSwitches() {
         <span>{first.props.children}</span>
       </span>,
     );
-    return cloneElement(r, { className: `${r.props.className ?? ''} ${on ? '' : 'opacity-[0.12]'}` }, firstNew, ...cells.slice(1));
+    if (on) return cloneElement(r, undefined, firstNew, ...cells.slice(1));
+    // Off: scores nearly invisible, but the name and its switch stay findable so it can be switched back on.
+    const dim = (c: ReactElement<{ className?: string }>, cls: string) => cloneElement(c, { className: `${c.props.className ?? ''} ${cls}` });
+    return cloneElement(r, undefined, dim(firstNew as ReactElement<{ className?: string }>, 'opacity-60'), ...cells.slice(1).map((c) => dim(c as ReactElement<{ className?: string }>, 'opacity-[0.12]')));
   };
 }
 
