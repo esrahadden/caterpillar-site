@@ -61,7 +61,7 @@ export const TAKEAWAYS = [
   { k: 'Watch out', h: 'Gemini invents details in copy', p: '4 of 10 rule-bound writing tasks were flagged for made-up facts, such as an office or a free consultation that didn’t exist. Good at visuals and GIFs, though.' },
   { k: 'Thinking matters', h: 'No-think is 10× faster, 0.5–0.9 worse', p: 'Fine for pulling data out of documents. Keep thinking on for summaries, scripts, code and anything legal.' },
   { k: 'Images and video', h: 'Let a model write the prompt', p: 'Gemini and Kimi wrote the best prompts for FLUX 3 and Kling, and raised the share of results you could post as-is from about half to 75–100%. FLUX 3 was the best image generator.' },
-  { k: 'Coding', h: 'Opus is perfect; cheap agents are close', p: 'Opus 5.5 scored 5.00 on every coding test. Cheap open models working as agents are close: DeepSeek V4.1 Flash fixed 5 of 5 real GitHub issues for 5 cents.' },
+  { k: 'Coding', h: 'Opus is perfect; cheap agents are close', p: 'Opus 5.5 scored 5.00 on every coding test. Cheap open models working as agents are close: DeepSeek V4.1 Flash fixed 3 of 5 real GitHub issues for 10 cents, with the internet blocked.' },
   { k: 'Bank statements', h: 'Every model can do the books', p: 'On a year of statements every model scored 4.58 or better, and all but one got every monthly total exact. DeepSeek V4.1 Flash did all 12 months for 7 cents; GPT-6 Sol was most accurate (4.93) for 43 cents.' },
 ];
 
@@ -188,29 +188,29 @@ export const CODING_PARTIAL: [string, boolean, number, string, string, string, s
 
 // model, open?, fixed, avg steps, hit limit, cost
 export const SWE: [string, boolean, string, string, string, string][] = [
-  ['DeepSeek V4.1 Flash', true, '5 / 5', '20', '0', '$0.05'],
-  ['Qwen3.8 Flash', true, '4 / 5', '56', '1', '$0.25'],
-  ['Claude Opus 5.5', false, '4 / 5', '8', '0', '$0.57'],
-  ['Kimi K3.1 Pro', true, '4 / 5', '20', '0', '$1.99'],
+  ['Claude Opus 5.5', false, '4 / 5', '8', '0', '$0.59'],
+  ['GPT-6 Sol', false, '4 / 5', '14', '0', '$1.19'],
   ['Qwen 4 Max Preview (via Qwen Code)', false, '4 / 5', '70', '2', 'Plan'],
-  ['GPT-6 Sol', false, '3 / 5', '15', '0', '$0.57'],
-  ['GLM-5.3', true, '3 / 5', '41', '1', '$0.66'],
-  ['Gemini 4 Argon', false, '3 / 5', '54', '2', '$5.72'],
-  ['GLM-5.3 Flash', true, '2 / 5', '49', '2', '$0.35'],
-  ['Qwen3.8 27B', true, '2 / 5', '61', '2', '$0.94'],
+  ['DeepSeek V4.1 Flash', true, '3 / 5', '38', '0', '$0.10'],
+  ['GLM-5.3', true, '3 / 5', '63', '2', '$1.65'],
+  ['Kimi K3.1 Pro', true, '3 / 5', '18', '0', '$1.87'],
+  ['Gemini 4 Argon', false, '3 / 5', '57', '2', '$5.96'],
+  ['GLM-5.3 Flash', true, '2 / 5', '53', '2', '$0.49'],
+  ['Qwen3.8 Flash', true, '2 / 5', '69', '3', '$0.51'],
+  ['Qwen3.8 27B', true, '2 / 5', '57', '2', '$1.24'],
 ];
 
 // SWE-bench: issues fixed vs total cost for all 5 (for the cost vs performance dot chart)
 export const SWE_SCATTER: { n: string; frontier: boolean; fixed: number; cost: number }[] = [
-  { n: 'Opus 5.5', frontier: true, fixed: 4, cost: 0.575 },
-  { n: 'DeepSeek Flash', frontier: false, fixed: 5, cost: 0.052 },
-  { n: 'Gemini', frontier: true, fixed: 3, cost: 5.722 },
-  { n: 'Kimi', frontier: false, fixed: 4, cost: 1.99 },
-  { n: 'GPT-6 Sol', frontier: true, fixed: 3, cost: 0.57 },
-  { n: 'Qwen3.8 27B', frontier: false, fixed: 2, cost: 0.944 },
-  { n: 'Qwen3.8 Flash', frontier: false, fixed: 4, cost: 0.253 },
-  { n: 'GLM-5.3 Flash', frontier: false, fixed: 2, cost: 0.345 },
-  { n: 'GLM-5.3', frontier: false, fixed: 3, cost: 0.657 },
+  { n: 'Opus 5.5', frontier: true, fixed: 4, cost: 0.589 },
+  { n: 'DeepSeek Flash', frontier: false, fixed: 3, cost: 0.101 },
+  { n: 'Gemini', frontier: true, fixed: 3, cost: 5.961 },
+  { n: 'Kimi', frontier: false, fixed: 3, cost: 1.867 },
+  { n: 'GPT-6 Sol', frontier: true, fixed: 4, cost: 1.186 },
+  { n: 'Qwen3.8 27B', frontier: false, fixed: 2, cost: 1.237 },
+  { n: 'Qwen3.8 Flash', frontier: false, fixed: 2, cost: 0.511 },
+  { n: 'GLM-5.3 Flash', frontier: false, fixed: 2, cost: 0.489 },
+  { n: 'GLM-5.3', frontier: false, fixed: 3, cost: 1.653 },
 ];
 
 // ---- Frontier / open-weights filter ----

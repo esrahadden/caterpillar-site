@@ -432,12 +432,13 @@ export default function Scores() {
           <h3 className="text-2xl font-heading font-bold text-white pt-4">SWE-bench Verified: real GitHub issues</h3>
           <p className="text-gray-400 max-w-3xl leading-relaxed">
             Five real issues from sphinx, sympy, pytest, django and scikit-learn, worked in each project’s own environment with a
-            bash-only agent capped at 75 steps, and graded by the official SWE-bench tests.
+            bash-only agent capped at 75 steps, with the internet blocked, and graded by the official SWE-bench tests.
           </p>
           <ViewSwitch label="SWE-bench" views={{ Table: tri(SweTable), Bars: tri(SweBars), Dots: tri(SweDots), Value: tri(SweValue) }} />
           <p className="text-gray-400 max-w-3xl leading-relaxed">
-            One run per model on 5 issues, so treat a one-issue difference as noise. DeepSeek V4.1 Flash fixed all five for 5
-            cents. Opus 5.5 needed the fewest steps. These issues are public, and models may have seen the fixes during training.
+            One run per model on 5 issues, so treat a one-issue difference as noise. The Docker containers had internet by
+            default, and some open models downloaded the real fix from GitHub. With the internet blocked, DeepSeek V4.1 Flash
+            fell from 5 to 3 and Qwen Flash from 4 to 2. These are the internet-blocked results. Opus 5.5 needed the fewest steps. These issues are public, and models may have seen the fixes during training.
           </p>
           <p className="text-gray-400 max-w-3xl leading-relaxed">
             Added Nov 13: Qwen 4 Max Preview ran these issues through Qwen Code (75 steps, internet blocked), not the bash-only
