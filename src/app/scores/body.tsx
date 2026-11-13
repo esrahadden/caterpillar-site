@@ -6,7 +6,7 @@ import { Fragment, type ReactNode } from 'react';
 import ViewSwitch from './ViewSwitch';
 import JobPicker from './JobPicker';
 import LeadForm from '@/components/LeadForm';
-import { EmptyPicks, ModelPicker, PickNote, SortButton, useColumns, useSel, useSortedRows } from './picks';
+import { EmptyPicks, ModelPicker, PickNote, SortButton, useColumns, useRowSwitches, useSortedRows } from './picks';
 import { CodingSpider, CodingValue, HeatmapLines, HeatmapSpider, ImageValue, SweValue, WriterValue } from './views2';
 import {
   CodingBars, CodingDots, GapBars, GapDots, GapTable, HeatmapBars, HeatmapDots, ImageBars, ImageDots,
@@ -29,6 +29,7 @@ import {
   type Call,
   type Filter,
   type Kind,
+  sel,
 } from './data';
 
 
@@ -86,6 +87,7 @@ function Section({ title, sub, children }: { title: string; sub?: ReactNode; chi
 function Table({ head, children, alignRightFrom = 1, sortable = true }: { head: string[]; children: ReactNode; alignRightFrom?: number; sortable?: boolean }) {
   const { rows, header } = useSortedRows(children);
   const cols = useColumns(head);
+  const sw = useRowSwitches();
   if (rows.length === 0) return <EmptyPicks />;
   return (
     <div className="space-y-3">
@@ -109,7 +111,7 @@ function Table({ head, children, alignRightFrom = 1, sortable = true }: { head: 
               })}
             </tr>
           </thead>
-          <tbody>{sortable ? rows.map(cols.filterRow) : children}</tbody>
+          <tbody>{sortable ? rows.map((r) => cols.filterRow(sw(r))) : children}</tbody>
         </table>
       </div>
     </div>
@@ -118,7 +120,7 @@ function Table({ head, children, alignRightFrom = 1, sortable = true }: { head: 
 
 function HeatmapTable({ f = 'all' }: { f?: Filter }) {
   const { rows, header } = useSortedRows(
-    useSel(HEATMAP, f).map(([name, kind, scores]) => (
+    sel(HEATMAP, f).map(([name, kind, scores]) => (
                   <tr key={name}>
                     <th className="text-left font-medium text-white pr-4 py-0.5 whitespace-nowrap">
                       {name}
@@ -138,6 +140,7 @@ function HeatmapTable({ f = 'all' }: { f?: Filter }) {
                   </tr>
                 ))
   );
+  const sw = useRowSwitches();
   const cols = useColumns(['Model', ...ROUNDS.map((r) => `${r.id} ${r.name}`)]);
   if (rows.length === 0) return <EmptyPicks />;
   return (
@@ -168,7 +171,7 @@ function HeatmapTable({ f = 'all' }: { f?: Filter }) {
                 </tr>
               </thead>
               <tbody>
-                {rows.map(cols.filterRow)}
+                {rows.map((r) => cols.filterRow(sw(r)))}
               </tbody>
             </table>
           </div>
@@ -180,7 +183,7 @@ function ImageTable({ f = 'all' }: { f?: Filter }) {
   return (
     <div className="space-y-4">
       <Table head={['Generator', 'Score (3 common)', 'YouTube thumbnail', 'LinkedIn quote card', 'Law-firm logo', 'Infographic', 'Photo header', 'Post as-is', '$ / image']}>
-            {useSel(IMAGE_GEN, f).map(([n, score, ...rest]) => (
+            {sel(IMAGE_GEN, f).map(([n, score, ...rest]) => (
               <tr key={n} className="border-t border-white/5">
                 <td className="px-4 py-3 font-semibold text-white whitespace-nowrap">{n}</td>
                 <td className="px-4 py-3 text-right font-mono text-cyan-300 font-semibold">{score.toFixed(2)}</td>
@@ -198,7 +201,7 @@ function WriterTable({ f = 'all' }: { f?: Filter }) {
   return (
     <div className="space-y-4">
       <Table head={['Prompt writer', 'Overall', 'Images (6)', 'Post as-is', 'Video (2)', 'Post as-is', '$ / prompt']}>
-            {useSel(PROMPT_WRITERS, f).map(([n, score, ...rest]) => (
+            {sel(PROMPT_WRITERS, f).map(([n, score, ...rest]) => (
               <tr key={n} className={`border-t border-white/5 ${n.startsWith('No writer') ? 'opacity-60' : ''}`}>
                 <td className="px-4 py-3 font-semibold text-white whitespace-nowrap">{n}</td>
                 <td className="px-4 py-3 text-right font-mono text-cyan-300 font-semibold">{score.toFixed(2)}</td>
@@ -216,7 +219,7 @@ function CodingTable({ f = 'all' }: { f?: Filter }) {
   return (
     <div className="space-y-4">
       <Table head={['Model', 'Overall', 'Hard agentic (5)', 'Agentic coding (6)', 'One-shot (12)', 'Polyglot orig / reworded', '$ for the round']}>
-            {useSel(CODING, f).map(([n, open, score, ...rest]) => (
+            {sel(CODING, f).map(([n, open, score, ...rest]) => (
               <tr key={n} className="border-t border-white/5">
                 <td className="px-4 py-3 font-semibold text-white whitespace-nowrap">
                   {n} {open && <span className="font-mono text-[10px] uppercase text-cyan-300 ml-1">open</span>}
@@ -236,7 +239,7 @@ function SweTable({ f = 'all' }: { f?: Filter }) {
   return (
     <div className="space-y-4">
       <Table head={['Model', 'Issues fixed', 'Avg steps', 'Hit step limit', 'Cost (5 issues)']}>
-            {useSel(SWE, f).map(([n, open, ...rest]) => (
+            {sel(SWE, f).map(([n, open, ...rest]) => (
               <tr key={n} className="border-t border-white/5">
                 <td className="px-4 py-3 font-semibold text-white whitespace-nowrap">
                   {n} {open && <span className="font-mono text-[10px] uppercase text-cyan-300 ml-1">open</span>}
@@ -473,7 +476,7 @@ export default function ScoresBody() {
           sub="A made-up year for a solo marketing consultant filing a US Schedule C: 12 monthly statements for a checking account and a credit card, 523 transactions in all. Each model read one month at a time, with the previous month for comparison, and had to categorize every line, pick out the business write-offs, send unclear items to review, flag anything odd and total the month. The traps: card payments and savings transfers, Venmo to a friend, refunds, duplicate charges, a $1 test charge followed by $489 of fraud, subscription price rises, business and family trips, half-deductible meals and phone, and gray items like home internet, health premiums and Amazon orders. Scored automatically against a planted answer key."
         >
           <Table head={['Model', 'Score', 'Categories right', 'Write-offs found / correct', 'Gray items to review', 'Problems caught', '$ for 12 months']}>
-            {useSel(BANK, 'all').map(([m, open, ...c]) => (
+            {sel(BANK, 'all').map(([m, open, ...c]) => (
               <tr key={m} className="border-t border-white/5">
                 <td className="px-4 py-3 font-semibold text-white whitespace-nowrap">
                   {m}

@@ -33,12 +33,43 @@ const TEXT = collect([...HEATMAP, ...CODING, ...SWE, ...BANK, ...PROMPT_WRITERS]
 const IMAGES = collect(IMAGE_GEN);
 for (const k of TEXT.keys()) IMAGES.delete(k);
 
-type Picks = { picked: Set<string> | null; set: (p: Set<string> | null) => void };
-const Ctx = createContext<Picks>({ picked: null, set: () => {} });
+const ALL_KEYS = [...TEXT.keys(), ...IMAGES.keys()];
+type Picks = { picked: Set<string> | null; set: (p: Set<string> | null) => void; toggle: (k: string) => void };
+const Ctx = createContext<Picks>({ picked: null, set: () => {}, toggle: () => {} });
 
 export function PicksProvider({ children }: { children: ReactNode }) {
   const [picked, set] = useState<Set<string> | null>(null);
-  return <Ctx.Provider value={{ picked, set }}>{children}</Ctx.Provider>;
+  const toggle = (k: string) =>
+    set((prev) => {
+      const next = new Set(prev ?? ALL_KEYS);
+      if (next.has(k)) next.delete(k);
+      else next.add(k);
+      return next.size === ALL_KEYS.length ? null : next;
+    });
+  return <Ctx.Provider value={{ picked, set, toggle }}>{children}</Ctx.Provider>;
+}
+
+// Table rows: a switch beside each model name. Switched-off rows stay in the table, dimmed, so they can be switched back on.
+export function useRowSwitches() {
+  const { picked, toggle } = useContext(Ctx);
+  return (r: ReactElement<{ children?: ReactNode; className?: string }>) => {
+    const name = String(r.key ?? '').replace(/^[^$]*\$/, '');
+    if (!name || name.startsWith('No writer')) return r;
+    const k = modelKey(name);
+    const on = !picked || picked.has(k);
+    const cells = Children.toArray(r.props.children) as ReactElement<{ children?: ReactNode }>[];
+    const first = cells[0];
+    const label = name.replace(/\s*\(via [^)]*\)$/, '');
+    const firstNew = cloneElement(
+      first,
+      undefined,
+      <span className="inline-flex items-center gap-1">
+        <Switch on={on} onChange={() => toggle(k)} label={`Show ${label}`}>{null}</Switch>
+        <span>{first.props.children}</span>
+      </span>,
+    );
+    return cloneElement(r, { className: `${r.props.className ?? ''} ${on ? '' : 'opacity-40'}` }, firstNew, ...cells.slice(1));
+  };
 }
 
 export const usePicks = () => useContext(Ctx);
@@ -57,14 +88,14 @@ export function Switch({ on, onChange, label, children }: { on: boolean; onChang
       type="button"
       role="switch"
       aria-checked={on}
-      aria-label={children ? undefined : label}
+      aria-label={children === undefined ? undefined : label}
       onClick={onChange}
-      className={`inline-flex items-center gap-2 min-h-[32px] pl-1.5 pr-3 rounded-full text-sm cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400 ${on ? 'text-white' : 'text-gray-400'}`}
+      className={`inline-flex items-center gap-2 min-h-[32px] pl-1.5 ${children === null ? 'pr-1.5' : 'pr-3'} rounded-full text-sm cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400 ${on ? 'text-white' : 'text-gray-400'}`}
     >
       <span aria-hidden className={`relative inline-block w-8 h-[18px] rounded-full transition-colors ${on ? 'bg-cyan-500' : 'bg-white/15'}`}>
         <span className={`absolute top-[2px] w-[14px] h-[14px] rounded-full bg-white transition-all ${on ? 'left-[16px]' : 'left-[2px]'}`} />
       </span>
-      {children ?? label}
+      {children === undefined ? label : children}
     </button>
   );
 }
@@ -100,12 +131,7 @@ export function ModelPicker() {
   const [open, setOpen] = useState(false);
   const all = [...TEXT.keys(), ...IMAGES.keys()];
   const isOn = (k: string) => !picked || picked.has(k);
-  const toggle = (k: string) => {
-    const next = new Set(picked ?? all);
-    if (next.has(k)) next.delete(k);
-    else next.add(k);
-    set(next.size === all.length ? null : next);
-  };
+  const { toggle } = usePicks();
   const solo = (k: string) => set(new Set([k]));
   const count = picked ? picked.size : all.length;
   const group = (title: string, m: Map<string, string>) => (
