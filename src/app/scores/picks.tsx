@@ -68,7 +68,7 @@ export function useRowSwitches() {
         <span>{first.props.children}</span>
       </span>,
     );
-    return cloneElement(r, { className: `${r.props.className ?? ''} ${on ? '' : 'opacity-40'}` }, firstNew, ...cells.slice(1));
+    return cloneElement(r, { className: `${r.props.className ?? ''} ${on ? '' : 'opacity-[0.12]'}` }, firstNew, ...cells.slice(1));
   };
 }
 
