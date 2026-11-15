@@ -50,18 +50,11 @@ export const SECTIONS: Section[] = [
     intro: 'Quick taps. These are the things people don’t think to mention, and they shape the plan.',
     questions: [
       {
-        id: 'computer_type',
-        label: 'What computer do you have?',
-        hint: 'Today the setup needs a newer Mac: one with an Apple chip, 2020 or later. If you don’t have one, a Mac mini that stays on is the usual pick, and I’ll put it in the plan.',
+        id: 'computer_budget',
+        label: 'What are you willing to spend on a new computer for this?',
+        hint: 'Your agents run on a computer that stays on all day. I’ll recommend a Mac mini with plenty of memory, around 64 GB.',
         type: 'single',
-        options: ['A Mac from 2020 or later', 'An older Mac', 'A Windows PC', 'I’d buy a Mac for this', NOT_SURE],
-      },
-      {
-        id: 'always_on',
-        label: 'Can it stay on and awake all day?',
-        hint: 'Your agents stop working when the computer sleeps.',
-        type: 'single',
-        options: ['Yes', 'Most of the day', 'No, it travels with me', NOT_SURE],
+        options: ['Under $1,500', '$1,500 to $2,500', '$2,500 to $4,000', 'Whatever it takes', NOT_SURE],
       },
       {
         id: 'ecosystem',
@@ -84,15 +77,8 @@ export const SECTIONS: Section[] = [
         options: ['Yes', 'No, but I’ll create one', 'What’s GitHub?'],
       },
       {
-        id: 'claude_plan',
-        label: 'Do you have a Claude subscription?',
-        hint: 'Claude is the AI that powers the agents. A subscription keeps the cost flat each month.',
-        type: 'single',
-        options: ['No', 'Yes, Pro', 'Yes, Max', NOT_SURE],
-      },
-      {
         id: 'monthly_budget',
-        label: 'Monthly budget you’re comfortable with, all in?',
+        label: 'Monthly budget you’re comfortable with for subscriptions and tools?',
         type: 'single',
         options: ['Under $100', '$100 to $250', '$250 to $500', 'Whatever it takes', NOT_SURE],
       },
