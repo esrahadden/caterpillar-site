@@ -78,3 +78,11 @@
   .gl.sp h1, .gl.sp h2, .gl.sp dd, .gl.sp .sp-brand { color: #000 !important; }
   .gl.sp .sp-lead, .gl.sp dt, .gl.sp .sp-fine, .gl.sp dd.empty { color: #444 !important; }
 }
+
+/* Single-page layout */
+.gl.sp .sp-section { border-top: 1px solid var(--line); margin-top: 8px; padding-top: 4px; }
+.gl.sp .sp-section .sp-h2 { margin: 20px 0 14px; }
+.gl.sp .sp-section .sp-p { margin: -8px 0 18px; }
+.gl.sp .sp-bar-in { align-items: center; }
+.gl.sp dl.sp-sum { margin-top: 16px; padding-top: 16px; }
+.gl.sp dl.sp-sum > div { margin-bottom: 12px; }
