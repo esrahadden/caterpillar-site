@@ -1,14 +1,12 @@
 import type { Metadata } from 'next';
+import { pageMeta } from '@/lib/seo';
 import '../glass.css';
 import './prompts.css';
 import Navigation from '@/components/Navigation';
 import { COLLECTIONS } from '@/data/prompts';
 import CopyButton from './CopyButton';
 
-export const metadata: Metadata = {
-  title: 'Free AI Prompts | Caterpillar AI Consulting',
-  description: 'Copy-and-paste prompts we use with clients. Free, no sign-up.',
-};
+export const metadata: Metadata = pageMeta('/prompts', 'Free AI Prompts | Caterpillar AI Consulting', 'Copy-and-paste prompts we use with clients. Free, no sign-up.');
 
 const CAL_LINK = 'https://cal.com/caterpillar.ai/quick-chat';
 const PLACEHOLDER = /^\[.+\]$/;

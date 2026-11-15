@@ -1,12 +1,10 @@
 import type { Metadata } from 'next';
+import { pageMeta } from '@/lib/seo';
 import Image from 'next/image';
 import Link from 'next/link';
 import '../glass.css';
 
-export const metadata: Metadata = {
-  title: 'Connect with Samer | Caterpillar AI Consulting',
-  description: 'Book a quick call or save my contact. Caterpillar builds AI systems that take admin off small business owners’ plates.',
-};
+export const metadata: Metadata = pageMeta('/connect', 'Connect with Samer | Caterpillar AI Consulting', 'Book a quick call or save my contact. Caterpillar builds AI systems that take admin off small business owners’ plates.');
 
 const CAL_LINK = 'https://cal.com/caterpillar.ai/quick-chat';
 

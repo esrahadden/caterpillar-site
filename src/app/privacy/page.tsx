@@ -1,12 +1,10 @@
 import type { Metadata } from 'next';
+import { pageMeta } from '@/lib/seo';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
 
-export const metadata: Metadata = {
-  title: 'Privacy Policy | Caterpillar AI Consulting',
-  description: 'How Caterpillar AI Consulting collects, uses and stores the information you send us through this website.',
-};
+export const metadata: Metadata = pageMeta('/privacy', 'Privacy Policy | Caterpillar AI Consulting', 'How Caterpillar AI Consulting collects, uses and stores the information you send us through this website.');
 
 function Section({ title, children }: { title: string; children: ReactNode }) {
   return (

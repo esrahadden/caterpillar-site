@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: 'Your setup plan | Caterpillar AI Consulting',
   description: 'A private questionnaire.',
   robots: { index: false, follow: false },
+  openGraph: { title: 'Your setup plan', description: 'A private questionnaire.', url: '/shea-plan' },
 };
 
 export default function SheaPlan() {
