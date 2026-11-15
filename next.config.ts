@@ -11,6 +11,14 @@ const nextConfig: NextConfig = {
         source: "/card/",
         destination: "/card/index.html",
       },
+      {
+        source: "/shea",
+        destination: "/shea/index.html",
+      },
+      {
+        source: "/shea/",
+        destination: "/shea/index.html",
+      },
     ];
   },
 };
