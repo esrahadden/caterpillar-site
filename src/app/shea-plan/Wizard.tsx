@@ -353,13 +353,15 @@ export default function Wizard() {
             </p>
             <ul className="sp-list">
               <li>
-                <strong>About 15 to 20 minutes.</strong> {SECTIONS.length} short sections. Skip anything you’re not sure about.
+                <strong>Answer as much or as little as you like.</strong> Almost everything is optional and most of it is tap-to-pick.
+                Skip whatever you want. I’ll follow up on the rest when we talk.
               </li>
               <li>
                 <strong>It saves as you go.</strong> Close it whenever you like. Come back with the same link and passcode.
               </li>
               <li>
-                <strong>More detail makes a better plan.</strong> Type or dictate as much as you want in the open questions.
+                <strong>About 15 minutes.</strong> {SECTIONS.length} short sections. If you feel like sharing more, type or dictate away in the
+                open questions. It all helps.
               </li>
               <li>
                 <strong>Your answers stay private.</strong> Only I and the team building your setup see them.

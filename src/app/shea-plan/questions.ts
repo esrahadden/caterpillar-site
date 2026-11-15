@@ -232,14 +232,15 @@ export const SECTIONS: Section[] = [
     questions: [
       {
         id: 'computer_type',
-        label: 'Mac or PC?',
+        label: 'What computer do you have?',
+        hint: 'Today the setup needs a newer Mac: one with an Apple chip, 2020 or later. If you don’t have one, a Mac mini that stays on is the usual pick, and I’ll include it in the plan.',
         type: 'single',
-        options: ['Mac', 'Windows PC', 'I’d buy one for this', NOT_SURE],
+        options: ['A Mac from 2020 or later', 'An older Mac', 'A Windows PC', 'I’d buy a Mac for this', NOT_SURE],
       },
       {
         id: 'computer_model',
         label: 'Which model, and how much memory, if you know?',
-        hint: 'On a Mac: Apple menu, then About This Mac. On Windows: Settings, System, About. A photo description like “2022 MacBook Air, 8 GB” is plenty.',
+        hint: 'On a Mac: Apple menu, then About This Mac. Something like “2022 MacBook Air, 8 GB” is plenty.',
         type: 'text',
       },
       {
