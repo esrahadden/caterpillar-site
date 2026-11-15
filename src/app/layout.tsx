@@ -1,17 +1,20 @@
 import type { Metadata } from "next";
-import { Red_Hat_Display, Red_Hat_Text } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
-const redHatDisplay = Red_Hat_Display({
+// Self-hosted (variable, latin subset) so builds don't depend on fetching Google Fonts.
+const redHatDisplay = localFont({
+  src: "./fonts/RedHatDisplay-latin.woff2",
   variable: "--font-display",
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
+  weight: "300 900",
+  display: "swap",
 });
 
-const redHatText = Red_Hat_Text({
+const redHatText = localFont({
+  src: "./fonts/RedHatText-latin.woff2",
   variable: "--font-text",
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: "300 700",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
