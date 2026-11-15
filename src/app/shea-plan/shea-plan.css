@@ -57,7 +57,7 @@
 .gl.sp .sp-card > .sp-btn { margin-top: 16px; width: 100%; }
 .gl.sp .sp-actions-inline { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 8px; }
 
-.gl.sp .sp-bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 6; border-top: 1px solid var(--line); background: rgba(7, 6, 26, 0.88); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); padding: 12px max(16px, env(safe-area-inset-left, 0px)) calc(12px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-right, 0px)); }
+.gl.sp .sp-bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 6; border-top: 1px solid var(--line); background: #07061a; padding: 12px max(16px, env(safe-area-inset-left, 0px)) calc(12px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-right, 0px)); }
 .gl.sp .sp-bar-in { max-width: 680px; margin: 0 auto; display: flex; justify-content: space-between; gap: 12px; }
 .gl.sp .sp-bar .sp-btn.primary { min-width: 140px; }
 

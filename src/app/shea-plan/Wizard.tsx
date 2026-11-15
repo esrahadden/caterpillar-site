@@ -162,7 +162,7 @@ export default function Wizard() {
   const missing = (sectionIndex: number) => {
     const found: Record<string, string> = {};
     for (const q of SECTIONS[sectionIndex].questions) {
-      if (q.required && str(answers[q.id]).trim() === '') found[q.id] = `Please fill in “${q.label.toLowerCase()}” so Samer can reach you.`;
+      if (q.required && str(answers[q.id]).trim() === '') found[q.id] = `Please add ${q.id === "name" ? "your name" : "a way to reach you"} so I can reach you.`;
     }
     return found;
   };
