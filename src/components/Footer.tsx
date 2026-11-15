@@ -11,7 +11,7 @@ export default function Footer() {
           <Image src="/logos/caterpillar-logo.png" alt="" width={26} height={26} />
           Caterpillar AI Consulting
         </Link>
-        AI systems and training for small businesses in Atlanta.
+        AI systems and training for small businesses.
       </div>
       <div>
         <h2>Explore</h2>

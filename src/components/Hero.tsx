@@ -3,7 +3,7 @@ export default function Hero() {
     <section className="col hero" id="top">
       <div className="content">
         <div className="panel">
-          <div className="kick">AI consulting · Atlanta</div>
+          <div className="kick">AI consulting for small businesses</div>
           <h1>
             Stop drowning in admin. <span>Get back to your business.</span>
           </h1>
