@@ -34,7 +34,7 @@ export default function Connect() {
         </div>
         <div className="hi">Great to meet you</div>
         <h1>Samer Sabbagh</h1>
-        <div className="role">Founder · Atlanta</div>
+        <div className="role">Founder</div>
         <p className="blurb">
           I build AI systems that take estimates, intake, email and reporting off your plate, and I teach your team to use them so they stick.
         </p>

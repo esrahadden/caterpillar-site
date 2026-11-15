@@ -15,8 +15,8 @@ const redHatText = Red_Hat_Text({
 });
 
 export const metadata: Metadata = {
-  title: "AI Consultant for Small Businesses in Atlanta | Caterpillar AI Consulting",
-  description: "Caterpillar AI Consulting builds and installs AI tools for Atlanta small businesses: automations, custom AI assistants, team training and seminars.",
+  title: "AI Consultant for Small Businesses | Caterpillar AI Consulting",
+  description: "Caterpillar AI Consulting builds and installs AI tools for small businesses: automations, custom AI assistants, team training and seminars.",
   keywords: "AI consulting, AI training, artificial intelligence, workflow automation, AI strategy, AI tools, business transformation",
 };
 
@@ -25,7 +25,6 @@ const jsonLd = {
   "@type": "ProfessionalService",
   name: "Caterpillar AI Consulting",
   url: "https://www.caterpillar-consulting.ai",
-  areaServed: "Atlanta, GA",
   email: "samer@caterpillar-consulting.ai",
   telephone: "+1-404-939-0628",
 };

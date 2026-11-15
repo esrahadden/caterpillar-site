@@ -22,6 +22,10 @@ export default function Contact() {
                 <a href="tel:+14049390628">(404) 939-0628</a>
               </div>
               <div>
+                <small>Based in</small>
+                <span>Atlanta, GA</span>
+              </div>
+              <div>
                 <small>Or grab a time</small>
                 <a className="mint" href="https://cal.com/caterpillar.ai/quick-chat" target="_blank" rel="noopener noreferrer">
                   Book a quick call

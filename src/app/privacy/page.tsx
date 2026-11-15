@@ -48,7 +48,7 @@ export default function Privacy() {
 
           <Section title="Who we are">
             <p>
-              Caterpillar AI Consulting LLC is a small AI consulting firm based in Atlanta, Georgia. This policy explains what
+              Caterpillar AI Consulting LLC is a small AI consulting firm. This policy explains what
               information we collect through this website and what we do with it. Questions? Email{' '}
               <a href={`mailto:${EMAIL}`} className="text-cyan-400 hover:underline">{EMAIL}</a>.
             </p>
@@ -112,7 +112,7 @@ export default function Privacy() {
           </Section>
         </article>
 
-        <footer className="text-center text-xs text-gray-500 font-mono mt-10">© Caterpillar AI Consulting LLC · Atlanta, Georgia</footer>
+        <footer className="text-center text-xs text-gray-500 font-mono mt-10">© Caterpillar AI Consulting LLC</footer>
       </div>
     </main>
   );
