@@ -282,7 +282,7 @@ export default function ScoresBody() {
         <header className="space-y-6">
           <p className="font-mono text-xs uppercase tracking-widest text-cyan-400">Caterpillar model lab · full scores</p>
           <h1 className="text-4xl md:text-6xl font-heading font-bold tracking-tight text-white leading-tight max-w-4xl">
-            We tested 23 AI models on{' '}
+            We tested 24 AI models on{' '}
             <span className="bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">real business work</span>
           </h1>
           <p className="text-xl text-gray-300 max-w-3xl leading-relaxed">

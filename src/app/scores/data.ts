@@ -25,6 +25,7 @@ export const HEATMAP: [string, Kind, (number | null)[]][] = [
   ['Claude Sonnet 5.5', 'frontier', [4.53, 4.82, null, null]],
   ['Gemini 4 Argon', 'frontier', [4.35, 4.65, 4.47, 4.76]],
   ['Qwen 4 Max Preview', 'api', [4.24, 4.9, 4.71, 4.54]],
+  ['Qwen 4 Max', 'api', [4.7, 4.9, 4.35, 4.72]],
   ['Kimi K3.1 Pro', 'open', [null, null, 4.87, 4.58]],
   ['GLM-5.3 FlashX Legal', 'api', [null, null, 4.85, null]],
   ['GLM-5.3', 'open', [null, null, 4.78, 4.25]],
@@ -120,6 +121,7 @@ export const JOBS: { group: string; rows: { job: string; best: string; value: st
 export const BANK: [string, boolean, string, string, string, string, string, string][] = [
   ['GPT-6 Sol', false, '4.93', '98%', '94% / 100%', '100%', '6/6, 0 false', '$0.43'],
   ['Qwen3.8 27B', true, '4.91', '100%', '95% / 100%', '72%', '6/6, 1 false', '$0.23'],
+  ['Qwen 4 Max', false, '4.88', '99%', '98% / 100%', '97%', '6/6, 2 false', 'Plan'],
   ['DeepSeek V4.1 Flash', true, '4.87', '100%', '96% / 100%', '92%', '6/6, 2 false', '$0.07'],
   ['Qwen 4 Max Preview', false, '4.82', '100%', '98% / 100%', '97%', '6/6, 1 false', 'Plan'],
   ['Claude Opus 5.5', false, '4.81', '99%', '97% / 100%', '100%', '6/6, 3 false', '$1.40'],
@@ -127,7 +129,7 @@ export const BANK: [string, boolean, string, string, string, string, string, str
 ];
 
 export const BANK_NOTES = [
-  { k: 'All strong', h: 'Every model is usable here', p: 'Scores ran from 4.58 to 4.93, and no model claimed a personal expense as a write-off. Every model but one got its totals exact to the cent in every month. Qwen 4 Max Preview (added Nov 13, run on a Qwen Cloud plan with no per-run cost) put February and April spending $551 and $1,012 too high, though the items it listed added up correctly.' },
+  { k: 'All strong', h: 'Every model is usable here', p: 'Scores ran from 4.58 to 4.93, and no model claimed a personal expense as a write-off. Every model got its totals exact to the cent in every month except Qwen 4 Max Preview (added Nov 13, run on a Qwen Cloud plan with no per-run cost), which put February and April spending $551 and $1,012 too high, though the items it listed added up correctly. The full Qwen 4 Max (added Nov 17, same plan) fixed that: its totals are exact in every month.' },
   { k: 'Cheap pick', h: 'DeepSeek V4.1 Flash: 4.87 for 7 cents', p: 'A full year of statements for under a dime. Qwen3.8 27B scored 4.91 for 23 cents, the best open model, but sent fewer gray items to review (72%).' },
   { k: 'Most careful', h: 'GPT-6 Sol: no false alarms', p: 'It caught all 6 planted problems and raised nothing else. Opus 5.5 also caught all 6 but raised 3 false alarms, at three times GPT’s price.' },
   { k: 'Answer key', h: 'Models were more cautious than the key', p: 'Every model’s deductible total came in under the key ($6.7k–8.0k vs $9.8k). Most of the gap is a $2,399 laptop that every model sent to review, since it may need a business-use share or depreciation. An accountant would likely ask too.' },
@@ -157,6 +159,7 @@ export const PROMPT_WRITERS: [string, number, ...string[]][] = [
   ['Gemini 4 Argon', 4.39, '4.36', '75%', '4.42', '75%', '$0.0022'],
   ['Qwen 4 Max Preview', 4.35, '4.31', '78%', '4.39', '100%', 'Plan'],
   ['Kimi K3.1 Pro', 4.28, '4.28', '78%', '4.28', '100%', '$0.0113'],
+  ['Qwen 4 Max', 4.25, '4.33', '94%', '4.17', '83%', 'Plan'],
   ['Opus 5.5', 4.24, '4.31', '83%', '4.17', '100%', '$0.0123'],
   ['Fable 5.2', 4.24, '4.22', '83%', '4.25', '100%', '$0.0409'],
   ['GLM-5.3', 4.12, '4.41', '94%', '3.83', '50%', '$0.0023'],
@@ -172,6 +175,7 @@ export const CODING: [string, boolean, number, string, string, string, string, s
   ['Claude Opus 5.5', false, 5.0, '5.00', '5.00', '5.00', '100% / 100%', '$4.65'],
   ['Gemini 4 Argon', false, 4.99, '4.93', '5.00', '5.00', '100% / 100%', '$2.40'],
   ['GPT-6 Sol', false, 4.98, '4.93', '5.00', '4.97', '88% / 100%', '$1.75'],
+  ['Qwen 4 Max', false, 4.96, '4.87', '5.00', '4.97', '88% / 100%', 'Plan'],
   ['Qwen 4 Max Preview', false, 4.95, '4.80', '5.00', '4.97', '100% / 100%', 'Plan'],
   ['Kimi K3.1 Pro', true, 4.91, '4.90', '4.81', '4.90', '88% / 88%', '$2.00'],
   ['Qwen3.8 Flash', true, 4.89, '4.93', '5.00', '4.53', '75% / 88%', '$0.31'],
@@ -188,6 +192,7 @@ export const SWE: [string, boolean, string, string, string, string][] = [
   ['Claude Opus 5.5', false, '4 / 5', '8', '0', '$0.59'],
   ['GPT-6 Sol', false, '4 / 5', '14', '0', '$1.19'],
   ['Qwen 4 Max Preview', false, '4 / 5', '48', '1', 'Plan'],
+  ['Qwen 4 Max', false, '4 / 5', '30', '0', 'Plan'],
   ['DeepSeek V4.1 Flash', true, '3 / 5', '38', '0', '$0.10'],
   ['GLM-5.3', true, '3 / 5', '63', '2', '$1.65'],
   ['Kimi K3.1 Pro', true, '3 / 5', '18', '0', '$1.87'],
