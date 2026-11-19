@@ -210,6 +210,12 @@
 .gl .tiles a { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; min-height: 72px; border-radius: 18px; border: 1px solid var(--line); background: rgba(255, 255, 255, 0.05); color: var(--text); text-decoration: none; font-size: 0.85rem; font-weight: 500; }
 .gl .tiles a:hover { background: rgba(255, 255, 255, 0.1); }
 .gl .tiles svg { width: 20px; height: 20px; stroke: #7fe9d3; }
+.gl .social { width: 100%; display: grid; gap: 8px; }
+.gl .social-label { font-size: 0.78rem; color: #a9a4bf; letter-spacing: 0.02em; }
+.gl .social-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.gl .social-row a { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 52px; border-radius: 18px; border: 1px solid var(--line); background: rgba(255, 255, 255, 0.05); color: var(--text); text-decoration: none; font-size: 0.9rem; font-weight: 500; }
+.gl .social-row a:hover { background: rgba(255, 255, 255, 0.1); }
+.gl .social-row svg { width: 20px; height: 20px; stroke: #7fe9d3; color: #7fe9d3; }
 .gl .card .foot { font-size: 0.78rem; color: #a9a4bf; margin: 0; }
 
 @media (prefers-reduced-motion: reduce) {

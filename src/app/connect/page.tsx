@@ -66,6 +66,26 @@ export default function Connect() {
             Website
           </Link>
         </div>
+        <div className="social">
+          <div className="social-label">Follow along · @samer.ai.guy</div>
+          <div className="social-row">
+            <a href="https://www.instagram.com/samer.ai.guy/" target="_blank" rel="noopener noreferrer" aria-label="Instagram, @samer.ai.guy">
+              <svg {...iconProps}>
+                <rect x="3.5" y="3.5" width="17" height="17" rx="5" />
+                <circle cx="12" cy="12" r="4" />
+                <circle cx="17.2" cy="6.8" r="0.6" fill="currentColor" />
+              </svg>
+              Instagram
+            </a>
+            <a href="https://www.tiktok.com/@samer.ai.guy" target="_blank" rel="noopener noreferrer" aria-label="TikTok, @samer.ai.guy">
+              <svg {...iconProps}>
+                <path d="M14 3v11.5a3.5 3.5 0 1 1-3.5-3.5" />
+                <path d="M14 3c.4 2.6 2.4 4.6 5 5" />
+              </svg>
+              TikTok
+            </a>
+          </div>
+        </div>
         <p className="foot">© Caterpillar AI Consulting</p>
       </main>
     </div>
