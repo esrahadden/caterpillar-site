@@ -35,6 +35,14 @@ export default function Trainings() {
             <a className="btn" href="#contact">
               Plan a training
             </a>
+            <a
+              className="btn glass"
+              href="/downloads/caterpillar-local-ai-setup-guide.pdf"
+              target="_blank"
+              rel="noopener"
+            >
+              Free guide: Run local AI on your own computer (PDF)
+            </a>
           </div>
         </div>
       </div>

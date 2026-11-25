@@ -20,6 +20,9 @@ export default function Footer() {
         <a href="#trainings">Trainings</a>
         <a href="#about">About</a>
         <Link href="/scores">Model Scores</Link>
+        <a href="/downloads/caterpillar-local-ai-setup-guide.pdf" target="_blank" rel="noopener">
+          Free Local-AI Guide
+        </a>
       </div>
       <div>
         <h2>Services</h2>
