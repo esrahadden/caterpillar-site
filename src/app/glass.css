@@ -222,3 +222,16 @@
   html:has(.gl) { scroll-behavior: auto; }
   .gl .btn { transition: none; }
 }
+
+/* Guides page */
+.gl .guide-list { list-style: none; margin: 24px 0 0; padding: 0; display: grid; gap: 0; }
+.gl .guide-item { padding: 22px 0; }
+.gl .guide-item + .guide-item { border-top: 1px solid var(--line); }
+.gl .guide-item:first-child { padding-top: 4px; }
+.gl .guide-item h2 { font: 700 1.25rem var(--display); margin: 0 0 8px; color: var(--text); }
+.gl .guide-item p { margin: 0; color: var(--dim); max-width: 56ch; }
+
+/* Active nav link */
+.gl .links a[aria-current="page"],
+.gl .mobile-menu a[aria-current="page"] { color: var(--text); }
+.gl .links a[aria-current="page"] { box-shadow: inset 0 -2px 0 var(--mint); padding-bottom: 2px; }

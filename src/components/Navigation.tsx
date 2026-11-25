@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 const CAL_LINK = 'https://cal.com/caterpillar.ai/quick-chat';
 
@@ -11,12 +12,14 @@ const navLinks = [
   { href: '/#services', label: 'Services' },
   { href: '/#trainings', label: 'Trainings' },
   { href: '/#about', label: 'About' },
+  { href: '/guides', label: 'Guides' },
   { href: '/scores', label: 'Model Scores' },
   { href: '/prompts', label: 'Prompts' },
 ];
 
 export default function Navigation() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   return (
     <nav className="nav col" aria-label="Main">
@@ -28,7 +31,11 @@ export default function Navigation() {
 
         <div className="links">
           {navLinks.map((link) => (
-            <a key={link.href} href={link.href}>
+            <a
+              key={link.href}
+              href={link.href}
+              aria-current={link.href === pathname ? 'page' : undefined}
+            >
               {link.label}
             </a>
           ))}
@@ -58,7 +65,12 @@ export default function Navigation() {
       {isMobileMenuOpen && (
         <div id="mobile-menu" className="mobile-menu">
           {navLinks.map((link) => (
-            <a key={link.href} href={link.href} onClick={() => setIsMobileMenuOpen(false)}>
+            <a
+              key={link.href}
+              href={link.href}
+              aria-current={link.href === pathname ? 'page' : undefined}
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
               {link.label}
             </a>
           ))}

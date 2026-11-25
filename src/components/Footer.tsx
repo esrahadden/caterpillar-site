@@ -19,6 +19,7 @@ export default function Footer() {
         <a href="#services">Services</a>
         <a href="#trainings">Trainings</a>
         <a href="#about">About</a>
+        <Link href="/guides">Guides</Link>
         <Link href="/scores">Model Scores</Link>
       </div>
       <div>
