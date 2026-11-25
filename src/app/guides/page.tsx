@@ -13,16 +13,18 @@ export const metadata: Metadata = {
 type Guide = {
   title: string;
   text: string;
-  meta: string;
   href: string;
+  pages: number;
+  sizeLabel: string;
 };
 
 const guides: Guide[] = [
   {
     title: 'Run local AI on your own computer',
-    text: 'A plain-language, four-step setup for running an AI model privately on your own machine with LM Studio — no cloud, no subscription, your data stays with you.',
-    meta: '2 pages · PDF',
+    text: 'A four-step setup for running an AI model on your own computer with LM Studio. Once it’s set up, it works offline.',
     href: '/downloads/caterpillar-local-ai-setup-guide.pdf',
+    pages: 2,
+    sizeLabel: '529 KB',
   },
 ];
 
@@ -37,23 +39,28 @@ export default function Guides() {
             <div className="content">
               <div className="panel">
                 <div className="kick">Guides</div>
-                <h2>Free guides</h2>
+                <h1>Free guides</h1>
                 <p className="lede">
-                  Short, practical guides you can act on the same week. Download them free — no sign-up.
+                  Short, practical guides you can act on the same week. Download them free &mdash; no sign-up.
                 </p>
-                <div style={{ display: 'grid', gap: 14, marginTop: 24 }}>
+                <ul className="guide-list">
                   {guides.map((g) => (
-                    <div className="mini" key={g.href}>
-                      <h3>{g.title}</h3>
-                      <span>{g.text}</span>
+                    <li className="guide-item" key={g.href}>
+                      <h2>{g.title}</h2>
+                      <p>{g.text}</p>
                       <div className="row" style={{ marginTop: 16 }}>
-                        <a className="btn glass sm" href={g.href} target="_blank" rel="noopener">
-                          Download ({g.meta})
+                        <a
+                          className="btn"
+                          href={g.href}
+                          download
+                          aria-label={`Download ${g.title} — PDF, ${g.pages} pages, ${g.sizeLabel}`}
+                        >
+                          Download (PDF &middot; {g.pages} pages &middot; {g.sizeLabel})
                         </a>
                       </div>
-                    </div>
+                    </li>
                   ))}
-                </div>
+                </ul>
               </div>
             </div>
           </section>
